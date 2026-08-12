@@ -1,0 +1,18 @@
+
+=== Attribute density: nishi-shinjuku ===
+drivable ways : 782
+total length  : 72.19 km
+
+attribute           present      pct   verdict
+--------------------------------------------------------
+speed_limit_kph         103    13.2%   TOO SPARSE
+oneway                  451    57.7%   usable
+tunnel                   63     8.1%   TOO SPARSE
+bridge                   30     3.8%   TOO SPARSE
+lanes                   252    32.2%   usable
+width_m                   2     0.3%   TOO SPARSE
+highway_class           782   100.0%   good
+
+VERDICT: too sparse for speed/oneway cross-checks in this box.
+         Try a European city, or lean harder on the
+         self-consistency rules that need no external witness.

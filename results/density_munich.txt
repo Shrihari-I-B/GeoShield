@@ -1,0 +1,18 @@
+
+=== Attribute density: munich-centre ===
+drivable ways : 2496
+total length  : 130.51 km
+
+attribute           present      pct   verdict
+--------------------------------------------------------
+speed_limit_kph        1360    54.5%   usable
+oneway                  949    38.0%   usable
+tunnel                  228     9.1%   TOO SPARSE
+bridge                   10     0.4%   TOO SPARSE
+lanes                   863    34.6%   usable
+width_m                 147     5.9%   TOO SPARSE
+highway_class          2496   100.0%   good
+
+VERDICT: too sparse for speed/oneway cross-checks in this box.
+         Try a European city, or lean harder on the
+         self-consistency rules that need no external witness.
