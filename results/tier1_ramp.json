@@ -1,0 +1,3285 @@
+{
+  "thresholds": {
+    "rel_delta_p99": 0.7106180972679713,
+    "taper_p99": 1.0321931589537223,
+    "trend_p995": 0.9481952676979424,
+    "trend_p99": 0.705989110707804,
+    "n_clean_chains": 643,
+    "median_width": 3.117
+  },
+  "findings": [
+    {
+      "segment_id": "lanelet:133",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.07183702492839478,
+      "detail": "chain trend 1.016 > 0.948; width 2.72->6.52 m over 5 lanelets (+3.80 m)"
+    },
+    {
+      "segment_id": "lanelet:3001072",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.07183702492839478,
+      "detail": "chain trend 1.016 > 0.948; width 2.72->6.52 m over 5 lanelets (+3.80 m)"
+    },
+    {
+      "segment_id": "lanelet:3013180",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.07183702492839478,
+      "detail": "chain trend 1.016 > 0.948; width 2.72->6.52 m over 5 lanelets (+3.80 m)"
+    },
+    {
+      "segment_id": "lanelet:301027",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.07183702492839478,
+      "detail": "chain trend 1.016 > 0.948; width 2.72->6.52 m over 5 lanelets (+3.80 m)"
+    },
+    {
+      "segment_id": "lanelet:301052",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.07183702492839478,
+      "detail": "chain trend 1.016 > 0.948; width 2.72->6.52 m over 5 lanelets (+3.80 m)"
+    },
+    {
+      "segment_id": "lanelet:3001225",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.09662290225779374,
+      "detail": "chain trend 1.040 > 0.948; width 2.10->5.54 m over 5 lanelets (+3.44 m)"
+    },
+    {
+      "segment_id": "lanelet:474",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.09662290225779374,
+      "detail": "chain trend 1.040 > 0.948; width 2.10->5.54 m over 5 lanelets (+3.44 m)"
+    },
+    {
+      "segment_id": "lanelet:124229",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.09662290225779374,
+      "detail": "chain trend 1.040 > 0.948; width 2.10->5.54 m over 5 lanelets (+3.44 m)"
+    },
+    {
+      "segment_id": "lanelet:124214",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.09662290225779374,
+      "detail": "chain trend 1.040 > 0.948; width 2.10->5.54 m over 5 lanelets (+3.44 m)"
+    },
+    {
+      "segment_id": "lanelet:544",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.09662290225779374,
+      "detail": "chain trend 1.040 > 0.948; width 2.10->5.54 m over 5 lanelets (+3.44 m)"
+    },
+    {
+      "segment_id": "lanelet:3002092",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.02525718019690505,
+      "detail": "chain trend 0.972 > 0.948; width 5.67->2.14 m over 5 lanelets (-3.53 m)"
+    },
+    {
+      "segment_id": "lanelet:3002001",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.02525718019690505,
+      "detail": "chain trend 0.972 > 0.948; width 5.67->2.14 m over 5 lanelets (-3.53 m)"
+    },
+    {
+      "segment_id": "lanelet:3002006",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.02525718019690505,
+      "detail": "chain trend 0.972 > 0.948; width 5.67->2.14 m over 5 lanelets (-3.53 m)"
+    },
+    {
+      "segment_id": "lanelet:3002020",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.02525718019690505,
+      "detail": "chain trend 0.972 > 0.948; width 5.67->2.14 m over 5 lanelets (-3.53 m)"
+    },
+    {
+      "segment_id": "lanelet:3012183",
+      "rule": "R1_monotonic_trend",
+      "severity": 0.02525718019690505,
+      "detail": "chain trend 0.972 > 0.948; width 5.67->2.14 m over 5 lanelets (-3.53 m)"
+    },
+    {
+      "segment_id": "lanelet:114",
+      "rule": "R2_taper_anomaly",
+      "severity": 0.5313069267066349,
+      "detail": "within-lanelet taper 1.581 > 1.032 (19.30->2.99 m)"
+    },
+    {
+      "segment_id": "lanelet:146",
+      "rule": "R2_taper_anomaly",
+      "severity": 0.5749341352854288,
+      "detail": "within-lanelet taper 1.626 > 1.032 (22.25->3.08 m)"
+    },
+    {
+      "segment_id": "lanelet:604",
+      "rule": "R2_taper_anomaly",
+      "severity": 0.029127381397354508,
+      "detail": "within-lanelet taper 1.062 > 1.032 (0.41->6.18 m)"
+    },
+    {
+      "segment_id": "lanelet:621",
+      "rule": "R2_taper_anomaly",
+      "severity": 0.0866512620930724,
+      "detail": "within-lanelet taper 1.122 > 1.032 (0.48->6.60 m)"
+    },
+    {
+      "segment_id": "lanelet:633",
+      "rule": "R2_taper_anomaly",
+      "severity": 0.10211668920296149,
+      "detail": "within-lanelet taper 1.138 > 1.032 (0.43->5.84 m)"
+    },
+    {
+      "segment_id": "lanelet:124159",
+      "rule": "R2_taper_anomaly",
+      "severity": 0.018035721600092477,
+      "detail": "within-lanelet taper 1.051 > 1.032 (6.61->0.51 m)"
+    },
+    {
+      "segment_id": "lanelet:124164",
+      "rule": "R2_taper_anomaly",
+      "severity": 0.016825081370773882,
+      "detail": "within-lanelet taper 1.050 > 1.032 (5.84->0.35 m)"
+    },
+    {
+      "segment_id": "lanelet:113",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8789465683791221,
+      "detail": "50 km/h on R=11 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:285",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4197674583844164,
+      "detail": "50 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:286",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "50 km/h on R=9 m (max 19 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:290",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "50 km/h on R=9 m (max 19 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:294",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "60 km/h on R=13 m (max 22 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:299",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8595443626783842,
+      "detail": "60 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:302",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "60 km/h on R=13 m (max 22 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:305",
+      "rule": "R4_speed_implausible",
+      "severity": 0.9017488702249482,
+      "detail": "60 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:306",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "60 km/h on R=10 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:311",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8662222837639,
+      "detail": "60 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:314",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8999708916982682,
+      "detail": "60 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:317",
+      "rule": "R4_speed_implausible",
+      "severity": 0.847408813758797,
+      "detail": "60 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:318",
+      "rule": "R4_speed_implausible",
+      "severity": 0.24030526263115023,
+      "detail": "50 km/h on R=28 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:319",
+      "rule": "R4_speed_implausible",
+      "severity": 0.33099544026163646,
+      "detail": "50 km/h on R=24 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:324",
+      "rule": "R4_speed_implausible",
+      "severity": 0.48308613200850276,
+      "detail": "50 km/h on R=18 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:330",
+      "rule": "R4_speed_implausible",
+      "severity": 0.30165137263847264,
+      "detail": "50 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:331",
+      "rule": "R4_speed_implausible",
+      "severity": 0.261805458146287,
+      "detail": "50 km/h on R=27 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:332",
+      "rule": "R4_speed_implausible",
+      "severity": 0.23764146514035037,
+      "detail": "50 km/h on R=28 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:337",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2835638861463061,
+      "detail": "50 km/h on R=26 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:338",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6062871716599663,
+      "detail": "50 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:339",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4269333729724365,
+      "detail": "50 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:341",
+      "rule": "R4_speed_implausible",
+      "severity": 0.32968601335736053,
+      "detail": "50 km/h on R=24 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:345",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2945305072115055,
+      "detail": "50 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:346",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19130603636691404,
+      "detail": "50 km/h on R=31 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:350",
+      "rule": "R4_speed_implausible",
+      "severity": 0.30875967713328906,
+      "detail": "50 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:358",
+      "rule": "R4_speed_implausible",
+      "severity": 0.33187496982477044,
+      "detail": "50 km/h on R=24 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:362",
+      "rule": "R4_speed_implausible",
+      "severity": 0.31077156145192825,
+      "detail": "50 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:364",
+      "rule": "R4_speed_implausible",
+      "severity": 0.1693018350061569,
+      "detail": "50 km/h on R=33 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:368",
+      "rule": "R4_speed_implausible",
+      "severity": 0.20165905192628367,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:369",
+      "rule": "R4_speed_implausible",
+      "severity": 0.24820553365312437,
+      "detail": "50 km/h on R=28 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:373",
+      "rule": "R4_speed_implausible",
+      "severity": 0.26947243177436303,
+      "detail": "50 km/h on R=27 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:378",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6078975989821167,
+      "detail": "50 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:379",
+      "rule": "R4_speed_implausible",
+      "severity": 0.21246275293161387,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:380",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5895552123102483,
+      "detail": "50 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:384",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "50 km/h on R=9 m (max 19 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:387",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4709380385968293,
+      "detail": "50 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:389",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5890162386017682,
+      "detail": "50 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:390",
+      "rule": "R4_speed_implausible",
+      "severity": 0.45337229511391824,
+      "detail": "50 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:393",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7755878178734088,
+      "detail": "60 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:394",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7327420246588648,
+      "detail": "60 km/h on R=18 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:400",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19640157786669446,
+      "detail": "50 km/h on R=31 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:402",
+      "rule": "R4_speed_implausible",
+      "severity": 0.532221630777027,
+      "detail": "50 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:405",
+      "rule": "R4_speed_implausible",
+      "severity": 0.23110955257306287,
+      "detail": "50 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:406",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5367550676183876,
+      "detail": "50 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:407",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5012767078752964,
+      "detail": "50 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:410",
+      "rule": "R4_speed_implausible",
+      "severity": 0.1842312243939713,
+      "detail": "50 km/h on R=32 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:411",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4683224174325811,
+      "detail": "50 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:414",
+      "rule": "R4_speed_implausible",
+      "severity": 0.21688213532322612,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:416",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7198543514719553,
+      "detail": "50 km/h on R=13 m (max 22 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:419",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2069427683917445,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:420",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4411337266963482,
+      "detail": "50 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:422",
+      "rule": "R4_speed_implausible",
+      "severity": 0.09505599106923605,
+      "detail": "50 km/h on R=38 m (max 39 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:423",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5031145094699788,
+      "detail": "50 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:425",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3156267198582441,
+      "detail": "50 km/h on R=24 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:426",
+      "rule": "R4_speed_implausible",
+      "severity": 0.14808251596036218,
+      "detail": "50 km/h on R=34 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:429",
+      "rule": "R4_speed_implausible",
+      "severity": 0.24352608427458403,
+      "detail": "50 km/h on R=28 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:430",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4356819580317512,
+      "detail": "50 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:434",
+      "rule": "R4_speed_implausible",
+      "severity": 0.49191512689525546,
+      "detail": "50 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:435",
+      "rule": "R4_speed_implausible",
+      "severity": 0.40224219142505274,
+      "detail": "50 km/h on R=21 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:439",
+      "rule": "R4_speed_implausible",
+      "severity": 0.34671915611973586,
+      "detail": "50 km/h on R=23 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:440",
+      "rule": "R4_speed_implausible",
+      "severity": 0.14969758384620654,
+      "detail": "50 km/h on R=34 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:441",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5403014452394387,
+      "detail": "50 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:443",
+      "rule": "R4_speed_implausible",
+      "severity": 0.508439386134254,
+      "detail": "50 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:444",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5848736079004677,
+      "detail": "50 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:445",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6539280706578294,
+      "detail": "50 km/h on R=14 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:446",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5324889422868272,
+      "detail": "50 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:447",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5890975814906962,
+      "detail": "50 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:448",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6342380049656485,
+      "detail": "50 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:449",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3630877213429475,
+      "detail": "50 km/h on R=22 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:450",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3883360641485325,
+      "detail": "50 km/h on R=21 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:451",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5260979435001706,
+      "detail": "50 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:452",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5737265726642597,
+      "detail": "50 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:453",
+      "rule": "R4_speed_implausible",
+      "severity": 0.22912272207554082,
+      "detail": "50 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:454",
+      "rule": "R4_speed_implausible",
+      "severity": 0.05259340739416052,
+      "detail": "50 km/h on R=43 m (max 41 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:455",
+      "rule": "R4_speed_implausible",
+      "severity": 0.44743756770656357,
+      "detail": "50 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:457",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6679257668068036,
+      "detail": "50 km/h on R=14 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:458",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6167409869391767,
+      "detail": "50 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:459",
+      "rule": "R4_speed_implausible",
+      "severity": 0.1350246752567097,
+      "detail": "50 km/h on R=35 m (max 37 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:465",
+      "rule": "R4_speed_implausible",
+      "severity": 0.0880839343621959,
+      "detail": "50 km/h on R=39 m (max 39 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:466",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4834107808471508,
+      "detail": "50 km/h on R=18 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:467",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6642909394095332,
+      "detail": "60 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:468",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5920157725719323,
+      "detail": "50 km/h on R=15 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:471",
+      "rule": "R4_speed_implausible",
+      "severity": 0.816001882087846,
+      "detail": "50 km/h on R=11 m (max 21 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:479",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3654618323347953,
+      "detail": "50 km/h on R=22 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:480",
+      "rule": "R4_speed_implausible",
+      "severity": 0.18768373529005355,
+      "detail": "50 km/h on R=31 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:481",
+      "rule": "R4_speed_implausible",
+      "severity": 0.16823334589636962,
+      "detail": "50 km/h on R=33 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:482",
+      "rule": "R4_speed_implausible",
+      "severity": 0.158397751031316,
+      "detail": "50 km/h on R=33 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:483",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2286604455257466,
+      "detail": "50 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:484",
+      "rule": "R4_speed_implausible",
+      "severity": 0.286609388151095,
+      "detail": "50 km/h on R=26 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:485",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8071624138063219,
+      "detail": "60 km/h on R=17 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:486",
+      "rule": "R4_speed_implausible",
+      "severity": 0.30422454832725193,
+      "detail": "50 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:487",
+      "rule": "R4_speed_implausible",
+      "severity": 0.24703236868862546,
+      "detail": "50 km/h on R=28 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:488",
+      "rule": "R4_speed_implausible",
+      "severity": 0.28091305615599876,
+      "detail": "50 km/h on R=26 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:489",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5087172138010291,
+      "detail": "50 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:490",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3951739452668918,
+      "detail": "50 km/h on R=21 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:491",
+      "rule": "R4_speed_implausible",
+      "severity": 0.26478725036500866,
+      "detail": "50 km/h on R=27 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:492",
+      "rule": "R4_speed_implausible",
+      "severity": 0.10362377750622616,
+      "detail": "50 km/h on R=38 m (max 38 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:494",
+      "rule": "R4_speed_implausible",
+      "severity": 0.0017311669553963978,
+      "detail": "50 km/h on R=48 m (max 43 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:496",
+      "rule": "R4_speed_implausible",
+      "severity": 0.02722610161034981,
+      "detail": "50 km/h on R=45 m (max 42 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:497",
+      "rule": "R4_speed_implausible",
+      "severity": 0.212393750980003,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:498",
+      "rule": "R4_speed_implausible",
+      "severity": 0.24194326537826827,
+      "detail": "50 km/h on R=28 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:499",
+      "rule": "R4_speed_implausible",
+      "severity": 0.18186847102010203,
+      "detail": "50 km/h on R=32 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:500",
+      "rule": "R4_speed_implausible",
+      "severity": 0.22925152770464408,
+      "detail": "50 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:501",
+      "rule": "R4_speed_implausible",
+      "severity": 0.20998237279478152,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:502",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19543950163949608,
+      "detail": "50 km/h on R=31 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:503",
+      "rule": "R4_speed_implausible",
+      "severity": 0.17436432365922658,
+      "detail": "50 km/h on R=32 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:504",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19953055815006474,
+      "detail": "50 km/h on R=31 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:505",
+      "rule": "R4_speed_implausible",
+      "severity": 0.21727535165315048,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:506",
+      "rule": "R4_speed_implausible",
+      "severity": 0.28532880653812703,
+      "detail": "50 km/h on R=26 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:507",
+      "rule": "R4_speed_implausible",
+      "severity": 0.13089064508262993,
+      "detail": "50 km/h on R=35 m (max 37 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:508",
+      "rule": "R4_speed_implausible",
+      "severity": 0.14851614267213545,
+      "detail": "50 km/h on R=34 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:509",
+      "rule": "R4_speed_implausible",
+      "severity": 0.16970177165019665,
+      "detail": "50 km/h on R=33 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:510",
+      "rule": "R4_speed_implausible",
+      "severity": 0.17775659588911555,
+      "detail": "50 km/h on R=32 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:511",
+      "rule": "R4_speed_implausible",
+      "severity": 0.22121021028052054,
+      "detail": "50 km/h on R=29 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:512",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19650029563716398,
+      "detail": "50 km/h on R=31 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:513",
+      "rule": "R4_speed_implausible",
+      "severity": 0.17314382432175388,
+      "detail": "50 km/h on R=32 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:514",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19959760637842727,
+      "detail": "50 km/h on R=31 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:515",
+      "rule": "R4_speed_implausible",
+      "severity": 0.228937505420729,
+      "detail": "50 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:517",
+      "rule": "R4_speed_implausible",
+      "severity": 0.367008989778501,
+      "detail": "50 km/h on R=22 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:518",
+      "rule": "R4_speed_implausible",
+      "severity": 0.20663176996832636,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:520",
+      "rule": "R4_speed_implausible",
+      "severity": 0.26534424522857547,
+      "detail": "50 km/h on R=27 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:521",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19673330280479803,
+      "detail": "50 km/h on R=31 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:522",
+      "rule": "R4_speed_implausible",
+      "severity": 0.23389460818185878,
+      "detail": "50 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:525",
+      "rule": "R4_speed_implausible",
+      "severity": 0.10813324235975201,
+      "detail": "50 km/h on R=37 m (max 38 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:526",
+      "rule": "R4_speed_implausible",
+      "severity": 0.28838192220257736,
+      "detail": "50 km/h on R=26 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:527",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2177894551275251,
+      "detail": "50 km/h on R=29 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:528",
+      "rule": "R4_speed_implausible",
+      "severity": 0.26320794243659956,
+      "detail": "50 km/h on R=27 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:529",
+      "rule": "R4_speed_implausible",
+      "severity": 0.15383817225597887,
+      "detail": "50 km/h on R=34 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:530",
+      "rule": "R4_speed_implausible",
+      "severity": 0.1855989289860814,
+      "detail": "50 km/h on R=32 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:531",
+      "rule": "R4_speed_implausible",
+      "severity": 0.02798583040853675,
+      "detail": "50 km/h on R=45 m (max 42 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:532",
+      "rule": "R4_speed_implausible",
+      "severity": 0.04207908840747576,
+      "detail": "50 km/h on R=44 m (max 41 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:551",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6439717197818933,
+      "detail": "60 km/h on R=21 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:562",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "60 km/h on R=7 m (max 17 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:565",
+      "rule": "R4_speed_implausible",
+      "severity": 0.40524153097002086,
+      "detail": "60 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:566",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8265274222141011,
+      "detail": "60 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:567",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4827827888641559,
+      "detail": "50 km/h on R=18 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:568",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "60 km/h on R=12 m (max 22 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:569",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4037799454062195,
+      "detail": "50 km/h on R=21 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:570",
+      "rule": "R4_speed_implausible",
+      "severity": 0.09774436711586738,
+      "detail": "50 km/h on R=38 m (max 39 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:571",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3643410090398002,
+      "detail": "50 km/h on R=22 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:574",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4312730741307454,
+      "detail": "50 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:575",
+      "rule": "R4_speed_implausible",
+      "severity": 0.44638299239424395,
+      "detail": "50 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:577",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4478956446725495,
+      "detail": "50 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:578",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4333403928676384,
+      "detail": "50 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:581",
+      "rule": "R4_speed_implausible",
+      "severity": 0.18795608315035292,
+      "detail": "29 km/h on R=10 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:596",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19931742737762223,
+      "detail": "36 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:598",
+      "rule": "R4_speed_implausible",
+      "severity": 0.11271024229640385,
+      "detail": "36 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:599",
+      "rule": "R4_speed_implausible",
+      "severity": 0.032420390400258015,
+      "detail": "36 km/h on R=23 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:600",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "36 km/h on R=3 m (max 11 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:602",
+      "rule": "R4_speed_implausible",
+      "severity": 0.02727652962305231,
+      "detail": "36 km/h on R=24 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:603",
+      "rule": "R4_speed_implausible",
+      "severity": 0.40813149251960185,
+      "detail": "36 km/h on R=11 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:605",
+      "rule": "R4_speed_implausible",
+      "severity": 0.26196708853584355,
+      "detail": "36 km/h on R=14 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:606",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3542691269183571,
+      "detail": "36 km/h on R=12 m (max 21 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:610",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "36 km/h on R=3 m (max 12 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:612",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "36 km/h on R=4 m (max 13 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:614",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "36 km/h on R=4 m (max 13 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:620",
+      "rule": "R4_speed_implausible",
+      "severity": 0.26068937961788174,
+      "detail": "36 km/h on R=14 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:621",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4574109482998832,
+      "detail": "36 km/h on R=10 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:624",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2451886692885532,
+      "detail": "36 km/h on R=14 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:625",
+      "rule": "R4_speed_implausible",
+      "severity": 0.004154753799904783,
+      "detail": "36 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:630",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3019346836682777,
+      "detail": "36 km/h on R=13 m (max 22 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:633",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8579790234631416,
+      "detail": "36 km/h on R=6 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:638",
+      "rule": "R4_speed_implausible",
+      "severity": 0.0014314213462901886,
+      "detail": "36 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:639",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5675033390368887,
+      "detail": "36 km/h on R=8 m (max 18 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:640",
+      "rule": "R4_speed_implausible",
+      "severity": 0.29710075295426214,
+      "detail": "36 km/h on R=13 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:643",
+      "rule": "R4_speed_implausible",
+      "severity": 0.511376722600169,
+      "detail": "36 km/h on R=9 m (max 19 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:644",
+      "rule": "R4_speed_implausible",
+      "severity": 0.15270631839773374,
+      "detail": "36 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124154",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7713429438220949,
+      "detail": "36 km/h on R=6 m (max 16 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124159",
+      "rule": "R4_speed_implausible",
+      "severity": 0.185200669310301,
+      "detail": "36 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124164",
+      "rule": "R4_speed_implausible",
+      "severity": 0.15081223426381932,
+      "detail": "36 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124204",
+      "rule": "R4_speed_implausible",
+      "severity": 0.18356548216966306,
+      "detail": "29 km/h on R=11 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124209",
+      "rule": "R4_speed_implausible",
+      "severity": 0.02595698586477087,
+      "detail": "29 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124214",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2213403653730488,
+      "detail": "29 km/h on R=10 m (max 19 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124219",
+      "rule": "R4_speed_implausible",
+      "severity": 0.019440353071685568,
+      "detail": "29 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124224",
+      "rule": "R4_speed_implausible",
+      "severity": 0.037435127100225195,
+      "detail": "29 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124229",
+      "rule": "R4_speed_implausible",
+      "severity": 0.09910357517863044,
+      "detail": "29 km/h on R=13 m (max 22 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124253",
+      "rule": "R4_speed_implausible",
+      "severity": 0.17220701897068716,
+      "detail": "29 km/h on R=11 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124322",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19146673680874823,
+      "detail": "18 km/h on R=4 m (max 13 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124351",
+      "rule": "R4_speed_implausible",
+      "severity": 0.18548120312424046,
+      "detail": "18 km/h on R=4 m (max 13 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124483",
+      "rule": "R4_speed_implausible",
+      "severity": 0.1214903207916261,
+      "detail": "18 km/h on R=5 m (max 14 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:124584",
+      "rule": "R4_speed_implausible",
+      "severity": 0.42312062447702,
+      "detail": "60 km/h on R=29 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:301022",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "60 km/h on R=12 m (max 21 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:301026",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6173319732164018,
+      "detail": "60 km/h on R=21 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:301027",
+      "rule": "R4_speed_implausible",
+      "severity": 1.0,
+      "detail": "60 km/h on R=10 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:301034",
+      "rule": "R4_speed_implausible",
+      "severity": 0.008375236119184226,
+      "detail": "29 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:301035",
+      "rule": "R4_speed_implausible",
+      "severity": 0.05061139294005853,
+      "detail": "29 km/h on R=14 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:301051",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5623654484340377,
+      "detail": "60 km/h on R=23 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:301105",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7178404291797955,
+      "detail": "36 km/h on R=7 m (max 16 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3001037",
+      "rule": "R4_speed_implausible",
+      "severity": 0.02350605677862087,
+      "detail": "18 km/h on R=6 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3001302",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8868517176556928,
+      "detail": "36 km/h on R=5 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3001318",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8434430789092856,
+      "detail": "36 km/h on R=6 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002001",
+      "rule": "R4_speed_implausible",
+      "severity": 0.0775983084881194,
+      "detail": "36 km/h on R=21 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002006",
+      "rule": "R4_speed_implausible",
+      "severity": 0.13187505365873728,
+      "detail": "36 km/h on R=18 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002022",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6002160200987383,
+      "detail": "50 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002023",
+      "rule": "R4_speed_implausible",
+      "severity": 0.0945001605359043,
+      "detail": "50 km/h on R=39 m (max 39 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002025",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4037788534934997,
+      "detail": "50 km/h on R=21 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002027",
+      "rule": "R4_speed_implausible",
+      "severity": 0.25587042758770595,
+      "detail": "50 km/h on R=27 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002031",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3577834860704012,
+      "detail": "50 km/h on R=23 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002033",
+      "rule": "R4_speed_implausible",
+      "severity": 0.18985365874243496,
+      "detail": "50 km/h on R=31 m (max 35 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002034",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3328584415525369,
+      "detail": "50 km/h on R=24 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002036",
+      "rule": "R4_speed_implausible",
+      "severity": 0.26889459208258026,
+      "detail": "50 km/h on R=27 m (max 32 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002042",
+      "rule": "R4_speed_implausible",
+      "severity": 0.22196528174978378,
+      "detail": "50 km/h on R=29 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002044",
+      "rule": "R4_speed_implausible",
+      "severity": 0.20802808688003097,
+      "detail": "50 km/h on R=30 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002045",
+      "rule": "R4_speed_implausible",
+      "severity": 0.23019283289299933,
+      "detail": "50 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002049",
+      "rule": "R4_speed_implausible",
+      "severity": 0.09364837898648704,
+      "detail": "50 km/h on R=39 m (max 39 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002051",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5019259923446858,
+      "detail": "50 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002052",
+      "rule": "R4_speed_implausible",
+      "severity": 0.43565675321093505,
+      "detail": "50 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002053",
+      "rule": "R4_speed_implausible",
+      "severity": 0.1619107896873436,
+      "detail": "50 km/h on R=33 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002054",
+      "rule": "R4_speed_implausible",
+      "severity": 0.12348411945593485,
+      "detail": "50 km/h on R=36 m (max 37 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002055",
+      "rule": "R4_speed_implausible",
+      "severity": 0.14047929889588673,
+      "detail": "50 km/h on R=35 m (max 37 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002056",
+      "rule": "R4_speed_implausible",
+      "severity": 0.11251975171514698,
+      "detail": "50 km/h on R=37 m (max 38 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002057",
+      "rule": "R4_speed_implausible",
+      "severity": 0.13285906141053352,
+      "detail": "50 km/h on R=35 m (max 37 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002060",
+      "rule": "R4_speed_implausible",
+      "severity": 0.21313260181216073,
+      "detail": "40 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002061",
+      "rule": "R4_speed_implausible",
+      "severity": 0.031553289268913286,
+      "detail": "40 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002063",
+      "rule": "R4_speed_implausible",
+      "severity": 0.024230900236227242,
+      "detail": "40 km/h on R=29 m (max 34 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002070",
+      "rule": "R4_speed_implausible",
+      "severity": 0.15444202340691726,
+      "detail": "40 km/h on R=22 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002071",
+      "rule": "R4_speed_implausible",
+      "severity": 0.13067473002246408,
+      "detail": "40 km/h on R=23 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002072",
+      "rule": "R4_speed_implausible",
+      "severity": 0.08049656983111382,
+      "detail": "40 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002073",
+      "rule": "R4_speed_implausible",
+      "severity": 0.030183926671243366,
+      "detail": "40 km/h on R=29 m (max 33 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002074",
+      "rule": "R4_speed_implausible",
+      "severity": 0.1893942921716444,
+      "detail": "40 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002075",
+      "rule": "R4_speed_implausible",
+      "severity": 0.21549365307990476,
+      "detail": "40 km/h on R=19 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002082",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5331857989330874,
+      "detail": "50 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002083",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3305298995923964,
+      "detail": "50 km/h on R=24 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002084",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3076641196155925,
+      "detail": "50 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002085",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5038324775784379,
+      "detail": "50 km/h on R=18 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002086",
+      "rule": "R4_speed_implausible",
+      "severity": 0.15285422400358595,
+      "detail": "50 km/h on R=34 m (max 36 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002087",
+      "rule": "R4_speed_implausible",
+      "severity": 0.11388574355932146,
+      "detail": "50 km/h on R=37 m (max 38 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002088",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7814483315484315,
+      "detail": "50 km/h on R=12 m (max 22 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002089",
+      "rule": "R4_speed_implausible",
+      "severity": 0.34229703849295906,
+      "detail": "50 km/h on R=23 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002090",
+      "rule": "R4_speed_implausible",
+      "severity": 0.36086681345965976,
+      "detail": "50 km/h on R=22 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002091",
+      "rule": "R4_speed_implausible",
+      "severity": 0.38427228732052177,
+      "detail": "50 km/h on R=22 m (max 29 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002092",
+      "rule": "R4_speed_implausible",
+      "severity": 0.010700855458183481,
+      "detail": "36 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002162",
+      "rule": "R4_speed_implausible",
+      "severity": 0.030025324953130667,
+      "detail": "50 km/h on R=45 m (max 42 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002199",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3354358352964962,
+      "detail": "50 km/h on R=24 m (max 30 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002202",
+      "rule": "R4_speed_implausible",
+      "severity": 0.34512057181475936,
+      "detail": "43 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002204",
+      "rule": "R4_speed_implausible",
+      "severity": 0.13088170080450068,
+      "detail": "36 km/h on R=18 m (max 27 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002212",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7771306546931177,
+      "detail": "36 km/h on R=6 m (max 16 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002213",
+      "rule": "R4_speed_implausible",
+      "severity": 0.93700556563841,
+      "detail": "36 km/h on R=5 m (max 14 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002214",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2417277984719314,
+      "detail": "36 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002215",
+      "rule": "R4_speed_implausible",
+      "severity": 0.29534081498753695,
+      "detail": "36 km/h on R=13 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002216",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6653906435937212,
+      "detail": "36 km/h on R=7 m (max 17 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002217",
+      "rule": "R4_speed_implausible",
+      "severity": 0.9734233164861065,
+      "detail": "36 km/h on R=5 m (max 14 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002218",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2833227913787451,
+      "detail": "36 km/h on R=13 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002219",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7604149017928638,
+      "detail": "36 km/h on R=6 m (max 16 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002220",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6463405660220186,
+      "detail": "36 km/h on R=7 m (max 17 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002221",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8324087786327716,
+      "detail": "36 km/h on R=6 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002222",
+      "rule": "R4_speed_implausible",
+      "severity": 0.866200239308605,
+      "detail": "36 km/h on R=6 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002223",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7410634233570436,
+      "detail": "36 km/h on R=7 m (max 16 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002224",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7321826315798926,
+      "detail": "36 km/h on R=7 m (max 16 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002225",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7866673370312188,
+      "detail": "36 km/h on R=6 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002226",
+      "rule": "R4_speed_implausible",
+      "severity": 0.8997100649652795,
+      "detail": "36 km/h on R=5 m (max 14 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002227",
+      "rule": "R4_speed_implausible",
+      "severity": 0.41113631849517773,
+      "detail": "36 km/h on R=11 m (max 20 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002228",
+      "rule": "R4_speed_implausible",
+      "severity": 0.7978662538570314,
+      "detail": "36 km/h on R=6 m (max 15 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002229",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6457707727172813,
+      "detail": "36 km/h on R=7 m (max 17 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002230",
+      "rule": "R4_speed_implausible",
+      "severity": 0.770804274397355,
+      "detail": "36 km/h on R=6 m (max 16 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002231",
+      "rule": "R4_speed_implausible",
+      "severity": 0.35645005916590994,
+      "detail": "36 km/h on R=12 m (max 21 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002232",
+      "rule": "R4_speed_implausible",
+      "severity": 0.6162285997642604,
+      "detail": "36 km/h on R=8 m (max 17 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3002233",
+      "rule": "R4_speed_implausible",
+      "severity": 0.19717055204128484,
+      "detail": "36 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3011988",
+      "rule": "R4_speed_implausible",
+      "severity": 0.21441604801794498,
+      "detail": "36 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012017",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2008006888988129,
+      "detail": "36 km/h on R=16 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012078",
+      "rule": "R4_speed_implausible",
+      "severity": 0.47011842451782665,
+      "detail": "43 km/h on R=14 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012158",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2657116188206789,
+      "detail": "43 km/h on R=20 m (max 28 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012229",
+      "rule": "R4_speed_implausible",
+      "severity": 0.39509584396970804,
+      "detail": "36 km/h on R=11 m (max 21 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012234",
+      "rule": "R4_speed_implausible",
+      "severity": 0.3625584090240106,
+      "detail": "36 km/h on R=12 m (max 21 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012392",
+      "rule": "R4_speed_implausible",
+      "severity": 0.535325179628543,
+      "detail": "50 km/h on R=17 m (max 26 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012427",
+      "rule": "R4_speed_implausible",
+      "severity": 0.31609446810332126,
+      "detail": "50 km/h on R=24 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012500",
+      "rule": "R4_speed_implausible",
+      "severity": 0.005745004877143837,
+      "detail": "36 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012711",
+      "rule": "R4_speed_implausible",
+      "severity": 0.24152100886964392,
+      "detail": "36 km/h on R=15 m (max 24 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3012728",
+      "rule": "R4_speed_implausible",
+      "severity": 0.010243418561997508,
+      "detail": "36 km/h on R=25 m (max 31 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3013009",
+      "rule": "R4_speed_implausible",
+      "severity": 0.4708113891400192,
+      "detail": "36 km/h on R=10 m (max 19 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3013049",
+      "rule": "R4_speed_implausible",
+      "severity": 0.5261578360448517,
+      "detail": "36 km/h on R=9 m (max 19 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3013060",
+      "rule": "R4_speed_implausible",
+      "severity": 0.2775049846648418,
+      "detail": "36 km/h on R=14 m (max 23 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:3013093",
+      "rule": "R4_speed_implausible",
+      "severity": 0.17777858446833714,
+      "detail": "36 km/h on R=17 m (max 25 km/h at 3.0 m/s2)"
+    },
+    {
+      "segment_id": "lanelet:2",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.7369655941662063,
+      "detail": "18 km/h vs neighbour median 60"
+    },
+    {
+      "segment_id": "lanelet:314",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.05889368905356873,
+      "detail": "60 km/h vs neighbour median 29"
+    },
+    {
+      "segment_id": "lanelet:317",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.05889368905356873,
+      "detail": "60 km/h vs neighbour median 29"
+    },
+    {
+      "segment_id": "lanelet:544",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.7369655941662063,
+      "detail": "18 km/h vs neighbour median 60"
+    },
+    {
+      "segment_id": "lanelet:566",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.05889368905356873,
+      "detail": "60 km/h vs neighbour median 29"
+    },
+    {
+      "segment_id": "lanelet:124253",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.05889368905356829,
+      "detail": "29 km/h vs neighbour median 60"
+    },
+    {
+      "segment_id": "lanelet:124424",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.11547721741993588,
+      "detail": "18 km/h vs neighbour median 39"
+    },
+    {
+      "segment_id": "lanelet:124498",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.11547721741993588,
+      "detail": "18 km/h vs neighbour median 39"
+    },
+    {
+      "segment_id": "lanelet:301026",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.7369655941662063,
+      "detail": "60 km/h vs neighbour median 18"
+    },
+    {
+      "segment_id": "lanelet:301051",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.7369655941662063,
+      "detail": "60 km/h vs neighbour median 18"
+    },
+    {
+      "segment_id": "lanelet:301052",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.11547721741993588,
+      "detail": "18 km/h vs neighbour median 39"
+    },
+    {
+      "segment_id": "lanelet:3001276",
+      "rule": "R4_speed_neighbour",
+      "severity": 0.4150374992788437,
+      "detail": "18 km/h vs neighbour median 48"
+    },
+    {
+      "segment_id": "lanelet:47",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:48",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:95",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:96",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:97",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:104",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:105",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:106",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:107",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:231",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:232",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:250",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:251",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:265",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:266",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:350",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:384",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:419",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:424",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:426",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:431",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:432",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:433",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:434",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:435",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:436",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:437",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:438",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:440",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:448",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:468",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:480",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:481",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:482",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:506",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:524",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:525",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:529",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:530",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:124219",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:124386",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:124398",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002025",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002036",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:3002037",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002038",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002045",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:3002050",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002051",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:3002052",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:3002058",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:3002061",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002063",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002066",
+      "rule": "R5_orphan",
+      "severity": 0.8,
+      "detail": "no predecessors and no successors"
+    },
+    {
+      "segment_id": "lanelet:3002071",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002072",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002073",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002074",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002075",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002076",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002077",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002078",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002082",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002083",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002086",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002087",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002088",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002171",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002172",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002173",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002174",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002198",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3002200",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3012657",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    },
+    {
+      "segment_id": "lanelet:3013060",
+      "rule": "R5_dead_end",
+      "severity": 0.4,
+      "detail": "no successors (map edge or broken link)"
+    }
+  ],
+  "scores": {
+    "lanelet:1": 0.0,
+    "lanelet:2": 0.7369655941662063,
+    "lanelet:3": 0.0,
+    "lanelet:4": 0.0,
+    "lanelet:5": 0.0,
+    "lanelet:6": 0.0,
+    "lanelet:7": 0.0,
+    "lanelet:8": 0.0,
+    "lanelet:9": 0.0,
+    "lanelet:10": 0.0,
+    "lanelet:11": 0.0,
+    "lanelet:12": 0.0,
+    "lanelet:13": 0.0,
+    "lanelet:14": 0.0,
+    "lanelet:15": 0.0,
+    "lanelet:16": 0.0,
+    "lanelet:17": 0.0,
+    "lanelet:18": 0.0,
+    "lanelet:19": 0.0,
+    "lanelet:20": 0.0,
+    "lanelet:21": 0.0,
+    "lanelet:22": 0.0,
+    "lanelet:25": 0.0,
+    "lanelet:26": 0.0,
+    "lanelet:27": 0.0,
+    "lanelet:28": 0.0,
+    "lanelet:29": 0.0,
+    "lanelet:30": 0.0,
+    "lanelet:31": 0.0,
+    "lanelet:32": 0.0,
+    "lanelet:33": 0.0,
+    "lanelet:34": 0.0,
+    "lanelet:35": 0.0,
+    "lanelet:36": 0.0,
+    "lanelet:37": 0.0,
+    "lanelet:38": 0.0,
+    "lanelet:39": 0.0,
+    "lanelet:40": 0.0,
+    "lanelet:41": 0.0,
+    "lanelet:42": 0.0,
+    "lanelet:43": 0.0,
+    "lanelet:44": 0.0,
+    "lanelet:45": 0.0,
+    "lanelet:46": 0.0,
+    "lanelet:47": 0.4,
+    "lanelet:48": 0.4,
+    "lanelet:49": 0.0,
+    "lanelet:50": 0.0,
+    "lanelet:51": 0.0,
+    "lanelet:52": 0.0,
+    "lanelet:53": 0.0,
+    "lanelet:54": 0.0,
+    "lanelet:55": 0.0,
+    "lanelet:56": 0.0,
+    "lanelet:57": 0.0,
+    "lanelet:58": 0.0,
+    "lanelet:59": 0.0,
+    "lanelet:60": 0.0,
+    "lanelet:61": 0.0,
+    "lanelet:62": 0.0,
+    "lanelet:63": 0.0,
+    "lanelet:64": 0.0,
+    "lanelet:65": 0.0,
+    "lanelet:66": 0.0,
+    "lanelet:67": 0.0,
+    "lanelet:68": 0.0,
+    "lanelet:69": 0.0,
+    "lanelet:70": 0.0,
+    "lanelet:71": 0.0,
+    "lanelet:72": 0.0,
+    "lanelet:73": 0.0,
+    "lanelet:74": 0.0,
+    "lanelet:75": 0.0,
+    "lanelet:76": 0.0,
+    "lanelet:77": 0.0,
+    "lanelet:78": 0.0,
+    "lanelet:79": 0.0,
+    "lanelet:80": 0.0,
+    "lanelet:81": 0.0,
+    "lanelet:82": 0.0,
+    "lanelet:83": 0.0,
+    "lanelet:84": 0.0,
+    "lanelet:85": 0.0,
+    "lanelet:86": 0.0,
+    "lanelet:87": 0.0,
+    "lanelet:89": 0.0,
+    "lanelet:90": 0.0,
+    "lanelet:91": 0.0,
+    "lanelet:92": 0.0,
+    "lanelet:93": 0.0,
+    "lanelet:94": 0.0,
+    "lanelet:95": 0.4,
+    "lanelet:96": 0.4,
+    "lanelet:97": 0.4,
+    "lanelet:98": 0.0,
+    "lanelet:99": 0.0,
+    "lanelet:100": 0.0,
+    "lanelet:101": 0.0,
+    "lanelet:102": 0.0,
+    "lanelet:103": 0.0,
+    "lanelet:104": 0.4,
+    "lanelet:105": 0.4,
+    "lanelet:106": 0.4,
+    "lanelet:107": 0.4,
+    "lanelet:108": 0.0,
+    "lanelet:109": 0.0,
+    "lanelet:110": 0.0,
+    "lanelet:111": 0.0,
+    "lanelet:112": 0.0,
+    "lanelet:113": 0.8789465683791221,
+    "lanelet:114": 0.5313069267066349,
+    "lanelet:115": 0.0,
+    "lanelet:116": 0.0,
+    "lanelet:117": 0.0,
+    "lanelet:118": 0.0,
+    "lanelet:119": 0.0,
+    "lanelet:120": 0.0,
+    "lanelet:121": 0.0,
+    "lanelet:122": 0.0,
+    "lanelet:123": 0.0,
+    "lanelet:124": 0.0,
+    "lanelet:125": 0.0,
+    "lanelet:126": 0.0,
+    "lanelet:127": 0.0,
+    "lanelet:128": 0.0,
+    "lanelet:129": 0.0,
+    "lanelet:130": 0.0,
+    "lanelet:131": 0.0,
+    "lanelet:132": 0.0,
+    "lanelet:133": 0.07183702492839478,
+    "lanelet:134": 0.0,
+    "lanelet:135": 0.0,
+    "lanelet:136": 0.0,
+    "lanelet:137": 0.0,
+    "lanelet:140": 0.0,
+    "lanelet:141": 0.0,
+    "lanelet:142": 0.0,
+    "lanelet:143": 0.0,
+    "lanelet:144": 0.0,
+    "lanelet:145": 0.0,
+    "lanelet:146": 0.5749341352854288,
+    "lanelet:147": 0.0,
+    "lanelet:148": 0.0,
+    "lanelet:149": 0.0,
+    "lanelet:150": 0.0,
+    "lanelet:151": 0.0,
+    "lanelet:152": 0.0,
+    "lanelet:154": 0.0,
+    "lanelet:155": 0.0,
+    "lanelet:156": 0.0,
+    "lanelet:157": 0.0,
+    "lanelet:158": 0.0,
+    "lanelet:159": 0.0,
+    "lanelet:160": 0.0,
+    "lanelet:161": 0.0,
+    "lanelet:162": 0.0,
+    "lanelet:163": 0.0,
+    "lanelet:164": 0.0,
+    "lanelet:165": 0.0,
+    "lanelet:168": 0.0,
+    "lanelet:169": 0.0,
+    "lanelet:170": 0.0,
+    "lanelet:171": 0.0,
+    "lanelet:172": 0.0,
+    "lanelet:173": 0.0,
+    "lanelet:174": 0.0,
+    "lanelet:175": 0.0,
+    "lanelet:176": 0.0,
+    "lanelet:177": 0.0,
+    "lanelet:178": 0.0,
+    "lanelet:179": 0.0,
+    "lanelet:180": 0.0,
+    "lanelet:181": 0.0,
+    "lanelet:182": 0.0,
+    "lanelet:183": 0.0,
+    "lanelet:184": 0.0,
+    "lanelet:185": 0.0,
+    "lanelet:186": 0.0,
+    "lanelet:187": 0.0,
+    "lanelet:188": 0.0,
+    "lanelet:189": 0.0,
+    "lanelet:193": 0.0,
+    "lanelet:194": 0.0,
+    "lanelet:195": 0.0,
+    "lanelet:196": 0.0,
+    "lanelet:197": 0.0,
+    "lanelet:198": 0.0,
+    "lanelet:199": 0.0,
+    "lanelet:200": 0.0,
+    "lanelet:201": 0.0,
+    "lanelet:202": 0.0,
+    "lanelet:203": 0.0,
+    "lanelet:204": 0.0,
+    "lanelet:205": 0.0,
+    "lanelet:206": 0.0,
+    "lanelet:207": 0.0,
+    "lanelet:208": 0.0,
+    "lanelet:209": 0.0,
+    "lanelet:210": 0.0,
+    "lanelet:212": 0.0,
+    "lanelet:213": 0.0,
+    "lanelet:214": 0.0,
+    "lanelet:215": 0.0,
+    "lanelet:216": 0.0,
+    "lanelet:217": 0.0,
+    "lanelet:218": 0.0,
+    "lanelet:219": 0.0,
+    "lanelet:220": 0.0,
+    "lanelet:221": 0.0,
+    "lanelet:222": 0.0,
+    "lanelet:223": 0.0,
+    "lanelet:224": 0.0,
+    "lanelet:225": 0.0,
+    "lanelet:226": 0.0,
+    "lanelet:227": 0.0,
+    "lanelet:228": 0.0,
+    "lanelet:229": 0.0,
+    "lanelet:230": 0.0,
+    "lanelet:231": 0.4,
+    "lanelet:232": 0.4,
+    "lanelet:233": 0.0,
+    "lanelet:234": 0.0,
+    "lanelet:235": 0.0,
+    "lanelet:236": 0.0,
+    "lanelet:237": 0.0,
+    "lanelet:238": 0.0,
+    "lanelet:239": 0.0,
+    "lanelet:240": 0.0,
+    "lanelet:241": 0.0,
+    "lanelet:242": 0.0,
+    "lanelet:243": 0.0,
+    "lanelet:244": 0.0,
+    "lanelet:245": 0.0,
+    "lanelet:246": 0.0,
+    "lanelet:247": 0.0,
+    "lanelet:248": 0.0,
+    "lanelet:249": 0.0,
+    "lanelet:250": 0.4,
+    "lanelet:251": 0.4,
+    "lanelet:252": 0.0,
+    "lanelet:253": 0.0,
+    "lanelet:254": 0.0,
+    "lanelet:255": 0.0,
+    "lanelet:256": 0.0,
+    "lanelet:257": 0.0,
+    "lanelet:258": 0.0,
+    "lanelet:259": 0.0,
+    "lanelet:260": 0.0,
+    "lanelet:261": 0.0,
+    "lanelet:262": 0.0,
+    "lanelet:263": 0.0,
+    "lanelet:264": 0.0,
+    "lanelet:265": 0.4,
+    "lanelet:266": 0.4,
+    "lanelet:267": 0.0,
+    "lanelet:268": 0.0,
+    "lanelet:269": 0.0,
+    "lanelet:270": 0.0,
+    "lanelet:271": 0.0,
+    "lanelet:272": 0.0,
+    "lanelet:273": 0.0,
+    "lanelet:274": 0.0,
+    "lanelet:275": 0.0,
+    "lanelet:276": 0.0,
+    "lanelet:277": 0.0,
+    "lanelet:278": 0.0,
+    "lanelet:279": 0.0,
+    "lanelet:280": 0.0,
+    "lanelet:281": 0.0,
+    "lanelet:282": 0.0,
+    "lanelet:283": 0.0,
+    "lanelet:284": 0.0,
+    "lanelet:285": 0.4197674583844164,
+    "lanelet:286": 1.0,
+    "lanelet:287": 0.0,
+    "lanelet:288": 0.0,
+    "lanelet:289": 0.0,
+    "lanelet:290": 1.0,
+    "lanelet:291": 0.0,
+    "lanelet:292": 0.0,
+    "lanelet:293": 0.0,
+    "lanelet:294": 1.0,
+    "lanelet:295": 0.0,
+    "lanelet:296": 0.0,
+    "lanelet:297": 0.0,
+    "lanelet:298": 0.0,
+    "lanelet:299": 0.8595443626783842,
+    "lanelet:300": 0.0,
+    "lanelet:301": 0.0,
+    "lanelet:302": 1.0,
+    "lanelet:303": 0.0,
+    "lanelet:304": 0.0,
+    "lanelet:305": 0.9017488702249482,
+    "lanelet:306": 1.0,
+    "lanelet:307": 0.0,
+    "lanelet:308": 0.0,
+    "lanelet:309": 0.0,
+    "lanelet:310": 0.0,
+    "lanelet:311": 0.8662222837639,
+    "lanelet:312": 0.0,
+    "lanelet:313": 0.0,
+    "lanelet:314": 0.8999708916982682,
+    "lanelet:315": 0.0,
+    "lanelet:316": 0.0,
+    "lanelet:317": 0.847408813758797,
+    "lanelet:318": 0.24030526263115023,
+    "lanelet:319": 0.33099544026163646,
+    "lanelet:320": 0.0,
+    "lanelet:321": 0.0,
+    "lanelet:322": 0.0,
+    "lanelet:323": 0.0,
+    "lanelet:324": 0.48308613200850276,
+    "lanelet:325": 0.0,
+    "lanelet:326": 0.0,
+    "lanelet:327": 0.0,
+    "lanelet:328": 0.0,
+    "lanelet:329": 0.0,
+    "lanelet:330": 0.30165137263847264,
+    "lanelet:331": 0.261805458146287,
+    "lanelet:332": 0.23764146514035037,
+    "lanelet:333": 0.0,
+    "lanelet:334": 0.0,
+    "lanelet:335": 0.0,
+    "lanelet:336": 0.0,
+    "lanelet:337": 0.2835638861463061,
+    "lanelet:338": 0.6062871716599663,
+    "lanelet:339": 0.4269333729724365,
+    "lanelet:340": 0.0,
+    "lanelet:341": 0.32968601335736053,
+    "lanelet:342": 0.0,
+    "lanelet:343": 0.0,
+    "lanelet:344": 0.0,
+    "lanelet:345": 0.2945305072115055,
+    "lanelet:346": 0.19130603636691404,
+    "lanelet:347": 0.0,
+    "lanelet:348": 0.0,
+    "lanelet:349": 0.0,
+    "lanelet:350": 0.4,
+    "lanelet:351": 0.0,
+    "lanelet:352": 0.0,
+    "lanelet:353": 0.0,
+    "lanelet:354": 0.0,
+    "lanelet:355": 0.0,
+    "lanelet:356": 0.0,
+    "lanelet:357": 0.0,
+    "lanelet:358": 0.33187496982477044,
+    "lanelet:359": 0.0,
+    "lanelet:360": 0.0,
+    "lanelet:361": 0.0,
+    "lanelet:362": 0.31077156145192825,
+    "lanelet:363": 0.0,
+    "lanelet:364": 0.1693018350061569,
+    "lanelet:365": 0.0,
+    "lanelet:366": 0.0,
+    "lanelet:367": 0.0,
+    "lanelet:368": 0.20165905192628367,
+    "lanelet:369": 0.24820553365312437,
+    "lanelet:370": 0.0,
+    "lanelet:371": 0.0,
+    "lanelet:372": 0.0,
+    "lanelet:373": 0.26947243177436303,
+    "lanelet:374": 0.0,
+    "lanelet:375": 0.0,
+    "lanelet:376": 0.0,
+    "lanelet:377": 0.0,
+    "lanelet:378": 0.6078975989821167,
+    "lanelet:379": 0.21246275293161387,
+    "lanelet:380": 0.5895552123102483,
+    "lanelet:381": 0.0,
+    "lanelet:382": 0.0,
+    "lanelet:383": 0.0,
+    "lanelet:384": 1.0,
+    "lanelet:385": 0.0,
+    "lanelet:386": 0.0,
+    "lanelet:387": 0.4709380385968293,
+    "lanelet:388": 0.0,
+    "lanelet:389": 0.5890162386017682,
+    "lanelet:390": 0.45337229511391824,
+    "lanelet:391": 0.0,
+    "lanelet:392": 0.0,
+    "lanelet:393": 0.7755878178734088,
+    "lanelet:394": 0.7327420246588648,
+    "lanelet:395": 0.0,
+    "lanelet:396": 0.0,
+    "lanelet:397": 0.0,
+    "lanelet:398": 0.0,
+    "lanelet:399": 0.0,
+    "lanelet:400": 0.19640157786669446,
+    "lanelet:401": 0.0,
+    "lanelet:402": 0.532221630777027,
+    "lanelet:403": 0.0,
+    "lanelet:404": 0.0,
+    "lanelet:405": 0.23110955257306287,
+    "lanelet:406": 0.5367550676183876,
+    "lanelet:407": 0.5012767078752964,
+    "lanelet:408": 0.0,
+    "lanelet:409": 0.0,
+    "lanelet:410": 0.1842312243939713,
+    "lanelet:411": 0.4683224174325811,
+    "lanelet:412": 0.0,
+    "lanelet:413": 0.0,
+    "lanelet:414": 0.21688213532322612,
+    "lanelet:415": 0.0,
+    "lanelet:416": 0.7198543514719553,
+    "lanelet:417": 0.0,
+    "lanelet:418": 0.0,
+    "lanelet:419": 0.4,
+    "lanelet:420": 0.4411337266963482,
+    "lanelet:421": 0.0,
+    "lanelet:422": 0.09505599106923605,
+    "lanelet:423": 0.5031145094699788,
+    "lanelet:424": 0.4,
+    "lanelet:425": 0.3156267198582441,
+    "lanelet:426": 0.4,
+    "lanelet:427": 0.0,
+    "lanelet:428": 0.0,
+    "lanelet:429": 0.24352608427458403,
+    "lanelet:430": 0.4356819580317512,
+    "lanelet:431": 0.8,
+    "lanelet:432": 0.8,
+    "lanelet:433": 0.8,
+    "lanelet:434": 0.49191512689525546,
+    "lanelet:435": 0.40224219142505274,
+    "lanelet:436": 0.4,
+    "lanelet:437": 0.4,
+    "lanelet:438": 0.4,
+    "lanelet:439": 0.34671915611973586,
+    "lanelet:440": 0.4,
+    "lanelet:441": 0.5403014452394387,
+    "lanelet:442": 0.0,
+    "lanelet:443": 0.508439386134254,
+    "lanelet:444": 0.5848736079004677,
+    "lanelet:445": 0.6539280706578294,
+    "lanelet:446": 0.5324889422868272,
+    "lanelet:447": 0.5890975814906962,
+    "lanelet:448": 0.6342380049656485,
+    "lanelet:449": 0.3630877213429475,
+    "lanelet:450": 0.3883360641485325,
+    "lanelet:451": 0.5260979435001706,
+    "lanelet:452": 0.5737265726642597,
+    "lanelet:453": 0.22912272207554082,
+    "lanelet:454": 0.05259340739416052,
+    "lanelet:455": 0.44743756770656357,
+    "lanelet:456": 0.0,
+    "lanelet:457": 0.6679257668068036,
+    "lanelet:458": 0.6167409869391767,
+    "lanelet:459": 0.1350246752567097,
+    "lanelet:460": 0.0,
+    "lanelet:461": 0.0,
+    "lanelet:462": 0.0,
+    "lanelet:463": 0.0,
+    "lanelet:464": 0.0,
+    "lanelet:465": 0.0880839343621959,
+    "lanelet:466": 0.4834107808471508,
+    "lanelet:467": 0.6642909394095332,
+    "lanelet:468": 0.8,
+    "lanelet:469": 0.0,
+    "lanelet:470": 0.0,
+    "lanelet:471": 0.816001882087846,
+    "lanelet:472": 0.0,
+    "lanelet:474": 0.09662290225779374,
+    "lanelet:479": 0.3654618323347953,
+    "lanelet:480": 0.4,
+    "lanelet:481": 0.4,
+    "lanelet:482": 0.4,
+    "lanelet:483": 0.2286604455257466,
+    "lanelet:484": 0.286609388151095,
+    "lanelet:485": 0.8071624138063219,
+    "lanelet:486": 0.30422454832725193,
+    "lanelet:487": 0.24703236868862546,
+    "lanelet:488": 0.28091305615599876,
+    "lanelet:489": 0.5087172138010291,
+    "lanelet:490": 0.3951739452668918,
+    "lanelet:491": 0.26478725036500866,
+    "lanelet:492": 0.10362377750622616,
+    "lanelet:493": 0.0,
+    "lanelet:494": 0.0017311669553963978,
+    "lanelet:495": 0.0,
+    "lanelet:496": 0.02722610161034981,
+    "lanelet:497": 0.212393750980003,
+    "lanelet:498": 0.24194326537826827,
+    "lanelet:499": 0.18186847102010203,
+    "lanelet:500": 0.22925152770464408,
+    "lanelet:501": 0.20998237279478152,
+    "lanelet:502": 0.19543950163949608,
+    "lanelet:503": 0.17436432365922658,
+    "lanelet:504": 0.19953055815006474,
+    "lanelet:505": 0.21727535165315048,
+    "lanelet:506": 0.4,
+    "lanelet:507": 0.13089064508262993,
+    "lanelet:508": 0.14851614267213545,
+    "lanelet:509": 0.16970177165019665,
+    "lanelet:510": 0.17775659588911555,
+    "lanelet:511": 0.22121021028052054,
+    "lanelet:512": 0.19650029563716398,
+    "lanelet:513": 0.17314382432175388,
+    "lanelet:514": 0.19959760637842727,
+    "lanelet:515": 0.228937505420729,
+    "lanelet:516": 0.0,
+    "lanelet:517": 0.367008989778501,
+    "lanelet:518": 0.20663176996832636,
+    "lanelet:519": 0.0,
+    "lanelet:520": 0.26534424522857547,
+    "lanelet:521": 0.19673330280479803,
+    "lanelet:522": 0.23389460818185878,
+    "lanelet:523": 0.0,
+    "lanelet:524": 0.4,
+    "lanelet:525": 0.4,
+    "lanelet:526": 0.28838192220257736,
+    "lanelet:527": 0.2177894551275251,
+    "lanelet:528": 0.26320794243659956,
+    "lanelet:529": 0.4,
+    "lanelet:530": 0.4,
+    "lanelet:531": 0.02798583040853675,
+    "lanelet:532": 0.04207908840747576,
+    "lanelet:533": 0.0,
+    "lanelet:534": 0.0,
+    "lanelet:535": 0.0,
+    "lanelet:536": 0.0,
+    "lanelet:537": 0.0,
+    "lanelet:538": 0.0,
+    "lanelet:539": 0.0,
+    "lanelet:540": 0.0,
+    "lanelet:541": 0.0,
+    "lanelet:542": 0.0,
+    "lanelet:543": 0.0,
+    "lanelet:544": 0.7369655941662063,
+    "lanelet:551": 0.6439717197818933,
+    "lanelet:552": 0.0,
+    "lanelet:553": 0.0,
+    "lanelet:554": 0.0,
+    "lanelet:555": 0.0,
+    "lanelet:556": 0.0,
+    "lanelet:558": 0.0,
+    "lanelet:561": 0.0,
+    "lanelet:562": 1.0,
+    "lanelet:563": 0.0,
+    "lanelet:564": 0.0,
+    "lanelet:565": 0.40524153097002086,
+    "lanelet:566": 0.8265274222141011,
+    "lanelet:567": 0.4827827888641559,
+    "lanelet:568": 1.0,
+    "lanelet:569": 0.4037799454062195,
+    "lanelet:570": 0.09774436711586738,
+    "lanelet:571": 0.3643410090398002,
+    "lanelet:574": 0.4312730741307454,
+    "lanelet:575": 0.44638299239424395,
+    "lanelet:577": 0.4478956446725495,
+    "lanelet:578": 0.4333403928676384,
+    "lanelet:579": 0.0,
+    "lanelet:580": 0.0,
+    "lanelet:581": 0.18795608315035292,
+    "lanelet:582": 0.0,
+    "lanelet:583": 0.0,
+    "lanelet:584": 0.0,
+    "lanelet:587": 0.0,
+    "lanelet:588": 0.0,
+    "lanelet:589": 0.0,
+    "lanelet:590": 0.0,
+    "lanelet:591": 0.0,
+    "lanelet:592": 0.0,
+    "lanelet:593": 0.0,
+    "lanelet:594": 0.0,
+    "lanelet:595": 0.0,
+    "lanelet:596": 0.19931742737762223,
+    "lanelet:597": 0.0,
+    "lanelet:598": 0.11271024229640385,
+    "lanelet:599": 0.032420390400258015,
+    "lanelet:600": 1.0,
+    "lanelet:601": 0.0,
+    "lanelet:602": 0.02727652962305231,
+    "lanelet:603": 0.40813149251960185,
+    "lanelet:604": 0.029127381397354508,
+    "lanelet:605": 0.26196708853584355,
+    "lanelet:606": 0.3542691269183571,
+    "lanelet:607": 0.0,
+    "lanelet:608": 0.0,
+    "lanelet:609": 0.0,
+    "lanelet:610": 1.0,
+    "lanelet:611": 0.0,
+    "lanelet:612": 1.0,
+    "lanelet:613": 0.0,
+    "lanelet:614": 1.0,
+    "lanelet:615": 0.0,
+    "lanelet:616": 0.0,
+    "lanelet:617": 0.0,
+    "lanelet:618": 0.0,
+    "lanelet:619": 0.0,
+    "lanelet:620": 0.26068937961788174,
+    "lanelet:621": 0.4574109482998832,
+    "lanelet:622": 0.0,
+    "lanelet:623": 0.0,
+    "lanelet:624": 0.2451886692885532,
+    "lanelet:625": 0.004154753799904783,
+    "lanelet:626": 0.0,
+    "lanelet:627": 0.0,
+    "lanelet:628": 0.0,
+    "lanelet:629": 0.0,
+    "lanelet:630": 0.3019346836682777,
+    "lanelet:631": 0.0,
+    "lanelet:632": 0.0,
+    "lanelet:633": 0.8579790234631416,
+    "lanelet:634": 0.0,
+    "lanelet:635": 0.0,
+    "lanelet:636": 0.0,
+    "lanelet:637": 0.0,
+    "lanelet:638": 0.0014314213462901886,
+    "lanelet:639": 0.5675033390368887,
+    "lanelet:640": 0.29710075295426214,
+    "lanelet:641": 0.0,
+    "lanelet:642": 0.0,
+    "lanelet:643": 0.511376722600169,
+    "lanelet:644": 0.15270631839773374,
+    "lanelet:645": 0.0,
+    "lanelet:646": 0.0,
+    "lanelet:647": 0.0,
+    "lanelet:648": 0.0,
+    "lanelet:124154": 0.7713429438220949,
+    "lanelet:124159": 0.185200669310301,
+    "lanelet:124164": 0.15081223426381932,
+    "lanelet:124186": 0.0,
+    "lanelet:124199": 0.0,
+    "lanelet:124204": 0.18356548216966306,
+    "lanelet:124209": 0.02595698586477087,
+    "lanelet:124214": 0.2213403653730488,
+    "lanelet:124219": 0.4,
+    "lanelet:124224": 0.037435127100225195,
+    "lanelet:124229": 0.09910357517863044,
+    "lanelet:124234": 0.0,
+    "lanelet:124253": 0.17220701897068716,
+    "lanelet:124260": 0.0,
+    "lanelet:124300": 0.0,
+    "lanelet:124314": 0.0,
+    "lanelet:124321": 0.0,
+    "lanelet:124322": 0.19146673680874823,
+    "lanelet:124351": 0.18548120312424046,
+    "lanelet:124358": 0.0,
+    "lanelet:124377": 0.0,
+    "lanelet:124386": 0.4,
+    "lanelet:124398": 0.4,
+    "lanelet:124409": 0.0,
+    "lanelet:124419": 0.0,
+    "lanelet:124424": 0.11547721741993588,
+    "lanelet:124435": 0.0,
+    "lanelet:124461": 0.0,
+    "lanelet:124483": 0.1214903207916261,
+    "lanelet:124498": 0.11547721741993588,
+    "lanelet:124509": 0.0,
+    "lanelet:124514": 0.0,
+    "lanelet:124519": 0.0,
+    "lanelet:124538": 0.0,
+    "lanelet:124543": 0.0,
+    "lanelet:124548": 0.0,
+    "lanelet:124555": 0.0,
+    "lanelet:124584": 0.42312062447702,
+    "lanelet:301021": 0.0,
+    "lanelet:301022": 1.0,
+    "lanelet:301023": 0.0,
+    "lanelet:301024": 0.0,
+    "lanelet:301026": 0.7369655941662063,
+    "lanelet:301027": 1.0,
+    "lanelet:301028": 0.0,
+    "lanelet:301029": 0.0,
+    "lanelet:301030": 0.0,
+    "lanelet:301031": 0.0,
+    "lanelet:301033": 0.0,
+    "lanelet:301034": 0.008375236119184226,
+    "lanelet:301035": 0.05061139294005853,
+    "lanelet:301036": 0.0,
+    "lanelet:301038": 0.0,
+    "lanelet:301051": 0.7369655941662063,
+    "lanelet:301052": 0.11547721741993588,
+    "lanelet:301102": 0.0,
+    "lanelet:301103": 0.0,
+    "lanelet:301105": 0.7178404291797955,
+    "lanelet:3001037": 0.02350605677862087,
+    "lanelet:3001041": 0.0,
+    "lanelet:3001042": 0.0,
+    "lanelet:3001047": 0.0,
+    "lanelet:3001052": 0.0,
+    "lanelet:3001057": 0.0,
+    "lanelet:3001062": 0.0,
+    "lanelet:3001067": 0.0,
+    "lanelet:3001072": 0.07183702492839478,
+    "lanelet:3001077": 0.0,
+    "lanelet:3001082": 0.0,
+    "lanelet:3001097": 0.0,
+    "lanelet:3001119": 0.0,
+    "lanelet:3001133": 0.0,
+    "lanelet:3001150": 0.0,
+    "lanelet:3001157": 0.0,
+    "lanelet:3001214": 0.0,
+    "lanelet:3001220": 0.0,
+    "lanelet:3001225": 0.09662290225779374,
+    "lanelet:3001271": 0.0,
+    "lanelet:3001276": 0.4150374992788437,
+    "lanelet:3001302": 0.8868517176556928,
+    "lanelet:3001307": 0.0,
+    "lanelet:3001312": 0.0,
+    "lanelet:3001318": 0.8434430789092856,
+    "lanelet:3001324": 0.0,
+    "lanelet:3002001": 0.0775983084881194,
+    "lanelet:3002002": 0.0,
+    "lanelet:3002003": 0.0,
+    "lanelet:3002004": 0.0,
+    "lanelet:3002005": 0.0,
+    "lanelet:3002006": 0.13187505365873728,
+    "lanelet:3002007": 0.0,
+    "lanelet:3002008": 0.0,
+    "lanelet:3002009": 0.0,
+    "lanelet:3002010": 0.0,
+    "lanelet:3002012": 0.0,
+    "lanelet:3002013": 0.0,
+    "lanelet:3002014": 0.0,
+    "lanelet:3002016": 0.0,
+    "lanelet:3002017": 0.0,
+    "lanelet:3002018": 0.0,
+    "lanelet:3002019": 0.0,
+    "lanelet:3002020": 0.02525718019690505,
+    "lanelet:3002021": 0.0,
+    "lanelet:3002022": 0.6002160200987383,
+    "lanelet:3002023": 0.0945001605359043,
+    "lanelet:3002024": 0.0,
+    "lanelet:3002025": 0.4037788534934997,
+    "lanelet:3002026": 0.0,
+    "lanelet:3002027": 0.25587042758770595,
+    "lanelet:3002028": 0.0,
+    "lanelet:3002029": 0.0,
+    "lanelet:3002030": 0.0,
+    "lanelet:3002031": 0.3577834860704012,
+    "lanelet:3002032": 0.0,
+    "lanelet:3002033": 0.18985365874243496,
+    "lanelet:3002034": 0.3328584415525369,
+    "lanelet:3002035": 0.0,
+    "lanelet:3002036": 0.8,
+    "lanelet:3002037": 0.4,
+    "lanelet:3002038": 0.4,
+    "lanelet:3002039": 0.0,
+    "lanelet:3002040": 0.0,
+    "lanelet:3002041": 0.0,
+    "lanelet:3002042": 0.22196528174978378,
+    "lanelet:3002043": 0.0,
+    "lanelet:3002044": 0.20802808688003097,
+    "lanelet:3002045": 0.8,
+    "lanelet:3002046": 0.0,
+    "lanelet:3002047": 0.0,
+    "lanelet:3002048": 0.0,
+    "lanelet:3002049": 0.09364837898648704,
+    "lanelet:3002050": 0.4,
+    "lanelet:3002051": 0.8,
+    "lanelet:3002052": 0.8,
+    "lanelet:3002053": 0.1619107896873436,
+    "lanelet:3002054": 0.12348411945593485,
+    "lanelet:3002055": 0.14047929889588673,
+    "lanelet:3002056": 0.11251975171514698,
+    "lanelet:3002057": 0.13285906141053352,
+    "lanelet:3002058": 0.8,
+    "lanelet:3002059": 0.0,
+    "lanelet:3002060": 0.21313260181216073,
+    "lanelet:3002061": 0.4,
+    "lanelet:3002062": 0.0,
+    "lanelet:3002063": 0.4,
+    "lanelet:3002064": 0.0,
+    "lanelet:3002065": 0.0,
+    "lanelet:3002066": 0.8,
+    "lanelet:3002067": 0.0,
+    "lanelet:3002068": 0.0,
+    "lanelet:3002069": 0.0,
+    "lanelet:3002070": 0.15444202340691726,
+    "lanelet:3002071": 0.4,
+    "lanelet:3002072": 0.4,
+    "lanelet:3002073": 0.4,
+    "lanelet:3002074": 0.4,
+    "lanelet:3002075": 0.4,
+    "lanelet:3002076": 0.4,
+    "lanelet:3002077": 0.4,
+    "lanelet:3002078": 0.4,
+    "lanelet:3002079": 0.0,
+    "lanelet:3002080": 0.0,
+    "lanelet:3002081": 0.0,
+    "lanelet:3002082": 0.5331857989330874,
+    "lanelet:3002083": 0.4,
+    "lanelet:3002084": 0.3076641196155925,
+    "lanelet:3002085": 0.5038324775784379,
+    "lanelet:3002086": 0.4,
+    "lanelet:3002087": 0.4,
+    "lanelet:3002088": 0.7814483315484315,
+    "lanelet:3002089": 0.34229703849295906,
+    "lanelet:3002090": 0.36086681345965976,
+    "lanelet:3002091": 0.38427228732052177,
+    "lanelet:3002092": 0.02525718019690505,
+    "lanelet:3002093": 0.0,
+    "lanelet:3002094": 0.0,
+    "lanelet:3002095": 0.0,
+    "lanelet:3002096": 0.0,
+    "lanelet:3002097": 0.0,
+    "lanelet:3002098": 0.0,
+    "lanelet:3002099": 0.0,
+    "lanelet:3002100": 0.0,
+    "lanelet:3002101": 0.0,
+    "lanelet:3002102": 0.0,
+    "lanelet:3002103": 0.0,
+    "lanelet:3002104": 0.0,
+    "lanelet:3002105": 0.0,
+    "lanelet:3002106": 0.0,
+    "lanelet:3002107": 0.0,
+    "lanelet:3002108": 0.0,
+    "lanelet:3002109": 0.0,
+    "lanelet:3002110": 0.0,
+    "lanelet:3002111": 0.0,
+    "lanelet:3002112": 0.0,
+    "lanelet:3002113": 0.0,
+    "lanelet:3002114": 0.0,
+    "lanelet:3002115": 0.0,
+    "lanelet:3002116": 0.0,
+    "lanelet:3002117": 0.0,
+    "lanelet:3002118": 0.0,
+    "lanelet:3002119": 0.0,
+    "lanelet:3002120": 0.0,
+    "lanelet:3002121": 0.0,
+    "lanelet:3002122": 0.0,
+    "lanelet:3002123": 0.0,
+    "lanelet:3002124": 0.0,
+    "lanelet:3002125": 0.0,
+    "lanelet:3002126": 0.0,
+    "lanelet:3002127": 0.0,
+    "lanelet:3002128": 0.0,
+    "lanelet:3002129": 0.0,
+    "lanelet:3002130": 0.0,
+    "lanelet:3002131": 0.0,
+    "lanelet:3002132": 0.0,
+    "lanelet:3002133": 0.0,
+    "lanelet:3002134": 0.0,
+    "lanelet:3002135": 0.0,
+    "lanelet:3002136": 0.0,
+    "lanelet:3002137": 0.0,
+    "lanelet:3002138": 0.0,
+    "lanelet:3002139": 0.0,
+    "lanelet:3002140": 0.0,
+    "lanelet:3002141": 0.0,
+    "lanelet:3002142": 0.0,
+    "lanelet:3002143": 0.0,
+    "lanelet:3002144": 0.0,
+    "lanelet:3002145": 0.0,
+    "lanelet:3002146": 0.0,
+    "lanelet:3002147": 0.0,
+    "lanelet:3002148": 0.0,
+    "lanelet:3002149": 0.0,
+    "lanelet:3002150": 0.0,
+    "lanelet:3002151": 0.0,
+    "lanelet:3002152": 0.0,
+    "lanelet:3002153": 0.0,
+    "lanelet:3002154": 0.0,
+    "lanelet:3002155": 0.0,
+    "lanelet:3002156": 0.0,
+    "lanelet:3002157": 0.0,
+    "lanelet:3002158": 0.0,
+    "lanelet:3002159": 0.0,
+    "lanelet:3002160": 0.0,
+    "lanelet:3002161": 0.0,
+    "lanelet:3002162": 0.030025324953130667,
+    "lanelet:3002163": 0.0,
+    "lanelet:3002164": 0.0,
+    "lanelet:3002165": 0.0,
+    "lanelet:3002166": 0.0,
+    "lanelet:3002167": 0.0,
+    "lanelet:3002168": 0.0,
+    "lanelet:3002169": 0.0,
+    "lanelet:3002170": 0.0,
+    "lanelet:3002171": 0.4,
+    "lanelet:3002172": 0.4,
+    "lanelet:3002173": 0.4,
+    "lanelet:3002174": 0.4,
+    "lanelet:3002175": 0.0,
+    "lanelet:3002176": 0.0,
+    "lanelet:3002177": 0.0,
+    "lanelet:3002178": 0.0,
+    "lanelet:3002179": 0.0,
+    "lanelet:3002180": 0.0,
+    "lanelet:3002181": 0.0,
+    "lanelet:3002182": 0.0,
+    "lanelet:3002183": 0.0,
+    "lanelet:3002184": 0.0,
+    "lanelet:3002185": 0.0,
+    "lanelet:3002186": 0.0,
+    "lanelet:3002187": 0.0,
+    "lanelet:3002188": 0.0,
+    "lanelet:3002189": 0.0,
+    "lanelet:3002190": 0.0,
+    "lanelet:3002191": 0.0,
+    "lanelet:3002192": 0.0,
+    "lanelet:3002193": 0.0,
+    "lanelet:3002194": 0.0,
+    "lanelet:3002195": 0.0,
+    "lanelet:3002196": 0.0,
+    "lanelet:3002197": 0.0,
+    "lanelet:3002198": 0.4,
+    "lanelet:3002199": 0.3354358352964962,
+    "lanelet:3002200": 0.4,
+    "lanelet:3002201": 0.0,
+    "lanelet:3002202": 0.34512057181475936,
+    "lanelet:3002203": 0.0,
+    "lanelet:3002204": 0.13088170080450068,
+    "lanelet:3002205": 0.0,
+    "lanelet:3002206": 0.0,
+    "lanelet:3002207": 0.0,
+    "lanelet:3002208": 0.0,
+    "lanelet:3002209": 0.0,
+    "lanelet:3002210": 0.0,
+    "lanelet:3002211": 0.0,
+    "lanelet:3002212": 0.7771306546931177,
+    "lanelet:3002213": 0.93700556563841,
+    "lanelet:3002214": 0.2417277984719314,
+    "lanelet:3002215": 0.29534081498753695,
+    "lanelet:3002216": 0.6653906435937212,
+    "lanelet:3002217": 0.9734233164861065,
+    "lanelet:3002218": 0.2833227913787451,
+    "lanelet:3002219": 0.7604149017928638,
+    "lanelet:3002220": 0.6463405660220186,
+    "lanelet:3002221": 0.8324087786327716,
+    "lanelet:3002222": 0.866200239308605,
+    "lanelet:3002223": 0.7410634233570436,
+    "lanelet:3002224": 0.7321826315798926,
+    "lanelet:3002225": 0.7866673370312188,
+    "lanelet:3002226": 0.8997100649652795,
+    "lanelet:3002227": 0.41113631849517773,
+    "lanelet:3002228": 0.7978662538570314,
+    "lanelet:3002229": 0.6457707727172813,
+    "lanelet:3002230": 0.770804274397355,
+    "lanelet:3002231": 0.35645005916590994,
+    "lanelet:3002232": 0.6162285997642604,
+    "lanelet:3002233": 0.19717055204128484,
+    "lanelet:3011988": 0.21441604801794498,
+    "lanelet:3012017": 0.2008006888988129,
+    "lanelet:3012078": 0.47011842451782665,
+    "lanelet:3012103": 0.0,
+    "lanelet:3012116": 0.0,
+    "lanelet:3012135": 0.0,
+    "lanelet:3012158": 0.2657116188206789,
+    "lanelet:3012178": 0.0,
+    "lanelet:3012183": 0.02525718019690505,
+    "lanelet:3012229": 0.39509584396970804,
+    "lanelet:3012234": 0.3625584090240106,
+    "lanelet:3012392": 0.535325179628543,
+    "lanelet:3012427": 0.31609446810332126,
+    "lanelet:3012500": 0.005745004877143837,
+    "lanelet:3012620": 0.0,
+    "lanelet:3012657": 0.4,
+    "lanelet:3012677": 0.0,
+    "lanelet:3012711": 0.24152100886964392,
+    "lanelet:3012728": 0.010243418561997508,
+    "lanelet:3012747": 0.0,
+    "lanelet:3012779": 0.0,
+    "lanelet:3012795": 0.0,
+    "lanelet:3012964": 0.0,
+    "lanelet:3012977": 0.0,
+    "lanelet:3012981": 0.0,
+    "lanelet:3013009": 0.4708113891400192,
+    "lanelet:3013013": 0.0,
+    "lanelet:3013032": 0.0,
+    "lanelet:3013049": 0.5261578360448517,
+    "lanelet:3013054": 0.0,
+    "lanelet:3013060": 0.4,
+    "lanelet:3013093": 0.17777858446833714,
+    "lanelet:3013102": 0.0,
+    "lanelet:3013118": 0.0,
+    "lanelet:3013119": 0.0,
+    "lanelet:3013120": 0.0,
+    "lanelet:3013121": 0.0,
+    "lanelet:3013122": 0.0,
+    "lanelet:3013132": 0.0,
+    "lanelet:3013135": 0.0,
+    "lanelet:3013138": 0.0,
+    "lanelet:3013141": 0.0,
+    "lanelet:3013142": 0.0,
+    "lanelet:3013150": 0.0,
+    "lanelet:3013161": 0.0,
+    "lanelet:3013180": 0.07183702492839478,
+    "lanelet:3013185": 0.0
+  }
+}
