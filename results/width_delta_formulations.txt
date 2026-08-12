@@ -1,0 +1,16 @@
+
+=== ALL subtypes  (979 lanelets, 975 pairs) ===
+metric                   median      p90      p95      p99
+abs delta [m]             0.138    0.775    1.147    2.194
+rel delta [frac]          0.044    0.219    0.306    0.711
+gradient [m/m]           0.0039   0.0412   0.0930   0.3309
+
+=== road only  (884 lanelets, 973 pairs) ===
+metric                   median      p90      p95      p99
+abs delta [m]             0.139    0.775    1.147    2.194
+rel delta [frac]          0.044    0.219    0.306    0.711
+gradient [m/m]           0.0039   0.0412   0.0930   0.3309
+
+median road lanelet length: 32.9 m
+Sato +0.5 m over that length -> gradient 0.0152 m/m
+Sato +0.5 m relative to 3.0 m lane -> rel delta 0.167
