@@ -1,0 +1,10 @@
+{
+  "clean_bag": "/home/ubuntu/bags/clean_run_good",
+  "tampered_bag": "/home/ubuntu/bags/tampered_run3",
+  "driven_length_clean_m": 338.62,
+  "driven_length_tampered_m": 338.7,
+  "d_Fe": 0.0833,
+  "max_lateral_e": 0.0833,
+  "d_Fp": 0.02,
+  "max_lateral_p": 0.02
+}

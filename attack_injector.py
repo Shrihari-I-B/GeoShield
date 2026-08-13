@@ -129,22 +129,40 @@ def _is_road(s: RoadSegment) -> bool:
 # ----------------------------------------------------------------------
 
 def width_ramp(segments, rng, *, total_gain=None, n=None,
-               campaign="") -> AttackResult:
+               campaign="", target=None) -> AttackResult:
     """
     PRIMARY ATTACK. Widen a run of consecutive lanelets monotonically.
 
     Each step stays inside honest per-segment variation, but the cumulative
     displacement is large enough to move the planned trajectory. This is the
     attack the whole detection design has to catch.
+
+    TARGETED MODE (`target`): tamper a specific list of lanelet ids -- the
+    victim's actual route -- instead of sampling one at random.
+
+    WHY THIS MATTERS. Random sampling picked 6 lanelets out of 979 while the
+    simulated route used 8, so the overlap was empty and the measured
+    trajectory deviation was d_Fe = 0.083 m, i.e. the simulator's own
+    run-to-run noise floor. An attacker does not sample uniformly: they know
+    which road the target will drive and tamper THAT. Targeting is both the
+    realistic threat model and the only way to measure end-to-end impact.
     """
     segs = copy.deepcopy(segments)
     by = {s.segment_id: s for s in segs}
-    n = n or rng.randint(4, 9)
-    total_gain = total_gain or rng.uniform(1.2, 3.0)     # metres, randomised
 
-    run = sample_run(segs, n, rng, lambda s: _is_road(s) and s.width_m)
-    if run is None:
-        return AttackResult(segs, {}, {"attack": "width_ramp", "status": "no run found"})
+    if target:
+        run = [t for t in target if t in by and by[t].width_m is not None]
+        if not run:
+            return AttackResult(segs, {}, {"attack": "width_ramp",
+                                           "status": "no target lanelet found"})
+        n = len(run)
+    else:
+        n = n or rng.randint(4, 9)
+        run = sample_run(segs, n, rng, lambda s: _is_road(s) and s.width_m)
+        if run is None:
+            return AttackResult(segs, {}, {"attack": "width_ramp",
+                                           "status": "no run found"})
+    total_gain = total_gain or rng.uniform(1.2, 3.0)     # metres, randomised
 
     labels = {}
     for i, sid in enumerate(run):
@@ -163,6 +181,7 @@ def width_ramp(segments, rng, *, total_gain=None, n=None,
 
     return AttackResult(segs, labels, {
         "attack": "width_ramp", "run_length": n,
+        "targeted": bool(target),
         "total_gain_m": round(total_gain, 3),
         "per_step_m": round(total_gain / n, 3)})
 
@@ -438,6 +457,10 @@ def main() -> None:
     ap.add_argument("--campaign", action="store_true", help="mixed campaign")
     ap.add_argument("--budget", type=float, default=0.03)
     ap.add_argument("--seed", type=int, default=42, help="reproducibility")
+    ap.add_argument("--target", help="comma-separated lanelet ids to tamper "
+                    "(e.g. the route the victim will drive)")
+    ap.add_argument("--total-gain", type=float, default=None, dest="total_gain",
+                    help="total width gain in metres across the ramp")
     ap.add_argument("--out", help="output prefix")
     ap.add_argument("--out-map", dest="out_map",
                     help="write a tampered Lanelet2 .osm (needs --lanelet2)")
@@ -456,7 +479,19 @@ def main() -> None:
     if a.campaign:
         res = campaign(segs, rng, a.budget)
     elif a.attack:
-        res = ATTACKS[a.attack](segs, rng)
+        kw = {}
+        if a.target:
+            ids = [t.strip() for t in a.target.split(",") if t.strip()]
+            # accept bare numbers or full "lanelet:NNN" ids
+            kw["target"] = [t if t.startswith("lanelet:") else f"lanelet:{t}"
+                            for t in ids]
+        if a.total_gain is not None:
+            kw["total_gain"] = a.total_gain
+        try:
+            res = ATTACKS[a.attack](segs, rng, **kw)
+        except TypeError:
+            # attacks other than width_ramp do not accept these
+            res = ATTACKS[a.attack](segs, rng)
     else:
         ap.error("give --attack or --campaign")
 

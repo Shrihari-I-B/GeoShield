@@ -1,0 +1,10 @@
+{
+  "clean_bag": "/home/ubuntu/bags/clean_run_good",
+  "tampered_bag": "/home/ubuntu/bags/route_attack",
+  "driven_length_clean_m": 338.62,
+  "driven_length_tampered_m": 338.42,
+  "d_Fe": 0.204,
+  "max_lateral_e": 0.204,
+  "d_Fp": 0.3121,
+  "max_lateral_p": 0.3121
+}
