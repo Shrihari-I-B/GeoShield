@@ -1,0 +1,26 @@
+loading /home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm
+  979 lanelets
+calibrating on /home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm
+
+method: chain_trend_R1
+trend threshold (p99 of 1262 reference chains): 0.706
+suspicious chains: 13
+flagged lanelets : 49
+
+repair plan: 49 clamps, 0 without a clean reference
+  lanelet:301026     4.079 -> 3.485 m (shift -0.594)
+  lanelet:124584     3.443 -> 3.401 m (shift -0.042)
+  lanelet:3001302    4.689 -> 4.807 m (shift +0.118)
+  lanelet:374        2.781 -> 2.964 m (shift +0.183)
+  lanelet:3002016    2.912 -> 3.103 m (shift +0.191)
+  lanelet:509        3.116 -> 3.127 m (shift +0.011)
+  lanelet:184        3.056 -> 3.295 m (shift +0.239)
+  lanelet:301034     4.934 -> 3.485 m (shift -1.449)
+
+wrote /tmp/clean_check.osm
+  geometry repaired : 49
+  no reference      : 0
+  skipped           : 0
+
+Next: load the repaired map in the simulator and re-measure.
+The claim to test is that d_Fe falls from 1.414 m back under 0.5 m.
