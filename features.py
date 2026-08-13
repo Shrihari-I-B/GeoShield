@@ -44,6 +44,7 @@ FEATURE_NAMES = [
     # (b) relational -- successor
     "d_width_succ", "rel_width_succ", "grad_width_succ",
     "d_speed_succ", "centreline_gap_succ",
+    "cl_jump_succ", "boundary_asym_succ", "cl_lateral_shift",
     # (b) relational -- predecessor
     "d_width_pred", "rel_width_pred", "grad_width_pred",
     # (b) relational -- local neighbourhood
@@ -59,6 +60,18 @@ FEATURE_NAMES = [
 
 def _safe(x, default=0.0):
     return default if x is None or (isinstance(x, float) and math.isnan(x)) else x
+
+
+def _xy(seg, prefix):
+    """Metric-frame point stored by the adapter, or None."""
+    x = seg.raw_tags.get(prefix + "_x")
+    y = seg.raw_tags.get(prefix + "_y")
+    if x is None or y is None:
+        return None
+    try:
+        return (float(x), float(y))
+    except (TypeError, ValueError):
+        return None
 
 
 def _haversine(a, b) -> float:
@@ -165,6 +178,44 @@ def extract(segs: list[RoadSegment], chain_length: int = 5) -> tuple[list[str], 
                 gaps = [_haversine(s.geometry[-1], t.geometry[0])
                         for t in succ if t.geometry]
                 f["centreline_gap_succ"] = min(gaps) if gaps else 0.0
+
+            # --- metric-frame boundary geometry ------------------------------
+            # These target the EDIT SIGNATURE rather than its side effects.
+            # A genuine road widening moves both boundaries away from the
+            # centreline, leaving the centre where it was. An editor moves
+            # ONE boundary, so the centreline slides sideways. That slide is
+            # sub-metre and invisible in lat/lon, hence the metric frame.
+            me = _xy(s, "_cl_end")
+            if me:
+                # (a) centreline discontinuity at the join, in metres
+                js = []
+                for t in succ:
+                    ts = _xy(t, "_cl_start")
+                    if ts:
+                        js.append(math.dist(me, ts))
+                if js:
+                    f["cl_jump_succ"] = min(js)
+
+                # (b) asymmetry: do the two boundaries move by the same
+                #     amount across the join? Equal -> genuine widening.
+                #     Unequal -> one boundary was edited.
+                le, re_ = _xy(s, "_lb_end"), _xy(s, "_rb_end")
+                best = None
+                for t in succ:
+                    ls, rs = _xy(t, "_lb_start"), _xy(t, "_rb_start")
+                    if le and re_ and ls and rs:
+                        dl = math.dist(le, ls)
+                        dr = math.dist(re_, rs)
+                        a = abs(dl - dr)
+                        if best is None or a > best:
+                            best = a
+                if best is not None:
+                    f["boundary_asym_succ"] = best
+
+                # (c) lateral shift of the centreline within this lanelet
+                ms = _xy(s, "_cl_start")
+                if ms and w:
+                    f["cl_lateral_shift"] = math.dist(ms, me) / max(s.length_m, 1.0)
 
         # ---- predecessor relations
         pred = [by[t] for t in s.predecessors if t in by]

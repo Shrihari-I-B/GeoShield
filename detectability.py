@@ -256,7 +256,7 @@ def main():
 
     scorers = {"iforest": score_iforest(examples, clean_rows)}
     for f in ("chain_trend_max", "rel_width_succ", "width_vs_nbr_median",
-              "width_z_local", "speed_vs_nbr_median", "d_speed_succ"):
+          "width_z_local", "cl_lateral_shift", "speed_vs_nbr_median", "d_speed_succ"):
         if f in names:
             scorers[f] = score_feature(examples, names.index(f))
 
@@ -266,7 +266,7 @@ def main():
 
     plan = [("iforest", list(tc))]
     for f in ("chain_trend_max", "rel_width_succ", "width_vs_nbr_median",
-              "width_z_local"):
+              "width_z_local", "cl_lateral_shift"):
         if f in scorers:
             plan.append((f, width_types))
     for f in ("speed_vs_nbr_median", "d_speed_succ"):

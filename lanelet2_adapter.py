@@ -311,6 +311,29 @@ def to_segments(m: Lanelet2Map, samples: int = 12) -> list[RoadSegment]:
             seg.raw_tags["_width_start"] = round(prof["start"], 3)
             seg.raw_tags["_width_end"] = round(prof["end"], 3)
 
+        # Metric-frame centreline and boundary endpoints.
+        #
+        # WHY: geometry[] is lat/lon, where a 0.5 m lateral shift is ~5e-6
+        # degrees -- below the precision written into the file, so it rounds
+        # to zero. That is why centreline_gap_succ measured 0.000 on every
+        # segment. Displacing one boundary (what our injector does, and what
+        # a Vector Map Builder edit does) moves the centreline sideways while
+        # the road "widens"; in metres that shift is plainly visible.
+        if metric and len(lpts) >= 2 and len(rpts) >= 2:
+            cl = centerline(lpts, rpts, samples)
+            seg.raw_tags["_cl_start_x"] = round(cl[0][0], 4)
+            seg.raw_tags["_cl_start_y"] = round(cl[0][1], 4)
+            seg.raw_tags["_cl_end_x"] = round(cl[-1][0], 4)
+            seg.raw_tags["_cl_end_y"] = round(cl[-1][1], 4)
+            seg.raw_tags["_lb_end_x"] = round(lpts[-1][0], 4)
+            seg.raw_tags["_lb_end_y"] = round(lpts[-1][1], 4)
+            seg.raw_tags["_rb_end_x"] = round(rpts[-1][0], 4)
+            seg.raw_tags["_rb_end_y"] = round(rpts[-1][1], 4)
+            seg.raw_tags["_lb_start_x"] = round(lpts[0][0], 4)
+            seg.raw_tags["_lb_start_y"] = round(lpts[0][1], 4)
+            seg.raw_tags["_rb_start_x"] = round(rpts[0][0], 4)
+            seg.raw_tags["_rb_start_y"] = round(rpts[0][1], 4)
+
         out.append(seg)
 
     return out
