@@ -8,14 +8,14 @@ suspicious chains: 13
 flagged lanelets : 49
 
 repair plan: 49 clamps, 0 without a clean reference
-  lanelet:301026     4.079 -> 3.485 m (shift -0.594)
-  lanelet:124584     3.443 -> 3.401 m (shift -0.042)
-  lanelet:3001302    4.689 -> 4.807 m (shift +0.118)
-  lanelet:374        2.781 -> 2.964 m (shift +0.183)
-  lanelet:3002016    2.912 -> 3.103 m (shift +0.191)
-  lanelet:509        3.116 -> 3.127 m (shift +0.011)
-  lanelet:184        3.056 -> 3.295 m (shift +0.239)
-  lanelet:301034     4.934 -> 3.485 m (shift -1.449)
+  lanelet:151        3.077 -> 3.175 m (shift +0.098)
+  lanelet:3001276    3.252 -> 3.401 m (shift +0.149)
+  lanelet:117        2.987 -> 3.639 m (shift +0.652)
+  lanelet:349        2.938 -> 2.851 m (shift -0.087)
+  lanelet:3001072    2.743 -> 2.719 m (shift -0.024)
+  lanelet:146        11.788 -> 8.788 m (shift -3.000)
+  lanelet:294        5.203 -> 4.933 m (shift -0.270)
+  lanelet:126        3.001 -> 2.827 m (shift -0.174)
 
 wrote /tmp/clean_check.osm
   geometry repaired : 49
