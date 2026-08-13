@@ -1,0 +1,86 @@
+{
+  "tampered": "data/route_g3.0.osm",
+  "output": "data/repaired_g3.0.osm",
+  "calibration": 0.826,
+  "n_flagged": 9,
+  "detection": {
+    "TP": 0,
+    "FP": 9,
+    "FN": 8,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "plan": {
+    "lanelet:339": {
+      "action": "clamp",
+      "original": 3.926,
+      "repaired": 4.103,
+      "shift": 0.177,
+      "reference_n": 1
+    },
+    "lanelet:146": {
+      "action": "clamp",
+      "original": 11.788,
+      "repaired": 8.788,
+      "shift": -3.0,
+      "reference_n": 1
+    },
+    "lanelet:117": {
+      "action": "clamp",
+      "original": 2.987,
+      "repaired": 3.169,
+      "shift": 0.182,
+      "reference_n": 1
+    },
+    "lanelet:112": {
+      "action": "clamp",
+      "original": 10.474,
+      "repaired": 7.474,
+      "shift": -3.0,
+      "reference_n": 1
+    },
+    "lanelet:509": {
+      "action": "clamp",
+      "original": 3.116,
+      "repaired": 3.021,
+      "shift": -0.095,
+      "reference_n": 1
+    },
+    "lanelet:349": {
+      "action": "clamp",
+      "original": 2.938,
+      "repaired": 2.976,
+      "shift": 0.038,
+      "reference_n": 1
+    },
+    "lanelet:114": {
+      "action": "clamp",
+      "original": 10.322,
+      "repaired": 7.322,
+      "shift": -3.0,
+      "reference_n": 1
+    },
+    "lanelet:142": {
+      "action": "clamp",
+      "original": 11.722,
+      "repaired": 8.722,
+      "shift": -3.0,
+      "reference_n": 4
+    },
+    "lanelet:124584": {
+      "action": "clamp",
+      "original": 3.443,
+      "repaired": 3.252,
+      "shift": -0.191,
+      "reference_n": 1
+    }
+  },
+  "apply": {
+    "repaired": 9,
+    "skipped": 0,
+    "no_reference": 0,
+    "iterations": 6,
+    "final_max_error_m": 41.1557
+  }
+}
