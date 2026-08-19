@@ -126,6 +126,63 @@ def _xy(seg, prefix):
         return None
 
 
+def structural_diff(prev_path: str, cand_path: str) -> list:
+    """
+    Compare which ELEMENTS each lanelet has, not just their values.
+
+    WHY THIS IS SEPARATE FROM THE FIELD DIFF. A centreline-injection attack
+    adds an explicit `role="centerline"` member. The boundaries are untouched,
+    so every geometric field we compare -- width, computed centre, speed,
+    direction, connectivity -- is identical between versions. The field diff
+    reported ACCEPT with recall 0.000 against exactly this attack.
+
+    But the change is unmissable structurally: the previous version had no
+    centreline member at all. A lanelet that acquires an explicit centreline
+    between two map releases, without any corresponding boundary change, is
+    not a re-survey artefact. Nothing legitimate produces it.
+
+    This is the strongest argument for differential verification: the
+    adversary must ADD something, and additions are visible even when values
+    are not.
+    """
+    import xml.etree.ElementTree as ET
+
+    def roles(path):
+        out = {}
+        for rel in ET.parse(path).getroot().findall("relation"):
+            tags = {t.get("k"): t.get("v") for t in rel.findall("tag")}
+            if tags.get("type") != "lanelet":
+                continue
+            out[int(rel.get("id"))] = {
+                m.get("role") for m in rel.findall("member") if m.get("role")
+            }
+        return out
+
+    prev, cand = roles(prev_path), roles(cand_path)
+    changes = []
+
+    for lid in sorted(set(prev) & set(cand)):
+        gained = cand[lid] - prev[lid]
+        lost = prev[lid] - cand[lid]
+        if not (gained or lost):
+            continue
+        ch = Change(f"lanelet:{lid}", "structure",
+                    sorted(prev[lid]), sorted(cand[lid]), 1.0, 1.0)
+        ch.verdict = "REJECT"
+        ch.severity = 1.0
+        if "centerline" in gained:
+            ch.reason = ("explicit centreline ADDED where the previous version "
+                         "had none -- the planner is now told where to drive, "
+                         "rather than inferring it from the boundaries")
+        elif gained:
+            ch.reason = f"lanelet gained member roles: {sorted(gained)}"
+        else:
+            ch.reason = f"lanelet lost member roles: {sorted(lost)}"
+        changes.append(ch)
+
+    return changes
+
+
 def compare(prev_segs, cand_segs) -> DiffReport:
     """Field-by-field diff of two map versions, keyed by lanelet id."""
     p = {s.segment_id: s for s in prev_segs}
@@ -279,6 +336,7 @@ def main():
     prev = load_map(a.previous)
     cand = load_map(a.candidate)
     rep = compare(prev, cand)
+    rep.changes.extend(structural_diff(a.previous, a.candidate))
     rep.runs = find_runs(rep, cand)
 
     rejected = rep.rejected()

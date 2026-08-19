@@ -1,0 +1,199 @@
+{
+  "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/centerline_attack.osm",
+  "verdict": "REJECT",
+  "n_previous": 979,
+  "n_candidate": 979,
+  "added": [],
+  "removed": [],
+  "n_accepted": 0,
+  "n_suspect": 0,
+  "n_rejected": 8,
+  "runs": [
+    {
+      "lanelets": [
+        "lanelet:3002007",
+        "lanelet:3002013"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": -0.001
+    },
+    {
+      "lanelets": [
+        "lanelet:3002017",
+        "lanelet:3013032"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 0.422
+    },
+    {
+      "lanelets": [
+        "lanelet:3012234",
+        "lanelet:3013054",
+        "lanelet:3013093",
+        "lanelet:3012977"
+      ],
+      "length": 4,
+      "monotonic": false,
+      "total_width_change": -0.797
+    }
+  ],
+  "detection": {
+    "TP": 8,
+    "FP": 0,
+    "FN": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "changes": [
+    {
+      "segment_id": "lanelet:3002007",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    },
+    {
+      "segment_id": "lanelet:3002013",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "regulatory_element",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "regulatory_element",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    },
+    {
+      "segment_id": "lanelet:3002017",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    },
+    {
+      "segment_id": "lanelet:3012234",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    },
+    {
+      "segment_id": "lanelet:3012977",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    },
+    {
+      "segment_id": "lanelet:3013032",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    },
+    {
+      "segment_id": "lanelet:3013054",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    },
+    {
+      "segment_id": "lanelet:3013093",
+      "field_name": "structure",
+      "previous": [
+        "left",
+        "right"
+      ],
+      "candidate": [
+        "centerline",
+        "left",
+        "right"
+      ],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "explicit centreline ADDED where the previous version had none -- the planner is now told where to drive, rather than inferring it from the boundaries"
+    }
+  ]
+}
