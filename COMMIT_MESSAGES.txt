@@ -121,3 +121,55 @@ the claim.
 REVIEW1_SLIDES.md already quotes 0.051 m with the endpoint-artefact note
 (p.181, p.193). The slides were ahead of RESULTS.md, not behind it. They
 need no edit for this correction.
+
+
+--- COMMIT 3 -------------------------------------------------------------
+Attack exposure incomplete: vehicle drove 6 of 8 tampered lanelets.
+Supersedes c3f6625, which claimed "route overlap confirmed".
+
+c3f6625 overstated. Measured against the driven path, 6 of 8 tampered
+lanelets are on route (0.19-1.25 m); 3002007 and 3002013 sit 44.48 m and
+74.41 m off. Topology is a straight successor chain, 3013032 -> 3002007 ->
+3002013, no fork - the two missed lanelets are downstream of the last one
+driven.
+
+The 90 s recording window ended at 338.62 m of a 393.2 m route. The ramp
+grows monotonically, so its two largest steps (+117.1%, +108.0%) lie in the
+54.6 m never covered. The measured 0.0509 m is the response to a ramp
+experienced at 67.8% of its peak, not 117.1%.
+
+Same root cause as the endpoint artefact - a fixed wall-clock window on an
+unfinished route - in a place truncation cannot fix. scenario_runner.py
+must record until /api/routing/state reports ARRIVED, with a timeout
+fallback. Prerequisite for the 0.50.0 re-run.
+
+d_Fp withdrawn on measurement, not suspicion. plan_origin_gap_m = 1.9975
+against d_Fp = 2.0266: the gap between the two plans' first points is 98.6%
+of the reported deviation. The published 1.998 m was almost entirely the
+two plans starting from different ego positions.
+
+Corrected pairing for the map-change-vs-behaviour finding. The +117.1%
+change (3.058 -> 6.639 m, 2.790 m centreline shift) belongs to lanelet
+3002007, not 3002013 - and 3002007 was never driven. The largest change the
+vehicle actually drove through is 3013032: 3.101 -> 5.202 m (+67.8%),
+centreline displaced 2.437 m, driven deviation 0.0509 m. A factor of 48.
+Autoware optimises within the drivable area rather than tracking the
+geometric centre, so widening a lane enlarges the planner's freedom without
+moving its line. Finding stands, on the right lanelet.
+
+Injector writes widths that differ from its own labels by up to 1.23 m,
+both signs. write_tampered_map() displaces every node of a lanelet's left
+boundary by a uniform shift, once per labelled lanelet; adjacent lanelets
+share boundary nodes, so seam nodes are displaced twice cumulatively by two
+different shifts. Measured: 7 of 178 left-boundary nodes touched more than
+once, one per join in an 8-lanelet chain. Third appearance of the
+shared-node mechanism after the repair overshoot (1.88) and the
+differential-verification false positives. Repair compounded on read; the
+injector compounds on write.
+
+Scope bounded by inspection: write_tampered_map appears in one file only
+and build_dataset.py never calls it. Track A generates, extracts and
+evaluates entirely in memory, so features and magnitudes come from the same
+RoadSegment objects. Section 3, section 5 and the 29,370-example dataset
+are unaffected. Written .osm maps only.
+--- END 3 ----------------------------------------------------------------
