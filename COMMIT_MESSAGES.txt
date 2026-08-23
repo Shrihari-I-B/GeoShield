@@ -1,0 +1,123 @@
+Two commits, in this order. Project convention: the message states the
+finding, not the action.
+
+Use with:  git commit -F <(sed -n '/^--- COMMIT 1/,/^--- END 1/p' ...)
+or simply copy the block between the markers.
+
+
+--- COMMIT 1 -------------------------------------------------------------
+Endpoint artefact: d_Fe 1.414 m was the recording-window gap, not a
+deviation. Corrected value 0.051 m.
+
+frechet_analysis.py compared trajectories over their full recorded length.
+Both runs recorded for a fixed 90 s; the tampered run travelled 1.414 m
+further before recording stopped. Past the clean path's final sample every
+trailing tampered sample couples to that same point, so the offset climbs
+monotonically to exactly the endpoint gap. Reported d_Fe and endpoint gap
+agree to four decimal places because they are the same quantity. Max offset
+excluding the final 20 points is 0.051 m.
+
+Added arc_lengths() and truncate_common() from compare_runs.py, kept
+byte-identical so the two implementations agree by construction. Verified
+on a synthetic pair of collinear paths differing only in length: 1.414 m
+untruncated, 0.0 m truncated. --no-truncate reproduces the fault on demand
+so it can be demonstrated rather than asserted.
+
+d_Fp is now flagged unverified. planned_path() takes only the last
+Trajectory message; two runs stopping at different points yield plans with
+different origins, an analogous artefact by a different mechanism that
+truncation does not remove. compare_runs.py never computed d_Fp, so 1.998 m
+has never been independently checked. plan_origin_gap_m added to quantify
+it.
+
+report() no longer prints "the tampered lanelets are most likely NOT on
+this route" below 0.05 m. The corrected 3.0 m ramp measures 0.051 m for
+lanelets that demonstrably WERE on the route (lanelet 3002013: 3.058 ->
+6.639 m, centreline displaced 2.79 m). A small d_Fe cannot distinguish
+"attack missed the route" from "planner absorbed the change"; the branch
+now names both and says to check overlap directly.
+
+Every results_*.json produced on EC2 before this commit carries the
+artefact and must be re-derived. RESULTS.md section 4 is marked PENDING
+rather than corrected in place, since re-measurement moves to the 0.50.0
+reference build.
+
+Withdrew the route-overlap claim. RESULTS.md previously reported 0.083 m
+off-route against 1.414 m on-route as "a 17x difference from targeting
+alone". The on-route figure is the artefact; the off-route figure came from
+the same untruncated script and carries the same fault class. The
+comparison is uninterpretable until both are re-derived, not inverted.
+
+Withdrew the principal-contribution claim. No measured condition exceeds
+the 0.5 m safety threshold: 2.0 m gives 0.204 m, 3.0 m gives 0.051 m,
+4.5 m and above fail to localise. The "undetectable yet unsafe band" has no
+measured support. The detection half of the argument is unaffected, being
+derived from map files rather than trajectories.
+
+What survives and is retained as a finding: a 2.79 m centreline
+displacement produced 0.051 m of driven deviation, because Autoware
+optimises within the drivable area rather than tracking the geometric
+centre. Widening a lane enlarges the planner's freedom without moving its
+line. This is why boundary displacement alone is a weak steering attack and
+why Sato et al. needed an explicit centreline.
+
+Added RESULTS.md section 8: differential verification. Width ramp
+precision 0.444 recall 1.000, centreline injection precision 1.000 recall
+1.000, clean-vs-clean control ACCEPT with 0 changes. Strict precision
+reported; the 10 false positives share boundary nodes with tampered
+lanelets and their geometry genuinely moved, but adjusting the metric would
+improve the number without improving the method. Section 8.5 records that
+five of seven attack types have never been exercised.
+
+Per-table Autoware build labels added throughout. Reference build is now
+0.50.0 (Docker, digest 405225ed); every simulation figure currently in the
+document came from 0.52.0 (EC2). Section numbering 1-7 unchanged so
+cross-references do not break.
+--- END 1 ----------------------------------------------------------------
+
+
+--- COMMIT 2 -------------------------------------------------------------
+Centreline DoS does not reproduce. Supersedes f4e12d7.
+
+f4e12d7 recorded: "Centreline injection with ZERO displacement immobilises
+the vehicle. Geometrically identical to Autoware's computed centreline -
+presence alone is sufficient. Consistent with Autoware issue #10295."
+
+That was observed on Autoware 0.52.0, source-compiled on EC2 with CUDA
+packages absent. The identical map (centerline_zero.osm) drives normally on
+Autoware 0.50.0, official Docker image: Routing Set, Motion Moving, route
+completed.
+
+At least three variables differ between the two observations - Autoware
+version, build configuration (source vs prebuilt, CUDA absent vs present),
+and host environment. No controlled experiment has isolated which. The
+finding is therefore not claimed.
+
+Correct statement: centreline injection produced no trajectory on one build
+and no effect on another; cause unresolved. Resolving it means running the
+identical map on both builds with the readiness gate applied, varying only
+the version. Both builds remain available. Not a priority.
+
+Detection is unaffected. differential_verify.py catches centreline
+injection at precision 1.000 recall 1.000 on both builds, because
+structural_diff() inspects the map file rather than the planner's response
+to it. That the downstream effect is version-dependent strengthens rather
+than weakens the argument for verifying at the ingest boundary instead of
+waiting to observe consequences.
+
+f4e12d7 cannot be edited. This commit supersedes it. RESULTS.md section 8.4
+carries the corrected statement.
+--- END 2 ----------------------------------------------------------------
+
+
+NOTE ON SCOPE
+The addendum lists PHASE_PLAN.md and REVIEW1_SLIDES.md as needing the
+centreline correction. They do not. Both predate the finding and mention
+centreline injection only as proposed future work (PHASE_PLAN.md 7.2,
+REVIEW1_SLIDES.md p.216). grep for immobilisation language returns nothing
+in either. Only HANDOFF_2.md sections 7.5 and 8.2 and commit f4e12d7 state
+the claim.
+
+REVIEW1_SLIDES.md already quotes 0.051 m with the endpoint-artefact note
+(p.181, p.193). The slides were ahead of RESULTS.md, not behind it. They
+need no edit for this correction.
