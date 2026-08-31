@@ -1,0 +1,24 @@
+{
+  "scenario": {
+    "start_lanelet": 3012234,
+    "goal_lanelet": 3002007,
+    "start": {
+      "x": 82259.7543,
+      "y": 50468.6533,
+      "yaw": -2.5308672804987458
+    },
+    "goal": {
+      "x": 81857.4862,
+      "y": 50439.2168,
+      "yaw": -2.954200637870068
+    },
+    "route_length_m": 393.2,
+    "n_reachable": 8
+  },
+  "bag": "data/bags/clean_0.50.0",
+  "steps": {
+    "localized": true,
+    "planned": true,
+    "engaged": true
+  }
+}

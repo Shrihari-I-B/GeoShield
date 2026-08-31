@@ -1,0 +1,31 @@
+{
+  "clean_bag": "data/bags/clean_run_good",
+  "tampered_bag": "data/bags/g3_0.50.0_v2",
+  "autoware_build": "0.50.0-docker",
+  "truncated": true,
+  "backend": "mcap",
+  "schema": "frechet_analysis/2",
+  "driven_length_clean_m": 338.62,
+  "driven_length_tampered_m": 411.23,
+  "endpoint_gap_m": 72.592,
+  "length_difference_m": 72.6126,
+  "common_arc_length_m": 338.62,
+  "d_Fe": 0.0707,
+  "max_lateral_e": 0.0707,
+  "tail_offsets_e": [
+    0.0692,
+    0.0694,
+    0.0695,
+    0.0697,
+    0.0699,
+    0.0701,
+    0.0702,
+    0.0704,
+    0.0706,
+    0.0707
+  ],
+  "d_Fe_untruncated": 72.592,
+  "artefact_inflation_m": 72.5213,
+  "d_Fp": null,
+  "d_Fp_verified": false
+}

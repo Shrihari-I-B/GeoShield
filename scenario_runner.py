@@ -349,7 +349,7 @@ def main():
 
     sc = json.loads(Path(a.scenario).read_text())
     print(f"scenario: lanelet {sc['start_lanelet']} -> {sc['goal_lanelet']}"
-          f"  ({sc['separation_m']} m apart)")
+          f"  ({sc.get('route_length_m', sc.get('separation_m', 0))} m apart)")
     rep = run(sc, a.bag, a.duration)
 
     if a.out:
