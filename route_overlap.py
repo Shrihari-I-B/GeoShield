@@ -9,11 +9,11 @@ def _load(name, path):
 fa  = _load("fa",  "frechet_analysis.py")
 ad  = _load("l2a", "lanelet2_adapter.py")
 
-BAG_C, BAG_T = "data/bags/clean_run_good", "data/bags/route_g3.0"
+BAG_C, BAG_T = "data/bags/clean_0.50.0", "data/bags/g3_0.50.0_v2"
 MAP, LABELS  = "data/route_g3.0.osm", "data/route_g3.0_labels.json"
 
-ce = fa.ego_path(fa.read_bag_mcap(BAG_C, [fa.ODOM])[fa.ODOM])
-te = fa.ego_path(fa.read_bag_mcap(BAG_T, [fa.ODOM])[fa.ODOM])
+ce = fa.ego_path(fa.read_bag(BAG_C, [fa.ODOM])[fa.ODOM])
+te = fa.ego_path(fa.read_bag(BAG_T, [fa.ODOM])[fa.ODOM])
 cu, tu, _ = fa.truncate_common(ce, te)
 
 raw  = max(min(math.dist(p, q) for q in tu) for p in cu)
