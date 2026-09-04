@@ -1,0 +1,34 @@
+{
+  "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/dv_oneway_flip.osm",
+  "verdict": "REJECT",
+  "n_previous": 979,
+  "n_candidate": 979,
+  "added": [],
+  "removed": [],
+  "n_accepted": 0,
+  "n_suspect": 0,
+  "n_rejected": 1,
+  "runs": [],
+  "detection": {
+    "TP": 1,
+    "FP": 0,
+    "FN": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "changes": [
+    {
+      "segment_id": "lanelet:124584",
+      "field_name": "oneway",
+      "previous": true,
+      "candidate": false,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/dv_connectivity_break.osm",
+  "verdict": "ACCEPT",
+  "n_previous": 979,
+  "n_candidate": 979,
+  "added": [],
+  "removed": [],
+  "n_accepted": 0,
+  "n_suspect": 0,
+  "n_rejected": 0,
+  "runs": [],
+  "detection": {
+    "TP": 0,
+    "FP": 0,
+    "FN": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "changes": []
+}
