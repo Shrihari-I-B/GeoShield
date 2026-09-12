@@ -1,0 +1,13 @@
+{
+  "total": 979,
+  "tampered": 8,
+  "rate": 0.0082,
+  "by_type": {
+    "width_ramp": 8
+  },
+  "attack": "width_ramp",
+  "run_length": 8,
+  "targeted": true,
+  "total_gain_m": 3.0,
+  "per_step_m": 0.375
+}

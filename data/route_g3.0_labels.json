@@ -1,0 +1,90 @@
+{
+  "lanelet:3012234": {
+    "segment_id": "lanelet:3012234",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 3.4,
+    "tampered": 3.775,
+    "severity": 0.125,
+    "campaign_id": "",
+    "ramp_position": 0,
+    "ramp_length": 8
+  },
+  "lanelet:3013054": {
+    "segment_id": "lanelet:3013054",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 2.574,
+    "tampered": 3.324,
+    "severity": 0.25,
+    "campaign_id": "",
+    "ramp_position": 1,
+    "ramp_length": 8
+  },
+  "lanelet:3013093": {
+    "segment_id": "lanelet:3013093",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 2.641,
+    "tampered": 3.766,
+    "severity": 0.375,
+    "campaign_id": "",
+    "ramp_position": 2,
+    "ramp_length": 8
+  },
+  "lanelet:3012977": {
+    "segment_id": "lanelet:3012977",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 2.603,
+    "tampered": 4.103,
+    "severity": 0.5,
+    "campaign_id": "",
+    "ramp_position": 3,
+    "ramp_length": 8
+  },
+  "lanelet:3002017": {
+    "segment_id": "lanelet:3002017",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 2.679,
+    "tampered": 4.554,
+    "severity": 0.625,
+    "campaign_id": "",
+    "ramp_position": 4,
+    "ramp_length": 8
+  },
+  "lanelet:3013032": {
+    "segment_id": "lanelet:3013032",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 3.101,
+    "tampered": 5.351,
+    "severity": 0.75,
+    "campaign_id": "",
+    "ramp_position": 5,
+    "ramp_length": 8
+  },
+  "lanelet:3002007": {
+    "segment_id": "lanelet:3002007",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 3.058,
+    "tampered": 5.683,
+    "severity": 0.875,
+    "campaign_id": "",
+    "ramp_position": 6,
+    "ramp_length": 8
+  },
+  "lanelet:3002013": {
+    "segment_id": "lanelet:3002013",
+    "attack_type": "width_ramp",
+    "field_changed": "width_m",
+    "original": 3.057,
+    "tampered": 6.057,
+    "severity": 1.0,
+    "campaign_id": "",
+    "ramp_position": 7,
+    "ramp_length": 8
+  }
+}
