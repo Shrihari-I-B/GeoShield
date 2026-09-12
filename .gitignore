@@ -11,3 +11,5 @@ bags/
 tatus
 .env
 *.token
+*.pdf
+test/
