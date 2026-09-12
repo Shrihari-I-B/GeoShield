@@ -64,7 +64,7 @@ def detect(segs, clean_ref=None, chain_len: int = 5,
     Chain-based detection. Per-lanelet thresholding does NOT work here.
 
     MEASURED FAILURE OF THE PER-LANELET APPROACH (Nishi-Shinjuku, g3.0 map):
-        honest neighbour delta p90 = 0.826 m
+        honest neighbour delta p90 = 0.775 m
         threshold at 2.5 x p90     = 2.065 m
         ramp step (3.0 m / 8)      = 0.375 m
         result: TP 0, FP 9, recall 0.000

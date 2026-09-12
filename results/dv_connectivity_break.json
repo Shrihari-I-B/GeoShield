@@ -1,22 +1,49 @@
 {
   "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
   "candidate": "data/dv_connectivity_break.osm",
-  "verdict": "ACCEPT",
+  "verdict": "REJECT",
   "n_previous": 979,
   "n_candidate": 979,
   "added": [],
   "removed": [],
   "n_accepted": 0,
   "n_suspect": 0,
-  "n_rejected": 0,
+  "n_rejected": 2,
   "runs": [],
   "detection": {
-    "TP": 0,
-    "FP": 0,
-    "FN": 1,
-    "precision": 0.0,
-    "recall": 0.0,
-    "f1": 0.0
+    "TP": 1,
+    "FP": 1,
+    "FN": 0,
+    "precision": 0.5,
+    "recall": 1.0,
+    "f1": 0.667
   },
-  "changes": []
+  "changes": [
+    {
+      "segment_id": "lanelet:3002093",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:3002095"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:3002094",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:3002096"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    }
+  ]
 }

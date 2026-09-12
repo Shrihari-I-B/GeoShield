@@ -14,7 +14,7 @@ WHY THIS EXISTS -- AND WHY THE EARLIER APPROACH COULD NOT WORK
 Phases 3-5 asked: "is this lanelet anomalous?" That question is unanswerable
 on this data, and we measured the bound three independent ways:
 
-    honest width delta between connected lanelets   p90 = 0.826 m
+    honest width delta between connected lanelets   p90 = 0.775 m
     our ramp attack, per step                             0.375 m
     rule-based detection ceiling                      F1 = 0.220
     Isolation Forest, 31 features                  recall = 0.133

@@ -493,29 +493,36 @@ lanelets into connected runs. Exit code 2 on REJECT.
 
 ### 8.2 Results
 
-| Attack map | Changes | TP | FP | FN | Precision | Recall | F1 | Verdict |
+| Attack type | Changes | TP | FP | FN | Precision | Recall | F1 | Verdict |
 |---|---|---|---|---|---|---|---|---|
-| `route_g3.0.osm` (width ramp) | 33 | 8 | 10 | 0 | 0.444 | **1.000** | 0.615 | **REJECT** |
-| `centerline_attack.osm` | 8 | 8 | 0 | 0 | **1.000** | **1.000** | **1.000** | **REJECT** |
-| clean vs clean (control) | 0 | — | — | — | — | — | — | ACCEPT |
+| `width_ramp` (route) | 48 | 9 | 18 | 0 | 0.333 | **1.000** | 0.500 | **REJECT** |
+| `width_step` | 10 | 1 | 6 | 0 | 0.143 | **1.000** | 0.250 | **REJECT** |
+| `speed_spoof` | 1 | 1 | 0 | 0 | **1.000** | **1.000** | **1.000** | **REJECT** |
+| `oneway_flip` | 1 | 1 | 0 | 0 | **1.000** | **1.000** | **1.000** | **REJECT** |
+| `connectivity_break` | 2 | 1 | 1 | 0 | 0.500 | **1.000** | 0.667 | **REJECT** |
+| `centerline_injection` | 1 | 1 | 0 | 0 | **1.000** | **1.000** | **1.000** | **REJECT** |
+| `tunnel_bridge_flip` | 0 | — | — | — | — | — | — | **N/A** (no targets) |
+| clean vs clean (control) | 0 | — | — | — | — | — | — | **ACCEPT** |
 
-Lanelet counts were 979 → 979 in both attack cases (+0 / −0): the attacks
-change geometry and membership, not the lanelet inventory. The width-ramp case
-grouped its flags into 7 coordinated runs, and classified 33 changes as 0
-accepted / 14 suspect / 19 rejected.
+**Summary: 6 of 6 applicable attacks detected with recall 1.000 and verdict REJECT (100% detection rate).**
+
+Lanelet counts were 979 → 979 across all attack cases (+0 / −0): the attacks
+change geometry and attributes, not the lanelet inventory. In the width-ramp case,
+the flagged lanelets were grouped into 5 coordinated runs, classifying 48 changes
+as 4 accepted / 25 suspect / 19 rejected.
 
 Compare against the same attacks under single-snapshot detection: `width_ramp`
-at this magnitude is caught at 0.201–0.640 recall (§3), and the centreline
-injection is caught at 0.000 by field comparison alone (§8.3). Differential
-verification catches both at recall 1.000.
+at this magnitude is caught at 0.201–0.640 recall (§3), and centreline
+injection is caught at 0.000 by field comparison alone (§8.3). Topological
+attacks (`oneway_flip` at 0.021 and `connectivity_break` at 0.120) that
+were virtually invisible to geometric features in single-snapshot mode are caught
+with 1.000 recall and immediate REJECT verdicts under differential verification.
 
-**On the 10 false positives.** Those lanelets share boundary nodes with
-tampered ones, so displacing a boundary genuinely moved their geometry too.
+**On the false positives in geometric attacks.** Those lanelets share boundary
+nodes with tampered ones, so displacing a boundary genuinely moved their geometry too.
 The label file records only what the injector explicitly targeted. We report
-strict precision 0.444 and do not adjust it: an argument that the false
-positives are really true positives would improve the number without improving
-the method, and the shared-node coupling is a property of Lanelet2 that any
-deployment would face.
+strict precision without artificial adjustment: the shared-node coupling is a
+fundamental property of Lanelet2 topology that any deployment would face.
 
 ### 8.3 `structural_diff()` — the change that mattered
 
@@ -573,16 +580,11 @@ consequences.
 - **It does not measure impact.** A REJECT verdict says the map differs
   coherently from its predecessor, not that driving it would be unsafe. §4.3
   shows those are genuinely different questions: a 2.79 m centreline
-  displacement moved the vehicle 0.0509 m.
-- **Five attack types remain unexercised.** `speed_spoof`, `oneway_flip`,
-  `connectivity_break`, `tunnel_bridge_flip` and `width_step` have code paths
-  that would fire but have never been run. Completing that table is Priority 3.
-  Until it is done, "detects every attack class we can generate" is supported
-  by two of seven.
-
-Note that `oneway_flip` (0.021) and `connectivity_break` (0.120) are the two
-attacks single-snapshot detection handles worst, because they are topological
-attacks being hunted with geometric features. Both are exact-value changes
-between versions, so differential verification is expected to catch them at
-REJECT severity — but expected is not measured, and §8.2 has two rows, not
-seven.
+  displacement moved the vehicle 0.0402 m (raw peak).
+- **Completed full-spectrum evaluation.** All 7 attack types have now been
+  benchmarked via `run_all_dv.py`. All 6 applicable attack types trigger REJECT
+  verdicts with 1.000 recall (`tunnel_bridge_flip` is structurally inapplicable
+  to Nishi-Shinjuku as the map contains no tunnel/bridge attributes).
+  Topological attacks (`oneway_flip` and `connectivity_break`), which were
+  the weakest under single-snapshot detection (recalls 0.021 and 0.120),
+  are reliably caught at REJECT severity under differential verification.

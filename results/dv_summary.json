@@ -1,0 +1,184 @@
+{
+  "clean_map": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "seed": 42,
+  "total_attacks": 7,
+  "applicable": 6,
+  "detected": 6,
+  "detection_rate": 1.0,
+  "results": [
+    {
+      "attack": "clean_control",
+      "label": "clean (control)",
+      "n_tampered": 0,
+      "verdict": "ACCEPT",
+      "n_changes": 0,
+      "n_rejected": 0,
+      "n_suspect": 0,
+      "n_accepted": 0,
+      "detection": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "note": "0 false alarms (control)",
+      "elapsed_s": 0.57
+    },
+    {
+      "attack": "width_ramp",
+      "n_tampered": 8,
+      "write_stats": {
+        "geometry": 8,
+        "tags": 0,
+        "skipped": 0
+      },
+      "verdict": "REJECT",
+      "n_changes": 33,
+      "n_rejected": 19,
+      "n_suspect": 14,
+      "n_accepted": 0,
+      "n_runs": 7,
+      "detection": {
+        "TP": 8,
+        "FP": 10,
+        "FN": 0,
+        "precision": 0.444,
+        "recall": 1.0,
+        "f1": 0.615
+      },
+      "elapsed_s": 3.06
+    },
+    {
+      "attack": "width_step",
+      "n_tampered": 1,
+      "write_stats": {
+        "geometry": 1,
+        "tags": 0,
+        "skipped": 0
+      },
+      "verdict": "REJECT",
+      "n_changes": 10,
+      "n_rejected": 1,
+      "n_suspect": 7,
+      "n_accepted": 2,
+      "n_runs": 1,
+      "detection": {
+        "TP": 1,
+        "FP": 6,
+        "FN": 0,
+        "precision": 0.143,
+        "recall": 1.0,
+        "f1": 0.25
+      },
+      "elapsed_s": 3.12
+    },
+    {
+      "attack": "speed_spoof",
+      "n_tampered": 1,
+      "write_stats": {
+        "geometry": 0,
+        "tags": 1,
+        "skipped": 0
+      },
+      "verdict": "REJECT",
+      "n_changes": 1,
+      "n_rejected": 1,
+      "n_suspect": 0,
+      "n_accepted": 0,
+      "n_runs": 0,
+      "detection": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "elapsed_s": 3.22
+    },
+    {
+      "attack": "oneway_flip",
+      "n_tampered": 1,
+      "write_stats": {
+        "geometry": 0,
+        "tags": 1,
+        "skipped": 0
+      },
+      "verdict": "REJECT",
+      "n_changes": 1,
+      "n_rejected": 1,
+      "n_suspect": 0,
+      "n_accepted": 0,
+      "n_runs": 0,
+      "detection": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "elapsed_s": 3.22
+    },
+    {
+      "attack": "connectivity_break",
+      "n_tampered": 1,
+      "write_stats": {
+        "geometry": 1,
+        "tags": 0,
+        "skipped": 0
+      },
+      "verdict": "REJECT",
+      "n_changes": 2,
+      "n_rejected": 2,
+      "n_suspect": 0,
+      "n_accepted": 0,
+      "n_runs": 0,
+      "detection": {
+        "TP": 1,
+        "FP": 1,
+        "FN": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.667
+      },
+      "elapsed_s": 3.17
+    },
+    {
+      "attack": "tunnel_bridge_flip",
+      "n_tampered": 0,
+      "status": "N/A",
+      "reason": "no applicable lanelets in this map",
+      "verdict": "N/A",
+      "detection": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "elapsed_s": 0.04
+    },
+    {
+      "attack": "centerline_injection",
+      "n_tampered": 1,
+      "verdict": "REJECT",
+      "n_changes": 1,
+      "n_rejected": 1,
+      "n_suspect": 0,
+      "n_accepted": 0,
+      "detection": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "elapsed_s": 3.3
+    }
+  ]
+}

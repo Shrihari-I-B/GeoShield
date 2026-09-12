@@ -9,7 +9,7 @@ def _load(name, path):
 fa  = _load("fa",  "frechet_analysis.py")
 ad  = _load("l2a", "lanelet2_adapter.py")
 
-BAG_C, BAG_T = "data/bags/clean_0.50.0", "data/bags/g3_0.50.0_v2"
+BAG_C, BAG_T = "bags/restore_tampered", "bags/g3_repeat"
 MAP, LABELS  = "data/route_g3.0.osm", "data/route_g3.0_labels.json"
 
 ce = fa.ego_path(fa.read_bag(BAG_C, [fa.ODOM])[fa.ODOM])

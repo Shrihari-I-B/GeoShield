@@ -4,3 +4,10 @@ __pycache__/
 .venv/
 *.mcap
 *.db3
+__pycache__/
+*.pyc
+autoware.log
+bags/
+tatus
+.env
+*.token

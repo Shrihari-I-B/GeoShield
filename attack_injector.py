@@ -441,11 +441,150 @@ def write_tampered_map(in_path: str, out_path: str,
         elif rec.field_changed == "oneway":
             set_tag(rel, "one_way", "yes" if rec.tampered else "no")
             stats["tags"] += 1
+
+        elif rec.field_changed == "successors":
+            # Sever connectivity by splitting shared boundary endpoints.
+            #
+            # Lanelet2 connectivity is implicit: lanelet A connects to B
+            # when A's boundary ways END at the same node IDs where B's
+            # boundary ways START.  To break the link, we duplicate A's
+            # end-nodes so the IDs no longer match B's start-nodes.
+            #
+            # We need the dropped successor's boundary start-nodes so we
+            # know *which* shared endpoints to split.
+            dropped_id = None
+            if isinstance(rec.original, list) and isinstance(rec.tampered, list):
+                lost = set(rec.original) - set(rec.tampered)
+                if lost:
+                    dropped_str = next(iter(lost))
+                    if isinstance(dropped_str, str) and dropped_str.startswith("lanelet:"):
+                        dropped_id = int(dropped_str.split(":")[1])
+                    elif isinstance(dropped_str, int):
+                        dropped_id = dropped_str
+            elif hasattr(res, "meta") and "dropped" in res.meta:
+                dstr = res.meta["dropped"]
+                if isinstance(dstr, str) and dstr.startswith("lanelet:"):
+                    dropped_id = int(dstr.split(":")[1])
+
+            if dropped_id is None:
+                stats["skipped"] += 1
+                continue
+
+            # Find the successor's boundary start-nodes
+            succ_rel = rels.get(dropped_id)
+            if succ_rel is None:
+                stats["skipped"] += 1
+                continue
+            succ_left_wid = succ_right_wid = None
+            for mem in succ_rel.findall("member"):
+                if mem.get("role") == "left":
+                    succ_left_wid = int(mem.get("ref"))
+                elif mem.get("role") == "right":
+                    succ_right_wid = int(mem.get("ref"))
+
+            succ_left_start = ways.get(succ_left_wid, [None])[0] if succ_left_wid else None
+            succ_right_start = ways.get(succ_right_wid, [None])[0] if succ_right_wid else None
+
+            # Find the source lanelet's boundary ways
+            src_left_wid = left_of.get(lid)
+            src_right_wid = None
+            for mem in rel.findall("member"):
+                if mem.get("role") == "right":
+                    src_right_wid = int(mem.get("ref"))
+
+            # Shared endpoints to split: the last node of the source
+            # lanelet's ways that match the first node of the successor's ways
+            shared_nodes = set()
+            if src_left_wid and src_left_wid in ways:
+                end_node = ways[src_left_wid][-1]
+                if end_node == succ_left_start:
+                    shared_nodes.add((src_left_wid, end_node))
+            if src_right_wid and src_right_wid in ways:
+                end_node = ways[src_right_wid][-1]
+                if end_node == succ_right_start:
+                    shared_nodes.add((src_right_wid, end_node))
+
+            if not shared_nodes:
+                stats["skipped"] += 1
+                continue
+
+            # Duplicate each shared node and update the source way
+            max_nid = max(nodes.keys()) + 1
+            for way_id, old_nid in shared_nodes:
+                new_nid = max_nid
+                max_nid += 1
+
+                # Clone the XML node element
+                old_el = nodes[old_nid]
+                new_el = ET.SubElement(root, "node",
+                                       id=str(new_nid),
+                                       lat=old_el.get("lat", "0"),
+                                       lon=old_el.get("lon", "0"),
+                                       visible=old_el.get("visible", "true"))
+                for t in old_el.findall("tag"):
+                    ET.SubElement(new_el, "tag", k=t.get("k"), v=t.get("v"))
+                nodes[new_nid] = new_el
+
+                # Update the way's last <nd> to reference the duplicate
+                way_el = None
+                for w in root.findall("way"):
+                    if int(w.get("id")) == way_id:
+                        way_el = w
+                        break
+                if way_el is not None:
+                    nds = way_el.findall("nd")
+                    if nds:
+                        nds[-1].set("ref", str(new_nid))
+                    ways[way_id][-1] = new_nid
+
+            stats["geometry"] += 1
+
         else:
             stats["skipped"] += 1
 
     tree.write(out_path, encoding="utf-8", xml_declaration=True)
+
+    # Check for doubly-claimed seam nodes among targeted lanelets
+    seams = detect_shared_seams(in_path, list(res.labels.keys()))
+    if seams:
+        print(f"  [WARNING] {len(seams)} shared seam nodes doubly-claimed along target boundaries: {list(seams.keys())}")
+
     return stats
+
+
+def detect_shared_seams(map_path: str, target_ids: list[str | int]) -> dict[int, int]:
+    """
+    Detect nodes in left boundary ways that are claimed by more than one target lanelet.
+    Returns {node_id: count} for all nodes where count > 1.
+    """
+    from collections import Counter
+    root = ET.parse(map_path).getroot()
+    ways = {int(w.get("id")): [int(nd.get("ref")) for nd in w.findall("nd")]
+            for w in root.findall("way")}
+    rels = {int(r.get("id")): r for r in root.findall("relation")}
+
+    t_ints = []
+    for t in target_ids:
+        if isinstance(t, str) and t.startswith("lanelet:"):
+            t_ints.append(int(t.split(":")[1]))
+        elif isinstance(t, str):
+            t_ints.append(int(t))
+        else:
+            t_ints.append(int(t))
+
+    all_left_nodes = []
+    for tid in t_ints:
+        rel = rels.get(tid)
+        if rel is None:
+            continue
+        for m in rel.findall("member"):
+            if m.get("role") == "left":
+                wid = int(m.get("ref"))
+                if wid in ways:
+                    all_left_nodes.extend(ways[wid])
+
+    counts = Counter(all_left_nodes)
+    return {nid: c for nid, c in counts.items() if c > 1}
 
 
 def main() -> None:
