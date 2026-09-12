@@ -28,7 +28,7 @@ cd "$(dirname "$0")"
 CLEAN_MAP="$HOME/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm"
 ATTACK_MAP="data/route_g3.0.osm"
 ATTACK_LABELS="data/route_g3.0_labels.json"
-SCENARIO="data/scenario.json"
+SCENARIO="data/scenario_clean.json"
 RESULTS_DIR="results"
 DV_REPORT="$RESULTS_DIR/diff_g3.0.json"
 DV_SUMMARY="$RESULTS_DIR/dv_summary.json"
@@ -128,9 +128,9 @@ execute_drive() {
     echo ""
 
     if docker ps --format '{{.Names}}' | grep -q '^autoware$'; then
-        docker exec autoware bash -c "source /opt/autoware/setup.bash && cd /geoshield && python3 scenario_runner.py --scenario data/scenario.json --duration $dur --bag $bag_path"
+        docker exec autoware bash -c "source /opt/autoware/setup.bash && cd /geoshield && python3 scenario_runner.py --scenario data/scenario_clean.json --duration $dur --bag $bag_path"
     elif which ros2 &>/dev/null; then
-        python3 scenario_runner.py --scenario data/scenario.json --duration "$dur" --bag "$bag_path"
+        python3 scenario_runner.py --scenario data/scenario_clean.json --duration "$dur" --bag "$bag_path"
     else
         echo -e "  ${RED}No ROS environment found to run scenario_runner.${NC}"
         return 1
@@ -307,7 +307,7 @@ if docker ps --format '{{.Names}}' | grep -q '^autoware$'; then
     echo -e "  Launching flag publisher inside Autoware container (2-hour presentation hold)..."
     docker exec -d autoware bash -c "source /opt/autoware/setup.bash && cd /geoshield && python3 publish_flags.py --report results/diff_g3.0.json --map /autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm --duration 7200"
     # Run once to confirm delivery in stdout
-    docker exec autoware bash -c "source /opt/autoware/setup.bash && cd /geoshield && python3 publish_flags.py --report results/diff_g3.0.json --map /autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm --once"
+    docker exec autoware bash -c "source /opt/autoware/setup.bash && cd /geoshield && python3 publish_flags.py --report results/diff_g3.0.json --map /autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm --duration 7200"
 elif which ros2 &>/dev/null; then
     python3 publish_flags.py --report "$DV_REPORT" --map "$CLEAN_MAP" --once
 else
