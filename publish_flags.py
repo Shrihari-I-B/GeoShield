@@ -232,12 +232,13 @@ def build_marker_array(report_data: dict, lanelets: dict) -> MarkerArray:
         text_marker.action = Marker.ADD
         text_marker.pose.position.x = cx
         text_marker.pose.position.y = cy
-        # Stagger label height across four tiers. Neighbouring lanelets are
-        # adjacent in the sorted id order, so cycling the tier by label index
-        # separates the ones most likely to overlap. Each banner still floats
-        # above its own pillar (8 m) so the association stays readable.
-        _tier = n_labels % 4
-        text_marker.pose.position.z = cz + 9.5 + _tier * 4.0
+        # Stagger label height across six tiers at 6 m spacing, a 36 m spread.
+        # Four tiers at 4 m was not enough: lanelets that are close in space
+        # are not necessarily adjacent in sorted id order, so labels could
+        # still land on the same tier. Twelve labels over six tiers means at
+        # most two share a height.
+        _tier = n_labels % 6
+        text_marker.pose.position.z = cz + 9.5 + _tier * 6.0
         text_marker.pose.orientation.w = 1.0
         text_marker.scale.z = 1.4  # Text height
         text_marker.color = ColorRGBA(r=1.0, g=1.0, b=1.0, a=0.98)
