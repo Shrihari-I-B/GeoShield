@@ -202,7 +202,14 @@ def build_marker_array(report_data: dict, lanelets: dict) -> MarkerArray:
         text_marker.action = Marker.ADD
         text_marker.pose.position.x = cx
         text_marker.pose.position.y = cy
-        text_marker.pose.position.z = cz + 9.5  # Float above the pillar
+        # Stagger label height so dense clusters do not overlap. Measured:
+        # nine flagged lanelets fall within a ~200 m stretch at the start of
+        # the route, and at a fixed height their TEXT_VIEW_FACING banners
+        # render on top of each other and become unreadable. Cycling through
+        # four tiers separates them vertically while keeping every label
+        # above its own pillar.
+        _tier = (len(markers.markers) // 3) % 4
+        text_marker.pose.position.z = cz + 9.5 + _tier * 4.0
         text_marker.pose.orientation.w = 1.0
         text_marker.scale.z = 1.4  # Text height
         text_marker.color = ColorRGBA(r=1.0, g=1.0, b=1.0, a=0.98)
