@@ -15,6 +15,21 @@ Markers published per flagged lanelet:
   1. Vertical 3D pillar (Red for REJECT, Orange for SUSPECT)
   2. 3D Boundary lines highlighting the corridor
   3. Floating text banner with lanelet ID, verdict, and measured delta
+
+LABEL DENSITY
+-------------
+The width-ramp report flags 18 lanelets, and measured against the driven
+trajectory 17 of them sit on the driven corridor -- nine within 3.21 m of each
+other at the start of the route. Eighteen TEXT_VIEW_FACING banners in that
+stretch render on top of one another and become unreadable. Two mitigations:
+labels are staggered across four height tiers, and by default only REJECT
+lanelets get a banner. Pillars and boundary lines still mark every flagged
+lanelet. --labels all restores the full set.
+
+The publisher exits when its process ends, taking the topic with it.
+TRANSIENT_LOCAL means a late subscriber gets the last message while the
+publisher is ALIVE -- it does not survive process exit. For a presentation use
+--duration 0 (indefinite) or a long duration, not --once.
 """
 
 from __future__ import annotations
@@ -33,6 +48,11 @@ from rclpy.qos import QoSProfile, DurabilityPolicy, ReliabilityPolicy, HistoryPo
 from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import Point
 from std_msgs.msg import ColorRGBA
+
+
+# Which flagged lanelets get a text banner: "reject" or "all".
+# Set from --labels in main().
+LABEL_MODE = "reject"
 
 
 def load_lanelet_geometry(map_path: str):
@@ -104,8 +124,9 @@ def build_marker_array(report_data: dict, lanelets: dict) -> MarkerArray:
 
     now = rclpy.time.Time().to_msg()
     marker_id = 0
+    n_labels = 0
 
-    for lid, ch_list in sorted(by_lid.items()):
+    for _idx, (lid, ch_list) in enumerate(sorted(by_lid.items())):
         if lid not in lanelets:
             continue
 
@@ -174,6 +195,15 @@ def build_marker_array(report_data: dict, lanelets: dict) -> MarkerArray:
         # ------------------------------------------------------------------
         # 3. Floating 3D Text Banner (Marker.TEXT_VIEW_FACING)
         # ------------------------------------------------------------------
+        # WHY LABELS ARE THINNED BY DEFAULT. 17 of the 18 flagged lanelets sit
+        # on the driven corridor and nine of them cluster within a ~200 m
+        # stretch, so eighteen banners overlap into an unreadable block
+        # whatever height they are given. REJECT-only drops that to twelve.
+        # The pillar and boundary lines above are still emitted for every
+        # flagged lanelet, so nothing is hidden -- only the text is thinned.
+        if LABEL_MODE == "reject" and not is_reject:
+            continue
+
         # Summarize changes on this lanelet
         width_ch = next((c for c in ch_list if c.get("field_name") == "width_m"), None)
         cl_ch = next((c for c in ch_list if c.get("field_name") == "centreline"), None)
@@ -202,19 +232,18 @@ def build_marker_array(report_data: dict, lanelets: dict) -> MarkerArray:
         text_marker.action = Marker.ADD
         text_marker.pose.position.x = cx
         text_marker.pose.position.y = cy
-        # Stagger label height so dense clusters do not overlap. Measured:
-        # nine flagged lanelets fall within a ~200 m stretch at the start of
-        # the route, and at a fixed height their TEXT_VIEW_FACING banners
-        # render on top of each other and become unreadable. Cycling through
-        # four tiers separates them vertically while keeping every label
-        # above its own pillar.
-        _tier = (len(markers.markers) // 3) % 4
+        # Stagger label height across four tiers. Neighbouring lanelets are
+        # adjacent in the sorted id order, so cycling the tier by label index
+        # separates the ones most likely to overlap. Each banner still floats
+        # above its own pillar (8 m) so the association stays readable.
+        _tier = n_labels % 4
         text_marker.pose.position.z = cz + 9.5 + _tier * 4.0
         text_marker.pose.orientation.w = 1.0
         text_marker.scale.z = 1.4  # Text height
         text_marker.color = ColorRGBA(r=1.0, g=1.0, b=1.0, a=0.98)
         text_marker.text = "\n".join(text_lines)
         markers.markers.append(text_marker)
+        n_labels += 1
 
     return markers
 
@@ -243,6 +272,8 @@ class FlagPublisher(Node):
 
 
 def main():
+    global LABEL_MODE
+
     ap = argparse.ArgumentParser(description="GeoShield RViz Flag Publisher")
     ap.add_argument("--report", default="results/diff_g3.0.json",
                     help="Differential verification report JSON")
@@ -251,13 +282,25 @@ def main():
                     help="Lanelet2 .osm file")
     ap.add_argument("--topic", default="/geoshield/flagged_lanelets",
                     help="MarkerArray topic name")
+    ap.add_argument("--labels", choices=("reject", "all"), default="reject",
+                    help="which flagged lanelets get a text banner. 'reject' "
+                         "(default) labels only REJECT lanelets; 'all' also "
+                         "labels SUSPECT ones, which overlaps badly where "
+                         "flags cluster. Pillars and boundary lines are drawn "
+                         "for every flagged lanelet either way.")
     ap.add_argument("--duration", type=float, default=120.0,
-                    help="Publish duration in seconds (0 for indefinite)")
+                    help="Publish duration in seconds (0 for indefinite). The "
+                         "topic exists only while this process runs -- use 0 "
+                         "for a presentation.")
     ap.add_argument("--rate", type=float, default=2.0,
                     help="Publish rate in Hz")
     ap.add_argument("--once", action="store_true",
-                    help="Publish once and exit")
+                    help="Publish once and exit. The topic disappears on exit, "
+                         "so RViz will not see the markers unless it was "
+                         "already subscribed. For display use --duration 0.")
     a = ap.parse_args()
+
+    LABEL_MODE = a.labels
 
     report_path = Path(a.report)
     if not report_path.exists():
@@ -286,8 +329,11 @@ def main():
     rclpy.init()
     markers = build_marker_array(report_data, lanelets)
 
-    n_flagged = len(set(m.pose.position.x for m in markers.markers if m.ns == "geoshield_pillars"))
-    print(f"[GeoShield] Built {len(markers.markers)} markers for {n_flagged} flagged lanelets.")
+    n_flagged = sum(1 for m in markers.markers if m.ns == "geoshield_pillars")
+    n_labels = sum(1 for m in markers.markers if m.ns == "geoshield_labels")
+    print(f"[GeoShield] Built {len(markers.markers)} markers for "
+          f"{n_flagged} flagged lanelets.")
+    print(f"[GeoShield] Text banners: {n_labels} (--labels {a.labels})")
     print(f"[GeoShield] Publishing to {a.topic} (TRANSIENT_LOCAL durability)")
     print(f"            RED = REJECT, ORANGE = SUSPECT")
 
@@ -298,6 +344,8 @@ def main():
         node.destroy_node()
         rclpy.shutdown()
         print("[GeoShield] Published markers successfully.")
+        print("[GeoShield] NOTE: --once exits now, so the topic is gone. RViz "
+              "will show nothing unless it was already subscribed.")
         return
 
     start_time = time.time()
