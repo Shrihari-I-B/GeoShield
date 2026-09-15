@@ -1,0 +1,118 @@
+{
+  "bag": "bags/demo_tampered",
+  "near_threshold_m": 15.0,
+  "flagged": 18,
+  "on_corridor": 17,
+  "non_targeted": 10,
+  "non_targeted_on_corridor": 9,
+  "rows": [
+    {
+      "segment_id": "lanelet:3002007",
+      "targeted": true,
+      "dist_to_path_m": 1.91,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3002009",
+      "targeted": false,
+      "dist_to_path_m": 38.96,
+      "on_corridor": false
+    },
+    {
+      "segment_id": "lanelet:3002013",
+      "targeted": true,
+      "dist_to_path_m": 2.81,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3002017",
+      "targeted": true,
+      "dist_to_path_m": 1.16,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3002020",
+      "targeted": false,
+      "dist_to_path_m": 2.81,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3011988",
+      "targeted": false,
+      "dist_to_path_m": 0.19,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3012178",
+      "targeted": false,
+      "dist_to_path_m": 0.65,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3012183",
+      "targeted": false,
+      "dist_to_path_m": 2.24,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3012234",
+      "targeted": true,
+      "dist_to_path_m": 0.19,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3012977",
+      "targeted": true,
+      "dist_to_path_m": 1.24,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3012981",
+      "targeted": false,
+      "dist_to_path_m": 3.21,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3013009",
+      "targeted": false,
+      "dist_to_path_m": 1.24,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3013013",
+      "targeted": false,
+      "dist_to_path_m": 2.43,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3013032",
+      "targeted": true,
+      "dist_to_path_m": 1.16,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3013049",
+      "targeted": false,
+      "dist_to_path_m": 1.16,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3013054",
+      "targeted": true,
+      "dist_to_path_m": 0.36,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3013060",
+      "targeted": false,
+      "dist_to_path_m": 0.36,
+      "on_corridor": true
+    },
+    {
+      "segment_id": "lanelet:3013093",
+      "targeted": true,
+      "dist_to_path_m": 0.36,
+      "on_corridor": true
+    }
+  ]
+}

@@ -590,13 +590,36 @@ have a single ground-truth positive, so recall 1.000 there means one lanelet
 found out of one, not a rate (see §7). `width_ramp` at N=8 is the only row that
 supports a recall figure in the usual sense.
 
-**Precision is the honest weakness.** `width_step` flags 10 changes for 1
-targeted lanelet. As with the ramp, the extra flags are lanelets sharing
-boundary nodes with the tampered one, whose geometry genuinely moved (§4.8) —
-but we report strict precision and do not adjust it. An argument that the false
-positives are really true positives would improve the number without improving
-the method, and the shared-node coupling is a property of Lanelet2 that any
-deployment would face.
+**Precision is the honest weakness, and we measured what it actually means.**
+`width_step` flags 10 changes for 1 targeted lanelet; the ramp flags 18 for 8.
+The obvious challenge is that the extra flags are spurious. Measured against
+the driven trajectory (`flag_proximity.py`, on `bags/demo_tampered`), they are
+not:
+
+| | Count |
+|---|---|
+| lanelets flagged | 18 |
+| on the driven corridor (< 15 m) | **17 / 18** |
+| non-targeted flags | 10 |
+| non-targeted flags on the corridor | **9 / 10** |
+| furthest non-targeted flag | 38.96 m (`3002009`) |
+
+Nine of the ten non-targeted lanelets sit within **3.21 m** of the driven path,
+and several are closer to it than targeted ones — `3011988` at 0.19 m matches
+targeted `3012234` exactly, and `3013060` at 0.36 m matches targeted
+`3013054`. Those pairings are the signature of the mechanism: adjacent
+lanelets share boundary ways in Lanelet2, so displacing one lane's boundary
+physically moves its neighbour's geometry by the same amount. A two-way road
+is two lanelets sharing a centre boundary; tamper with one and both move.
+
+**The detector found every lanelet whose geometry actually changed.** The label
+file records only the eight the injector explicitly targeted, so strict scoring
+counts the other ten against precision. We report 0.444 and do not adjust it:
+an argument that the false positives are really true positives would improve
+the number without improving the method, and the shared-node coupling is a
+property of Lanelet2 that any deployment would face. Reviewing eighteen flagged
+lanelets instead of eight is a real operational cost, just not a detection
+failure.
 
 **`tunnel_bridge_flip` is structurally inapplicable**, not undetected. The
 Nishi-Shinjuku Lanelet2 map carries no tunnel or bridge tags — those are OSM
