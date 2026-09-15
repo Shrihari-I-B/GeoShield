@@ -238,14 +238,44 @@ def publish_goal(x, y, yaw, topic="/planning/mission_planning/goal"):
          "geometry_msgs/msg/PoseStamped", msg],
         capture_output=True, text=True, timeout=30)
 
+def wait_autonomous_available(timeout: int = 60) -> bool:
+    """
+    Poll /api/operation_mode/state until autonomous mode is available.
+
+    WHY THIS REPLACES A FIXED SLEEP. is_autonomous_mode_available is false
+    until a route exists -- measured: false with Routing Unset, true within
+    seconds of Routing Set. run() previously slept settle=5 s after
+    publish_goal() and called engage() regardless. When routing takes longer
+    than 5 s the ADAPI service is called before the transition is possible
+    and blocks until its own timeout, which raised TimeoutExpired and killed
+    the run after 2 s of recording.
+    """
+    start = time.time()
+    while time.time() - start < timeout:
+        r = subprocess.run(
+            ["ros2", "topic", "echo", "--once",
+             "/api/operation_mode/state"],
+            capture_output=True, text=True, timeout=10)
+        if "is_autonomous_mode_available: true" in r.stdout:
+            return True
+        time.sleep(2)
+    return False
+
 
 def engage():
     """ADAPI service call -- this build has no working /autoware/engage topic."""
-    return subprocess.run(
-        ["ros2", "service", "call", "/api/operation_mode/change_to_autonomous",
-         "autoware_adapi_v1_msgs/srv/ChangeOperationMode", "{}"],
-        capture_output=True, text=True, timeout=30)
-
+    try:
+        return subprocess.run(
+            ["ros2", "service", "call", "/api/operation_mode/change_to_autonomous",
+             "autoware_adapi_v1_msgs/srv/ChangeOperationMode", "{}"],
+            capture_output=True, text=True, timeout=30)
+    except subprocess.TimeoutExpired:
+        class _R:
+            returncode = 1
+            stdout = ""
+            stderr = ("engage timed out after 30s -- autonomous mode was not "
+                      "available. Relaunch Autoware and re-run.")
+        return _R()
 
 def topic_alive(topic: str, timeout: int = 10) -> bool:
     try:
@@ -268,6 +298,16 @@ TOPICS = [
 
 def run(scenario: dict, bag: str, duration: int = 90, settle: int = 5) -> dict:
     out = {"scenario": scenario, "bag": bag, "steps": {}}
+
+    # ros2 bag record -o refuses to write into an existing directory, so a
+    # second attempt at the same bag path silently records nothing while the
+    # rest of the run proceeds. Measured: a stale bags/demo_clean from an
+    # aborted attempt was still present, the recorder failed, and verify_run
+    # then read the OLD bag and reported "1 driven point".
+    import shutil
+    if Path(bag).exists():
+        shutil.rmtree(bag, ignore_errors=True)
+        print(f"  removed existing bag at {bag}")
 
     print("  recording ->", bag)
     rec = subprocess.Popen(["ros2", "bag", "record", "-o", bag] + TOPICS,
@@ -295,6 +335,12 @@ def run(scenario: dict, bag: str, duration: int = 90, settle: int = 5) -> dict:
         out["steps"]["planned"] = ok
         print(f"  trajectory: {'yes' if ok else 'NO -- routing failed'}")
 
+        avail = wait_autonomous_available(60)
+        out["steps"]["mode_available"] = avail
+        if not avail:
+            print("  ! autonomous mode never became available in 60s")
+            print("    (routing may have failed, or the stack is already at")
+            print("     the goal from a previous run -- relaunch Autoware)")
         r = engage()
         out["steps"]["engaged"] = r.returncode == 0
         print(f"  engage: {'ok' if r.returncode == 0 else r.stderr.strip()[:120]}")
