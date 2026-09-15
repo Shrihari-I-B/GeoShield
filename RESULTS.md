@@ -10,7 +10,10 @@ so figures are directly comparable.
 **Reference build: Autoware 0.50.0, official Docker image**
 (`ghcr.io/autowarefoundation/autoware:universe-devel`, digest
 `sha256:405225eda6c05161bfde39cc7885511f3f4d9699d126891891420dd80c2e024a`),
-ROS 2 Jazzy, Ubuntu 24.04, planning simulator, local laptop, GPU-accelerated
+ROS 2 Humble inside the container (the host is Ubuntu 24.04 with Jazzy; both
+share a DDS domain via --net=host, which is why host-side `ros2 topic list`
+sees the container's graph), planning simulator, local laptop,
+GPU-accelerated RViz at 31 fps, planner holding 10.014 Hz.
 RViz at 31 fps, planner holding 10.014 Hz.
 
 A secondary build exists — Autoware 0.52.0, source-compiled on AWS EC2
@@ -679,13 +682,14 @@ failed, presence alone appeared sufficient.
 **The same map drives normally on Autoware 0.50.0** (official Docker image):
 `Routing: Set`, `Motion: Moving`, vehicle completes the route.
 
-We do not claim this as a denial-of-service finding. At least three variables
-differ between the two observations — Autoware version, build configuration
-(source vs prebuilt, CUDA absent vs present), and host environment — and no
+We do not claim this as a denial-of-service finding. At least four variables
+differ between the two observations — Autoware version (0.52.0 vs 0.50.0),
+ROS distro (Jazzy vs Humble), build configuration (source vs prebuilt, CUDA
+absent vs present), and host environment — and no
 controlled experiment has isolated which. The correct statement is that
 centreline injection produced no trajectory on one build and no effect on
 another, cause unresolved. Resolving it means running the identical map on both
-builds with the readiness gate applied, varying only the version. Both builds
+builds with the readiness gate applied, isolating one variable at a time. Both builds
 remain available; it is a side quest, not a priority.
 
 **Detection is unaffected.** Differential verification catches centreline

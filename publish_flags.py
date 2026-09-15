@@ -358,7 +358,12 @@ def main():
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        # rclpy installs its own SIGINT handler and shuts the context down on
+        # Ctrl-C, so this second call raises RCLError: rcl_shutdown already
+        # called. Harmless, but it prints a traceback in front of whoever is
+        # watching.
+        if rclpy.ok():
+            rclpy.shutdown()
         print("[GeoShield] Finished publishing.")
 
 

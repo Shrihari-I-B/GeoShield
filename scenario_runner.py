@@ -10,7 +10,7 @@ Runs on the EC2 instance, alongside a live planning_simulator.
     # run one scenario and record a bag
     python3 scenario_runner.py --scenario scenario.json --bag bags/clean_run1
 
-INTERFACE (confirmed on this build, Autoware + ROS 2 Jazzy)
+INTERFACE (confirmed on this build, Autoware 0.50.0 + ROS 2 Humble)
 -----------------------------------------------------------
     pose        /initialpose                      PoseWithCovarianceStamped
     goal        /planning/mission_planning/goal   PoseStamped
