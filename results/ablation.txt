@@ -1,0 +1,154 @@
+
+wrote results/ablation.json
+clean honest width deltas: n=973  median 0.139  p90 0.775  p99 2.194 m
+
+=== Attack types ===
+  width_ramp              788   |delta| min 0.14  median 1.12  max 2.99  [m]
+  speed_spoof              78   |delta| min 10.60  median 29.95  max 100.60  [km/h]
+  oneway_flip              48   |delta| min 1.00  median 1.00  max 1.00  [flag]
+  connectivity_break       25   |delta| min 1.00  median 1.00  max 1.00  [flag]
+  width_step               16   |delta| min 0.62  median 1.58  max 1.86  [m]
+
+  Units differ per attack type -- bands compare only WITHIN a type.
+
+--- iforest   attack: width_ramp   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.00-0.15          1    0.000     0.139
+  0.15-0.30         54    0.019     0.244
+  0.30-0.50         86    0.047     0.395
+  0.50-1.00        198    0.040     0.748
+  1.00-2.00        338    0.065     1.413
+  2.00-5.00        111    0.180     2.339
+
+--- iforest   attack: oneway_flip   (magnitude in flag) ---
+           band      n   recall    median
+-----------------------------------------
+  1.00-2.00         48    0.021     1.000
+
+--- iforest   attack: connectivity_break   (magnitude in flag) ---
+           band      n   recall    median
+-----------------------------------------
+  1.00-2.00         25    0.120     1.000
+
+--- iforest   attack: speed_spoof   (magnitude in km/h) ---
+           band      n   recall    median
+-----------------------------------------
+  5.00-1000000.00     78    0.103    29.950
+
+--- iforest   attack: width_step   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.50-1.00          4    0.000     0.645
+  1.00-2.00         12    0.583     1.641
+
+--- chain_trend_max   attack: width_ramp   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.00-0.15          1    0.000     0.139
+  0.15-0.30         54    0.056     0.244
+  0.30-0.50         86    0.047     0.395
+  0.50-1.00        198    0.091     0.748
+  1.00-2.00        338    0.095     1.413
+  2.00-5.00        111    0.234     2.339
+
+--- chain_trend_max   attack: width_step   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.50-1.00          4    0.000     0.645
+  1.00-2.00         12    0.083     1.641
+
+--- rel_width_succ   attack: width_ramp   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.00-0.15          1    0.000     0.139
+  0.15-0.30         54    0.019     0.244
+  0.30-0.50         86    0.058     0.395
+  0.50-1.00        198    0.025     0.748
+  1.00-2.00        338    0.163     1.413
+  2.00-5.00        111    0.577     2.339
+
+--- rel_width_succ   attack: width_step   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.50-1.00          4    0.000     0.645
+  1.00-2.00         12    0.667     1.641
+
+--- width_vs_nbr_median   attack: width_ramp   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.00-0.15          1    0.000     0.139
+  0.15-0.30         54    0.019     0.244
+  0.30-0.50         86    0.023     0.395
+  0.50-1.00        198    0.015     0.748
+  1.00-2.00        338    0.201     1.413
+  2.00-5.00        111    0.640     2.339
+
+--- width_vs_nbr_median   attack: width_step   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.50-1.00          4    0.500     0.645
+  1.00-2.00         12    1.000     1.641
+
+--- width_z_local   attack: width_ramp   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.00-0.15          1    0.000     0.139
+  0.15-0.30         54    0.037     0.244
+  0.30-0.50         86    0.000     0.395
+  0.50-1.00        198    0.015     0.748
+  1.00-2.00        338    0.015     1.413
+  2.00-5.00        111    0.009     2.339
+
+--- width_z_local   attack: width_step   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.50-1.00          4    0.500     0.645
+  1.00-2.00         12    0.667     1.641
+
+--- cl_lateral_shift   attack: width_ramp   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.00-0.15          1    0.000     0.139
+  0.15-0.30         54    0.111     0.244
+  0.30-0.50         86    0.023     0.395
+  0.50-1.00        198    0.045     0.748
+  1.00-2.00        338    0.038     1.413
+  2.00-5.00        111    0.054     2.339
+
+--- cl_lateral_shift   attack: width_step   (magnitude in m) ---
+           band      n   recall    median
+-----------------------------------------
+  0.50-1.00          4    0.000     0.645
+  1.00-2.00         12    0.083     1.641
+
+--- speed_vs_nbr_median   attack: speed_spoof   (magnitude in km/h) ---
+           band      n   recall    median
+-----------------------------------------
+  5.00-1000000.00     78    0.846    29.950
+
+--- d_speed_succ   attack: speed_spoof   (magnitude in km/h) ---
+           band      n   recall    median
+-----------------------------------------
+  5.00-1000000.00     78    0.782    29.950
+
+=== Interpretation ===
+  width_vs_nbr_median|width_ramp
+    recall, ramp < 1.0 m : 0.014
+    recall, ramp > 1.0 m : 0.420
+    -> DETECTABILITY THRESHOLD
+  rel_width_succ|width_ramp
+    recall, ramp < 1.0 m : 0.025
+    recall, ramp > 1.0 m : 0.370
+    -> DETECTABILITY THRESHOLD
+  iforest|width_ramp
+    recall, ramp < 1.0 m : 0.026
+    recall, ramp > 1.0 m : 0.123
+    -> flat -- features do not capture the signature
+
+  If a threshold exists: state the smallest reliably detected
+  displacement, and compare with Sato et al. -- attacks below
+  +0.5 m did not move the trajectory enough to matter. An
+  undetectable band sitting INSIDE the ineffective band means
+  every attack big enough to endanger the vehicle is big enough
+  to catch, which is the strong version of the result.

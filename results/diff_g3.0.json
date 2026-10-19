@@ -1,5 +1,5 @@
 {
-  "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "previous": "/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
   "candidate": "data/route_g3.0.osm",
   "verdict": "REJECT",
   "n_previous": 979,
