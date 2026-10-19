@@ -304,15 +304,59 @@ def run(scenario: dict, bag: str, duration: int = 90, settle: int = 5) -> dict:
     # rest of the run proceeds. Measured: a stale bags/demo_clean from an
     # aborted attempt was still present, the recorder failed, and verify_run
     # then read the OLD bag and reported "1 driven point".
-    import shutil
+    # The first fix here used ignore_errors=True, which reintroduced the very
+    # bug the comment above describes as soon as the stale bag was root-owned
+    # (written from inside the container). So: delete loudly, and prove the
+    # directory is gone before recording a single byte.
+    import shutil, os
+    want = os.environ.get("GEOSHIELD_EXPECT_DISTRO", "humble")
+    have = os.environ.get("ROS_DISTRO", "")
+    if have != want:
+        raise SystemExit(
+            f"refusing to run: ROS_DISTRO={have!r}, expected {want!r}.\n"
+            "  This script must run INSIDE the Autoware container:\n"
+            "    docker exec -it autoware bash   (prompt becomes root@...#)\n"
+            "  The host runs ROS 2 Jazzy without Autoware's message\n"
+            "  packages, so the ADAPI type string cannot be resolved and\n"
+            "  engage reports 'The passed service type is invalid'. Poses\n"
+            "  still publish (geometry_msgs is in base ROS) and the\n"
+            "  trajectory check reports NO, so the run looks half-alive\n"
+            "  and records nothing.")
+
+    # Record to <bag>.pending and promote only once verification passes, so a
+    # rejected run can never overwrite a good bag at the canonical name. The
+    # Oct 19 run tried exactly that: it announced "removed existing bag",
+    # silently failed (root-owned files), and verify_run then graded the Oct 7
+    # bag that was still sitting there.
+    final_bag = bag
+    bag = final_bag + ".pending"
+
     if Path(bag).exists():
-        shutil.rmtree(bag, ignore_errors=True)
+        try:
+            shutil.rmtree(bag)
+        except OSError as e:
+            raise SystemExit(
+                f"cannot remove existing bag {bag}: {e}\n"
+                "  Bags written inside the container are root-owned. Remove\n"
+                "  it as root and re-run:\n"
+                f"    rm -rf {bag}")
         print(f"  removed existing bag at {bag}")
+    if Path(bag).exists():
+        raise SystemExit(f"{bag} still exists after removal; aborting")
 
     print("  recording ->", bag)
     rec = subprocess.Popen(["ros2", "bag", "record", "-o", bag] + TOPICS,
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(2)
+    if rec.poll() is not None:
+        raise SystemExit(
+            f"ros2 bag record exited immediately (code {rec.returncode}); "
+            "nothing is being recorded")
+    if not Path(bag).exists():
+        rec.terminate()
+        raise SystemExit(
+            f"ros2 bag record produced no directory at {bag}; aborting rather "
+            "than driving an unrecorded run")
 
     try:
         s = scenario["start"]
@@ -353,15 +397,65 @@ def run(scenario: dict, bag: str, duration: int = 90, settle: int = 5) -> dict:
         rec.wait(timeout=10)
         print("  stopped recording")
 
+    import datetime
     chk = verify_run(bag, scenario)
     out["verification"] = chk
+
+    def _map_sources():
+        """Every map_path:= argument visible in this PID namespace.
+
+        Read from /proc, not `ps`: the container may lack procps, and a grep
+        over `ps` output matches its own command line -- which is how
+        bags/demo_clean.mapsrc came to contain the line "map_path:=[^".
+        """
+        found = set()
+        for d in Path("/proc").iterdir():
+            if not d.name.isdigit():
+                continue
+            try:
+                argv = (d / "cmdline").read_bytes().decode(errors="replace")
+            except OSError:
+                continue
+            for tok in argv.split("\0"):
+                if tok.startswith("map_path:="):
+                    found.add(tok)
+        return sorted(found)
+
     if chk["ok"]:
+        if Path(final_bag).exists():
+            try:
+                shutil.rmtree(final_bag)
+            except OSError as e:
+                raise SystemExit(
+                    f"run verified, but {final_bag} cannot be replaced: {e}\n"
+                    f"  The verified recording is safe at {bag}\n"
+                    f"  Remove the old bag as root and promote it by hand:\n"
+                    f"    rm -rf {final_bag} && mv {bag} {final_bag}")
+        Path(bag).rename(final_bag)
+        out["bag"] = final_bag
+
+        srcs = _map_sources()
+        side = Path(final_bag + ".mapsrc")
+        stamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        side.write_text("\n".join(srcs or ["map_path:=UNKNOWN"]) +
+                        f"\nrecorded_utc: {stamp}\n")
+
         print(f"  verified: drove {chk['driven_length_m']} m, "
               f"start error {chk['start_error_m']} m")
+        print(f"  promoted -> {final_bag}")
+        for src in srcs:
+            print(f"  map source: {src}")
+        if not srcs:
+            print("  ! no map_path:= found in any running process; "
+                  f"{side.name} records UNKNOWN")
     else:
+        out["bag"] = bag
         print("  !! RUN NOT VERIFIED -- do not use this bag")
         for w in chk["warnings"]:
             print(f"     - {w}")
+        print(f"  rejected recording left at {bag}")
+        if Path(final_bag).exists():
+            print(f"  {final_bag} was not touched")
 
     return out
 
