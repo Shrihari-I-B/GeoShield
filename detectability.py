@@ -307,7 +307,19 @@ def main():
     print("  to catch, which is the strong version of the result.")
 
     if a.out:
-        json.dump({k: [list(x) for x in v] for k, v in results.items()},
+        import subprocess, datetime
+        try:
+            sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
+                                 capture_output=True, text=True).stdout.strip()
+        except Exception:
+            sha = "unknown"
+        json.dump({"meta": meta,
+                   "run": {"argv": sys.argv,
+                           "utc": datetime.datetime.now(
+                               datetime.timezone.utc).isoformat(),
+                           "git": sha},
+                   "results": {k: [list(x) for x in v]
+                               for k, v in results.items()}},
                   open(a.out, "w"), indent=2)
         print(f"\nwrote {a.out}", file=sys.stderr)
 
