@@ -388,12 +388,72 @@ def write_tampered_map(in_path: str, out_path: str,
         except (KeyError, TypeError, ValueError):
             return None
 
+    def _calibrate():
+        """Least-squares fit of (local_x, local_y) -> (lat, lon) from this map.
+
+        WHY THIS EXISTS. Autoware's map loader projects from lat/lon (MGRS by
+        default; these maps ship no map_projector_info.yaml). It never reads
+        local_x/local_y. Until 2026-10-19 this writer displaced only the metric
+        tags, so every tampered map handed to the planning simulator was
+        geometrically identical to the clean one as far as Autoware was
+        concerned. Measured: 178 nodes differed in local_x/local_y, 0 in
+        lat/lon, and the vehicle deviated 0.0266 m -- below the 0.0400 m
+        run-to-run noise floor. Every Frechet number from a written map before
+        that date compared a clean run against a clean run.
+
+        The transform is fitted rather than assumed so it holds for whatever
+        projection the map uses, in either axis order. Over a map this size it
+        is linear to well under a millimetre.
+        """
+        import numpy as np
+        A, B = [], []
+        for n in nodes.values():
+            if n.get("lat") is None or n.get("lon") is None:
+                continue
+            d = {t.get("k"): t.get("v") for t in n.findall("tag")}
+            try:
+                x, y = float(d["local_x"]), float(d["local_y"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            A.append((1.0, x, y))
+            B.append((float(n.get("lat")), float(n.get("lon"))))
+        if len(A) < 50:
+            return None
+        A, B = np.array(A), np.array(B)
+        coef, *_ = np.linalg.lstsq(A, B, rcond=None)
+        res = np.abs(A @ coef - B).max(axis=0)
+        return {"a1": coef[1, 0], "a2": coef[2, 0],
+                "b1": coef[1, 1], "b2": coef[2, 1],
+                "res_lat": float(res[0]), "res_lon": float(res[1])}
+
+    _cal = _calibrate()
+    if _cal is None:
+        raise SystemExit(
+            "cannot calibrate local_x/local_y -> lat/lon from this map; "
+            "refusing to write a map the simulator would silently ignore")
+    if max(_cal["res_lat"], _cal["res_lon"]) > 1e-7:
+        print(f"  ! calibration residual {max(_cal['res_lat'], _cal['res_lon']):.2e} deg "
+              f"(> 1e-7, ~1 cm) -- displacement may be imprecise")
+
     def set_xy(nid, x, y):
-        for t in nodes[nid].findall("tag"):
+        n = nodes[nid]
+        old = xy(nid)
+        for t in n.findall("tag"):
             if t.get("k") == "local_x":
                 t.set("v", f"{x:.4f}")
             elif t.get("k") == "local_y":
                 t.set("v", f"{y:.4f}")
+        # Keep lat/lon in step -- this is the pair Autoware actually reads.
+        # Deltas are read back from the node each time, so a node claimed by two
+        # adjacent lanelets (7 of 178 on route_g3.0, the seam effect in
+        # RESULTS.md 4.8) accumulates identically in both representations.
+        if old is None:
+            return
+        dx, dy = x - old[0], y - old[1]
+        dlat = _cal["a1"] * dx + _cal["a2"] * dy
+        dlon = _cal["b1"] * dx + _cal["b2"] * dy
+        n.set("lat", f"{float(n.get('lat')) + dlat:.12f}")
+        n.set("lon", f"{float(n.get('lon')) + dlon:.12f}")
 
     def set_tag(rel, k, v):
         for t in rel.findall("tag"):
@@ -403,6 +463,28 @@ def write_tampered_map(in_path: str, out_path: str,
         ET.SubElement(rel, "tag", k=k, v=str(v))
 
     stats = {"geometry": 0, "tags": 0, "skipped": 0}
+    # node id -> [(dx, dy), ...], one entry per lanelet claiming that node.
+    # Collected during the loop and applied once each afterwards; see the
+    # application pass below for why.
+    pending: dict[int, list[tuple[float, float]]] = {}
+
+    # Outer ends of the attacked run. A lanelet's left-boundary end node is
+    # shared with its neighbour; if that neighbour is NOT attacked, displacing
+    # the node bends untampered road. Measured on route_g3.0b (2026-10-19):
+    # entry seam 3012229->3012234 went from -7.16 to -23.09 deg and exit seam
+    # 3002013->3002009 from -0.00 to -19.94, and the vehicle stopped 16 m in
+    # with closest_max_velocity 0.0 and no diagnostic error. Collect every
+    # attacked lanelet's boundary endpoints so an interior seam (shared with
+    # another attacked lanelet) can be told from an outer end (shared with
+    # clean road), and taper the displacement to zero at the outer ends.
+    _tam_starts, _tam_ends = set(), set()
+    for _sid, _rec in res.labels.items():
+        if not _sid.startswith("lanelet:") or _rec.field_changed != "width_m":
+            continue
+        _w = left_of.get(int(_sid.split(":")[1]))
+        if _w in ways and ways[_w]:
+            _tam_starts.add(ways[_w][0])
+            _tam_ends.add(ways[_w][-1])
 
     for sid, rec in res.labels.items():
         if not sid.startswith("lanelet:"):
@@ -421,6 +503,10 @@ def write_tampered_map(in_path: str, out_path: str,
                 continue
             shift = float(rec.tampered) - float(rec.original)
             pts = ways[wid]
+            nseg = len(pts) - 1
+            # Taper to zero where this lanelet meets road outside the run.
+            taper_s = pts[0] not in _tam_ends
+            taper_e = pts[-1] not in _tam_starts
             for i, nid in enumerate(pts):
                 p = xy(nid)
                 if p is None:
@@ -431,8 +517,17 @@ def write_tampered_map(in_path: str, out_path: str,
                 mag = (tx * tx + ty * ty) ** 0.5
                 if mag < 1e-9:
                     continue
+                f = 1.0
+                if nseg > 0:
+                    if taper_s:
+                        f = min(f, i / nseg)
+                    if taper_e:
+                        f = min(f, 1.0 - i / nseg)
+                if f <= 0.0:
+                    continue
                 nx, ny = -ty / mag, tx / mag        # left-hand normal
-                set_xy(nid, p[0] + nx * shift, p[1] + ny * shift)
+                pending.setdefault(nid, []).append((nx * shift * f,
+                                                    ny * shift * f))
             stats["geometry"] += 1
 
         elif rec.field_changed == "speed_limit_kph":
@@ -541,6 +636,39 @@ def write_tampered_map(in_path: str, out_path: str,
 
         else:
             stats["skipped"] += 1
+
+    # ------------------------------------------------------------------
+    # Apply the accumulated width displacements, once per node.
+    #
+    # WHY TWO PASSES. Adjacent lanelets in a ramp share boundary nodes. The
+    # single-pass version called set_xy() once per claiming lanelet, so a
+    # shared node moved twice by two different shifts -- and the second
+    # lanelet computed its local normal from neighbours the first had already
+    # moved, so its direction was wrong as well as its magnitude.
+    #
+    # Measured on route_g3.0a (2026-10-19): all seven seams turned through
+    # 15-70 degrees where the clean road turns 0.7-20. The planner could not
+    # take the first corner and the vehicle stopped 33 m into a 393 m route
+    # with closest_max_velocity 0.0 and no velocity factor raised. It looked
+    # exactly like Sato et al.'s "route not completed" at w_l 5.0 m. It was a
+    # zigzag of our own making.
+    #
+    # Collecting first means every normal is computed from untouched geometry.
+    # The mean is the right value for a shared node: on a ramp it belongs
+    # between step k and step k+1, which is what a progressive widening does.
+    # This is the same defect as the realised-width error in RESULTS.md 4.8.
+    for nid, vecs in pending.items():
+        p = xy(nid)
+        if p is None:
+            continue
+        dx = sum(v[0] for v in vecs) / len(vecs)
+        dy = sum(v[1] for v in vecs) / len(vecs)
+        set_xy(nid, p[0] + dx, p[1] + dy)
+    shared = sum(1 for v in pending.values() if len(v) > 1)
+    if shared:
+        print(f"  {shared} of {len(pending)} boundary nodes claimed by more "
+              f"than one lanelet; each displaced once, by the mean of its "
+              f"claims")
 
     tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
