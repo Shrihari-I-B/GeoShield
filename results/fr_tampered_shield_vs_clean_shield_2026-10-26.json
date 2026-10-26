@@ -1,0 +1,31 @@
+{
+  "clean_bag": "bags/mx_tampered_shield",
+  "tampered_bag": "bags/mx_clean_shield",
+  "autoware_build": "0.50.0-docker",
+  "truncated": true,
+  "backend": "rosbag2",
+  "schema": "frechet_analysis/2",
+  "driven_length_clean_m": 411.25,
+  "driven_length_tampered_m": 411.23,
+  "endpoint_gap_m": 0.0052,
+  "length_difference_m": 0.0119,
+  "common_arc_length_m": 411.23,
+  "d_Fe": 0.0479,
+  "max_lateral_e": 0.0479,
+  "tail_offsets_e": [
+    0.047,
+    0.0471,
+    0.0472,
+    0.0473,
+    0.0474,
+    0.0475,
+    0.0476,
+    0.0477,
+    0.0478,
+    0.0479
+  ],
+  "d_Fe_untruncated": 0.017,
+  "artefact_inflation_m": -0.0309,
+  "d_Fp": null,
+  "d_Fp_verified": false
+}

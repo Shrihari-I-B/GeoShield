@@ -1,0 +1,97 @@
+{
+  "tampered": "data/route_g3.0c.osm",
+  "output": "data/route_g3.0c_repaired.osm",
+  "method": "differential_gate",
+  "gate": "results/diff_g3.0c_2026-10-26.json",
+  "calibration": null,
+  "n_flagged": 9,
+  "detection": {
+    "TP": 7,
+    "FP": 2,
+    "FN": 1,
+    "precision": 0.778,
+    "recall": 0.875,
+    "f1": 0.824
+  },
+  "plan": {
+    "lanelet:3002007": {
+      "action": "clamp",
+      "original": 5.681,
+      "repaired": 3.058,
+      "shift": -2.623,
+      "source": "differential",
+      "reason": "width changed +85.8% (+2.62 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3002013": {
+      "action": "clamp",
+      "original": 4.603,
+      "repaired": 3.057,
+      "shift": -1.5459999999999998,
+      "source": "differential",
+      "reason": "width changed +50.6% (+1.55 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3002017": {
+      "action": "clamp",
+      "original": 4.552,
+      "repaired": 2.679,
+      "shift": -1.8729999999999998,
+      "source": "differential",
+      "reason": "width changed +69.9% (+1.87 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3012178": {
+      "action": "clamp",
+      "original": 3.513,
+      "repaired": 2.619,
+      "shift": -0.8939999999999997,
+      "source": "differential",
+      "reason": "width changed +34.1% (+0.89 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3012977": {
+      "action": "clamp",
+      "original": 4.102,
+      "repaired": 2.603,
+      "shift": -1.499,
+      "source": "differential",
+      "reason": "width changed +57.6% (+1.50 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3013013": {
+      "action": "clamp",
+      "original": 2.068,
+      "repaired": 2.629,
+      "shift": 0.5609999999999999,
+      "source": "differential",
+      "reason": "width changed -21.3% (-0.56 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3013032": {
+      "action": "clamp",
+      "original": 5.456,
+      "repaired": 3.101,
+      "shift": -2.3550000000000004,
+      "source": "differential",
+      "reason": "width changed +75.9% (+2.36 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3013054": {
+      "action": "clamp",
+      "original": 3.332,
+      "repaired": 2.574,
+      "shift": -0.758,
+      "source": "differential",
+      "reason": "width changed +29.4% (+0.76 m) with no corroborating change to lane count or connectivity"
+    },
+    "lanelet:3013093": {
+      "action": "clamp",
+      "original": 3.785,
+      "repaired": 2.641,
+      "shift": -1.1440000000000001,
+      "source": "differential",
+      "reason": "width changed +43.3% (+1.14 m) with no corroborating change to lane count or connectivity"
+    }
+  },
+  "apply": {
+    "repaired": 9,
+    "skipped": 0,
+    "no_reference": 0,
+    "iterations": 6,
+    "final_max_error_m": 1.0304
+  }
+}

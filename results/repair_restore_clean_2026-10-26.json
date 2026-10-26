@@ -1,0 +1,12 @@
+{
+  "policy": "restore_from_prior",
+  "prior": "/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "output": "data/route_clean_restored.osm",
+  "diff": "results/diff_clean_2026-10-26.json",
+  "lanelets_restored": [],
+  "nodes_considered": 0,
+  "nodes_restored": 0,
+  "nodes_unchanged": 0,
+  "nodes_missing": 0
+}
