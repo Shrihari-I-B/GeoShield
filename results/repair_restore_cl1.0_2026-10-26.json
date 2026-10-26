@@ -19,6 +19,8 @@
   "nodes_unchanged": 347,
   "nodes_missing": 0,
   "members_removed": 8,
+  "orphan_ways_removed": 8,
+  "orphan_nodes_removed": 89,
   "roles_removed": [
     "centerline"
   ]

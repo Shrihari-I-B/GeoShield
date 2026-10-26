@@ -119,12 +119,64 @@ def main():
                 members_removed += 1
                 roles_seen.add(mem.get("role"))
 
+    # Remove geometry the attack ADDED that nothing references any more.
+    # Leaving it was an assumption that Lanelet2 ignores unreferenced ways.
+    # Measured 2026-10-26: the repaired centreline map raised MRM
+    # comfortable_stop where the clean map did not, with 89 orphaned nodes and
+    # 8 orphaned ways the only difference. A repaired map should be as close to
+    # the trusted prior as the evidence allows.
+    #
+    # Only ids ABSENT from the prior are eligible, so this can never delete
+    # original geometry -- it restores toward the prior, like everything else
+    # in this policy.
+    pway_ids = {int(w.get("id")) for w in proot.findall("way")}
+    pnode_ids = set(pnodes)
+    ways_removed = nodes_removed = 0
+
+    referenced_ways = set()
+    for r in croot.findall("relation"):
+        for m in r.findall("member"):
+            if m.get("type") == "way":
+                try:
+                    referenced_ways.add(int(m.get("ref")))
+                except (TypeError, ValueError):
+                    pass
+    for w in list(croot.findall("way")):
+        wid = int(w.get("id"))
+        if wid in pway_ids or wid in referenced_ways:
+            continue
+        croot.remove(w)
+        ways_removed += 1
+
+    referenced_nodes = set()
+    for w in croot.findall("way"):
+        for nd in w.findall("nd"):
+            try:
+                referenced_nodes.add(int(nd.get("ref")))
+            except (TypeError, ValueError):
+                pass
+    for r in croot.findall("relation"):
+        for m in r.findall("member"):
+            if m.get("type") == "node":
+                try:
+                    referenced_nodes.add(int(m.get("ref")))
+                except (TypeError, ValueError):
+                    pass
+    for n in list(croot.findall("node")):
+        nid = int(n.get("id"))
+        if nid in pnode_ids or nid in referenced_nodes:
+            continue
+        croot.remove(n)
+        nodes_removed += 1
+
     ctree.write(a.out, encoding="utf-8", xml_declaration=True)
     print(f"\nwrote {a.out}")
     print(f"  boundary nodes considered : {len(todo)}")
     print(f"  restored from prior       : {restored}")
     print(f"  already matched prior     : {unchanged}")
     print(f"  absent from prior         : {missing}")
+    print(f"  orphaned ways removed     : {ways_removed}")
+    print(f"  orphaned nodes removed    : {nodes_removed}")
     print(f"  injected members removed  : {members_removed}"
           f"{' (' + ', '.join(sorted(roles_seen)) + ')' if roles_seen else ''}")
 
@@ -136,6 +188,8 @@ def main():
             "nodes_considered": len(todo), "nodes_restored": restored,
             "nodes_unchanged": unchanged, "nodes_missing": missing,
             "members_removed": members_removed,
+            "orphan_ways_removed": ways_removed,
+            "orphan_nodes_removed": nodes_removed,
             "roles_removed": sorted(roles_seen),
         }, indent=2))
         print(f"  report                    : {a.report}")

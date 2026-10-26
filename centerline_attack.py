@@ -226,17 +226,43 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
     labels = {}
     n_done = 0
 
+    # Ramp by ARC LENGTH, not lanelet index. Measured 2026-10-26: lanelet
+    # 3013032 carries 331 m of a 447 m run and received one eighth of the
+    # displacement under index ramping, while 3002017 received the same eighth
+    # over 2.27 m. This also fixes an off-by-one -- dividing by len(valid)-1
+    # ended the ramp at 8/7, so --max-shift 1.0 produced 1.14 m.
+    def _plen(c):
+        return (sum(((a[0]-b[0])**2 + (a[1]-b[1])**2) ** 0.5
+                    for a, b in zip(c, c[1:])) if c else 0.0)
+
+    _centres = {lid: centre_of(lanelets[lid], nodes, ways, samples)
+                for lid in valid}
+    _lengths = {lid: _plen(_centres[lid]) for lid in valid}
+    _total = sum(_lengths.values()) or 1.0
+    _cum, _acc = {}, 0.0
+    for _l in valid:
+        _cum[_l] = _acc
+        _acc += _lengths[_l]
+
+    # Consecutive injected centrelines must SHARE their junction node. Each is
+    # a separate way with its own nodes, so without this a join carries two
+    # distinct nodes at the same position and the concatenated path has a
+    # zero-length segment with no defined heading. Measured: the 8-lanelet run
+    # stopped 0.7 m past the second junction, while a single-lanelet run over
+    # 331 m of the same route completed.
+    _prev_last = None
+
     for k, lid in enumerate(valid):
         ll = lanelets[lid]
-        centre = centre_of(ll, nodes, ways, samples)
+        centre = _centres[lid]
         if centre is None:
             continue
 
         # Ramp the displacement along the run: first lanelet barely moves,
         # last moves fully. An abrupt jump makes the plan infeasible and the
         # vehicle stops -- a failed attack, as Sato observed at w_l = 5.0 m.
-        frac_start = k / max(len(valid) - 1, 1)
-        frac_end = (k + 1) / max(len(valid) - 1, 1)
+        frac_start = _cum[lid] / _total
+        frac_end = (_cum[lid] + _lengths[lid]) / _total
         shifts = [direction * max_shift *
                   (frac_start + (frac_end - frac_start) * i / (samples - 1))
                   for i in range(samples)]
@@ -247,6 +273,11 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
         _eles = _ele_profile(ll, len(shifted))
         node_ids = []
         for idx, (x, y) in enumerate(shifted):
+            if idx == 0 and _prev_last is not None:
+                _pid, _px, _py = _prev_last
+                if ((x - _px) ** 2 + (y - _py) ** 2) ** 0.5 < 0.5:
+                    node_ids.append(_pid)
+                    continue
             nid = next_id
             next_id += 1
             _lat, _lon = osm_geom.to_latlon(_cal, x, y)
@@ -257,6 +288,8 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
             ET.SubElement(n, "tag", k="local_y", v=f"{y:.4f}")
             ET.SubElement(n, "tag", k="ele", v=_eles[idx])
             node_ids.append(nid)
+
+        _prev_last = (node_ids[-1], shifted[-1][0], shifted[-1][1])
 
         # write the new way
         wid = next_id
