@@ -163,6 +163,17 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
            direction=1.0):
     tree, root, nodes, ways, lanelets = parse(map_path)
 
+    # Nodes created below need real lat/lon: Autoware projects from lat/lon and
+    # never reads local_x/local_y. Until 2026-10-26 every node this script
+    # created was stamped lat="0" lon="0", placing it ~10000 km from the map,
+    # so no map it produced could load as intended. See osm_geom.
+    import osm_geom
+    _cal = osm_geom.calibrate({int(e.get("id")): e for e in root.findall("node")})
+    if _cal is None:
+        raise SystemExit(
+            "cannot calibrate local_x/local_y -> lat/lon from this map; "
+            "refusing to write nodes the simulator would place in the ocean")
+
     existing = sum(1 for l in lanelets.values() if l["centerline"])
     print(f"lanelets              : {len(lanelets)}")
     print(f"with explicit centreline: {existing}")
@@ -202,8 +213,10 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
         for (x, y) in shifted:
             nid = next_id
             next_id += 1
+            _lat, _lon = osm_geom.to_latlon(_cal, x, y)
             n = ET.SubElement(root, "node", id=str(nid), visible="true",
-                              version="1", lat="0", lon="0")
+                              version="1",
+                              lat=f"{_lat:.12f}", lon=f"{_lon:.12f}")
             ET.SubElement(n, "tag", k="local_x", v=f"{x:.4f}")
             ET.SubElement(n, "tag", k="local_y", v=f"{y:.4f}")
             ET.SubElement(n, "tag", k="ele", v="0")
