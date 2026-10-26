@@ -174,6 +174,41 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
             "cannot calibrate local_x/local_y -> lat/lon from this map; "
             "refusing to write nodes the simulator would place in the ocean")
 
+    def _ele_profile(ll, n):
+        """Elevation for n evenly spaced centreline points of this lanelet.
+
+        Until 2026-10-26 every created node carried ele="0" while the road
+        surface sits at ~32.4 m, so the planner was handed a centreline 32 m
+        below the lane. Measured on route_cl1.0: the vehicle stopped 22.6 m in
+        with closest_max_velocity 0.0 and kinematic_state z = 0.0, no velocity
+        factor raised and a clean diagnostic graph -- nothing wrong except the
+        geometry it was given. Third instance of a created node left with
+        placeholder zeros, after lat/lon here and local-only writes elsewhere.
+
+        The centreline lies between the boundaries, so the mean of the two
+        resampled sides is right to within centimetres on any normal grade.
+        """
+        sides = []
+        for side in ("left", "right"):
+            wid = ll.get(side)
+            vals = [float(nodes[k]["ele"]) for k in ways.get(wid, [])
+                    if k in nodes]
+            if vals:
+                sides.append(vals)
+        if not sides:
+            return ["0"] * n
+        out = []
+        for i in range(n):
+            f = (i / (n - 1)) if n > 1 else 0.0
+            acc = 0.0
+            for vals in sides:
+                j = f * (len(vals) - 1)
+                lo = int(j)
+                hi = min(lo + 1, len(vals) - 1)
+                acc += vals[lo] + (vals[hi] - vals[lo]) * (j - lo)
+            out.append(f"{acc / len(sides):.3f}")
+        return out
+
     existing = sum(1 for l in lanelets.values() if l["centerline"])
     print(f"lanelets              : {len(lanelets)}")
     print(f"with explicit centreline: {existing}")
@@ -209,8 +244,9 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
         shifted = shift_laterally(centre, shifts)
 
         # write the new nodes
+        _eles = _ele_profile(ll, len(shifted))
         node_ids = []
-        for (x, y) in shifted:
+        for idx, (x, y) in enumerate(shifted):
             nid = next_id
             next_id += 1
             _lat, _lon = osm_geom.to_latlon(_cal, x, y)
@@ -219,7 +255,7 @@ def inject(map_path, targets, out_path, max_shift=2.0, samples=12,
                               lat=f"{_lat:.12f}", lon=f"{_lon:.12f}")
             ET.SubElement(n, "tag", k="local_x", v=f"{x:.4f}")
             ET.SubElement(n, "tag", k="local_y", v=f"{y:.4f}")
-            ET.SubElement(n, "tag", k="ele", v="0")
+            ET.SubElement(n, "tag", k="ele", v=_eles[idx])
             node_ids.append(nid)
 
         # write the new way

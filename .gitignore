@@ -13,3 +13,4 @@ tatus
 *.token
 *.pdf
 test/
+launch_*.log

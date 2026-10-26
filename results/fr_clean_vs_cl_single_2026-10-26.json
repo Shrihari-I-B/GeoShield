@@ -1,0 +1,31 @@
+{
+  "clean_bag": "bags/mx_clean",
+  "tampered_bag": "bags/mx_cl_single",
+  "autoware_build": "0.50.0-docker",
+  "truncated": true,
+  "backend": "rosbag2",
+  "schema": "frechet_analysis/2",
+  "driven_length_clean_m": 411.24,
+  "driven_length_tampered_m": 411.13,
+  "endpoint_gap_m": 0.0045,
+  "length_difference_m": 0.1023,
+  "common_arc_length_m": 411.13,
+  "d_Fe": 0.4717,
+  "max_lateral_e": 0.4717,
+  "tail_offsets_e": [
+    0.1008,
+    0.101,
+    0.1014,
+    0.1015,
+    0.1015,
+    0.1014,
+    0.1012,
+    0.1011,
+    0.1009,
+    0.1008
+  ],
+  "d_Fe_untruncated": 0.4607,
+  "artefact_inflation_m": -0.011,
+  "d_Fp": null,
+  "d_Fp_verified": false
+}

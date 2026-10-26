@@ -1,0 +1,15 @@
+{
+  "previous": "/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/route_cl1.0_restored.osm",
+  "verdict": "ACCEPT",
+  "n_previous": 979,
+  "n_candidate": 979,
+  "added": [],
+  "removed": [],
+  "n_accepted": 0,
+  "n_suspect": 0,
+  "n_rejected": 0,
+  "runs": [],
+  "detection": {},
+  "changes": []
+}

@@ -1,0 +1,25 @@
+{
+  "policy": "restore_from_prior",
+  "prior": "/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/route_cl1.0.osm",
+  "output": "data/route_cl1.0_restored.osm",
+  "diff": "results/diff_cl1.0_2026-10-26.json",
+  "lanelets_restored": [
+    "lanelet:3002007",
+    "lanelet:3002013",
+    "lanelet:3002017",
+    "lanelet:3012234",
+    "lanelet:3012977",
+    "lanelet:3013032",
+    "lanelet:3013054",
+    "lanelet:3013093"
+  ],
+  "nodes_considered": 347,
+  "nodes_restored": 0,
+  "nodes_unchanged": 347,
+  "nodes_missing": 0,
+  "members_removed": 8,
+  "roles_removed": [
+    "centerline"
+  ]
+}

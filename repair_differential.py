@@ -93,12 +93,40 @@ def main():
         else:
             restored += 1
 
+    # Structure changes. A role present in the candidate but absent from the
+    # prior is an injected member -- centerline_attack.py adds an explicit
+    # centreline way to lanelets that had none, overriding the centreline
+    # Autoware would otherwise compute from the boundaries. Restoring node
+    # coordinates cannot undo that; the member itself has to go. The orphaned
+    # way and its nodes are left in place: Lanelet2 ignores ways no relation
+    # references, and removing them risks breaking ids other relations share.
+    rels = {int(r.get("id")): r for r in croot.findall("relation")}
+    members_removed, roles_seen = 0, set()
+    for ch in rep.get("changes", []):
+        if ch.get("field_name") != "structure":
+            continue
+        if ch.get("verdict") not in want:
+            continue
+        added = set(ch.get("candidate") or []) - set(ch.get("previous") or [])
+        if not added:
+            continue
+        rel = rels.get(int(ch["segment_id"].split(":")[1]))
+        if rel is None:
+            continue
+        for mem in list(rel.findall("member")):
+            if mem.get("role") in added:
+                rel.remove(mem)
+                members_removed += 1
+                roles_seen.add(mem.get("role"))
+
     ctree.write(a.out, encoding="utf-8", xml_declaration=True)
     print(f"\nwrote {a.out}")
     print(f"  boundary nodes considered : {len(todo)}")
     print(f"  restored from prior       : {restored}")
     print(f"  already matched prior     : {unchanged}")
     print(f"  absent from prior         : {missing}")
+    print(f"  injected members removed  : {members_removed}"
+          f"{' (' + ', '.join(sorted(roles_seen)) + ')' if roles_seen else ''}")
 
     if a.report:
         Path(a.report).write_text(json.dumps({
@@ -107,6 +135,8 @@ def main():
             "lanelets_restored": targets,
             "nodes_considered": len(todo), "nodes_restored": restored,
             "nodes_unchanged": unchanged, "nodes_missing": missing,
+            "members_removed": members_removed,
+            "roles_removed": sorted(roles_seen),
         }, indent=2))
         print(f"  report                    : {a.report}")
 
