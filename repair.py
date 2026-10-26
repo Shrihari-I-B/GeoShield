@@ -255,12 +255,16 @@ def apply_repair(in_path: str, out_path: str, plan: dict,
         except (KeyError, TypeError, ValueError):
             return None
 
-    def set_xy(nid, x, y):
-        for t in nodes[nid].findall("tag"):
-            if t.get("k") == "local_x":
-                t.set("v", f"{x:.4f}")
-            elif t.get("k") == "local_y":
-                t.set("v", f"{y:.4f}")
+    # Autoware reads lat/lon, not local_x/local_y. Writing only the metric
+    # tags produces a repaired map the simulator cannot tell from the tampered
+    # one -- which would read as GeoShield failing to repair. See osm_geom.
+    import osm_geom
+    _cal = osm_geom.calibrate(nodes)
+    if _cal is None:
+        raise SystemExit(
+            "cannot calibrate local_x/local_y -> lat/lon from this map; "
+            "refusing to write a repaired map the simulator would ignore")
+    set_xy = osm_geom.make_setter(nodes, xy, _cal)
 
     def measure(lid):
         """Current mean width of a lanelet, from live node positions."""
@@ -354,6 +358,14 @@ def main():
                     help="flag chains above this percentile of clean trends")
     ap.add_argument("--max-correction", type=float, default=3.0,
                     dest="max_correction")
+    ap.add_argument("--from-diff", dest="from_diff",
+                    help="differential_verify report; repair only the width "
+                         "changes it REJECTED, clamping each to the trusted "
+                         "prior's width. Gates repair on the high-precision "
+                         "signal instead of the trend detector.")
+    ap.add_argument("--include-suspect", action="store_true",
+                    dest="include_suspect",
+                    help="with --from-diff, also repair SUSPECT changes")
     ap.add_argument("--report", help="write a JSON report")
     a = ap.parse_args()
 
@@ -361,17 +373,52 @@ def main():
     segs = load_map(a.tampered)
     print(f"  {len(segs)} lanelets")
 
-    clean_ref = None
-    if a.clean_ref:
-        print(f"calibrating on {a.clean_ref}")
-        clean_ref = load_map(a.clean_ref)
+    plan = None
+    if a.from_diff:
+        # WHY A SEPARATE GATE. Repair is destructive: every false positive
+        # rewrites good road. Measured 2026-10-26 on this map --
+        #   chain_trend_R1 @p95   recall 0.875  precision 0.039  163 clamps
+        #                         on a CLEAN map (p95 of 1262 chains flags 5%
+        #                         by construction)
+        #   differential_verify   recall 1.0    precision 0.471  0 clamps on
+        #                         a clean map (no changes -> nothing to repair)
+        # and no trend percentile gives both: at p99.5 and above recall is 0
+        # while 25 and 8 clean lanelets are still flagged. Detection may stay
+        # recall-optimised; repair must not.
+        rep = json.loads(Path(a.from_diff).read_text())
+        want = {"REJECT"} | ({"SUSPECT"} if a.include_suspect else set())
+        plan = {}
+        for ch in rep.get("changes", []):
+            if ch.get("field_name") != "width_m":
+                continue
+            if ch.get("verdict") not in want:
+                continue
+            prev, cand = float(ch["previous"]), float(ch["candidate"])
+            plan[ch["segment_id"]] = {
+                "action": "clamp", "original": cand, "repaired": prev,
+                "shift": prev - cand, "source": "differential",
+                "reason": ch.get("reason")}
+        det = {"method": "differential_gate",
+               "flags": sorted(plan.keys()),
+               "runs": rep.get("runs", []),
+               "trend_threshold": None, "n_ref_chains": 0}
+        print(f"\nmethod: {det['method']}  (gate: {a.from_diff})")
+        print(f"prior   : {rep.get('previous')}")
+        print(f"verdict : {rep.get('verdict')}")
+        print(f"width changes repaired: {len(plan)} "
+              f"of {rep.get('n_rejected', 0)} rejected")
+    else:
+        clean_ref = None
+        if a.clean_ref:
+            print(f"calibrating on {a.clean_ref}")
+            clean_ref = load_map(a.clean_ref)
 
-    det = detect(segs, clean_ref, a.chain_len, a.trend_pct)
-    print(f"\nmethod: {det['method']}")
-    print(f"trend threshold (p{a.trend_pct:g} of {det['n_ref_chains']} "
-          f"reference chains): {det['trend_threshold']}")
-    print(f"suspicious chains: {len(det['runs'])}")
-    print(f"flagged lanelets : {len(det['flags'])}")
+        det = detect(segs, clean_ref, a.chain_len, a.trend_pct)
+        print(f"\nmethod: {det['method']}")
+        print(f"trend threshold (p{a.trend_pct:g} of {det['n_ref_chains']} "
+              f"reference chains): {det['trend_threshold']}")
+        print(f"suspicious chains: {len(det['runs'])}")
+        print(f"flagged lanelets : {len(det['flags'])}")
 
     scores = evaluate(det, a.labels)
     if scores:
@@ -380,7 +427,8 @@ def main():
         print(f"  precision {scores['precision']}  recall {scores['recall']}"
               f"  F1 {scores['f1']}")
 
-    plan = plan_repair(segs, det, a.max_correction)
+    if plan is None:
+        plan = plan_repair(segs, det, a.max_correction)
     clamps = [p for p in plan.values() if p.get("action") == "clamp"]
     print(f"\nrepair plan: {len(clamps)} clamps, "
           f"{len(plan) - len(clamps)} without a clean reference")
@@ -398,7 +446,9 @@ def main():
     if a.report:
         Path(a.report).write_text(json.dumps({
             "tampered": a.tampered, "output": a.out,
-            "calibration": det["calibration_p90"],
+            "method": det["method"],
+            "gate": a.from_diff,
+            "calibration": det["trend_threshold"],
             "n_flagged": len(det["flags"]),
             "detection": scores, "plan": plan, "apply": stats,
         }, indent=2))
