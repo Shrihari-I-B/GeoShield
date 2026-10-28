@@ -96,10 +96,13 @@ Read this before quoting any number above.
   are reported separately. A trusted prior is unavailable on first map load and
   in a new region, which is where self-consistency is the only option.
 - **The gate runs once, at launch, not continuously.**
-  `geoshield_verifier.py` verifies the map file before the planner starts, and
-  its verdict is latched, but nothing re-checks a map that changes while the
-  stack is running and nothing interposes on `/map/vector_map` between
-  `map_loader` and the planner. Verifying the projected `LaneletMapBin` on that
+  `geoshield_verifier.py` verifies the map file before the planner starts, but
+  nothing re-checks a map that changes while the stack is running and nothing
+  interposes on `/map/vector_map` between `map_loader` and the planner. The
+  verifier's ROS publications are not durable either: DDS TRANSIENT_LOCAL lasts
+  only as long as its publisher, so the verdict topic vanishes when the gate
+  process exits. The durable record is the JSON report on disk, and the launch
+  file starts a separate long-lived publisher for the flagged-lanelet markers. Verifying the projected `LaneletMapBin` on that
   topic is future work, and it would make the gate depend on the simulator,
   which the file-level gate does not.
 - **No no-prior repair policy.** Repair restores from the prior.
@@ -157,6 +160,10 @@ Under `launch/`, `geoshield_gate.launch.py` runs the verifier and includes
 Autoware's `planning_simulator.launch.xml` only on a passing exit, so a refused
 map never reaches the planner. `autoware_launch` is resolved inside the exit
 handler, which keeps the refuse path testable where Autoware is not installed.
+
+Verified in the Autoware container, 2026-10-28: a tampered map was refused,
+repaired, re-verified and admitted, after which `/map/lanelet2_map_loader`
+reported `lanelet2_map_path = /autoware_map/geoshield_verified/lanelet2_map.osm`.
 
 `detect` compares its regenerated maps against the archived ones geometrically
 rather than by hash. lat/lon is written to twelve decimals while

@@ -33,6 +33,7 @@ ARGS = (
     ("sensor_model", "sample_sensor_kit", ""),
     ("repair", "true", "false refuses a failing map instead of repairing it"),
     ("hold", "2.0", "seconds the verifier keeps publishing its verdict"),
+    ("flag_duration", "7200", "seconds the marker publisher stays up"),
 )
 
 
@@ -52,6 +53,8 @@ def _setup(context, *_, **__):
             sim = PathJoinSubstitution([
                 FindPackageShare("autoware_launch"), "launch",
                 "planning_simulator.launch.xml"]).perform(ctx)
+            root = Path(g("geoshield_dir"))
+            stem = Path(g("candidate")).stem
             return [
                 LogInfo(msg="[GeoShield] map ADMITTED -- starting planner on "
                             + g("verified_dir")),
@@ -62,6 +65,15 @@ def _setup(context, *_, **__):
                         "vehicle_model": g("vehicle_model"),
                         "sensor_model": g("sensor_model"),
                     }.items()),
+                # The gate process has exited, and TRANSIENT_LOCAL durability
+                # dies with its publisher, so the verdict it published is gone.
+                # Keep a long-lived publisher alongside the planner instead.
+                ExecuteProcess(
+                    name="geoshield_flags",
+                    cmd=["python3", "-u", str(root / "publish_flags.py"),
+                         "--report", str(root / "results" / f"gate_{stem}_in.json"),
+                         "--map", g("prior"), "--duration", g("flag_duration")],
+                    output="log"),
             ]
         return [
             LogInfo(msg=f"[GeoShield] map REFUSED (gate exit "

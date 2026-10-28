@@ -153,7 +153,11 @@ def main():
                     help="seconds to keep publishing before exiting")
     a = ap.parse_args()
 
+    # Subprocesses run with cwd=HERE, so a relative report dir would be
+    # resolved in two different working directories. Anchor it to the repo.
     rd = Path(a.report_dir)
+    if not rd.is_absolute():
+        rd = HERE / rd
     rd.mkdir(parents=True, exist_ok=True)
     stem = Path(a.candidate).stem
 
@@ -176,7 +180,7 @@ def main():
     elif a.no_repair:
         action = "refused, repair disabled"
     else:
-        rpath = Path(a.out_map or Path("data") / f"gate_{stem}_repaired.osm")
+        rpath = Path(a.out_map or HERE / "data" / f"gate_{stem}_repaired.osm")
         try:
             rr = run_repair(a.prior, a.candidate, rd / f"gate_{stem}_in.json",
                             rpath, a.include_suspect,
