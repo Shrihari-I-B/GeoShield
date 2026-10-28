@@ -14,3 +14,4 @@ tatus
 *.pdf
 test/
 launch_*.log
+results/repro_*
