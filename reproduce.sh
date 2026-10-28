@@ -2,6 +2,7 @@
 # GeoShield reproduction
 #
 #   bash reproduce.sh detect    files only: no ROS, no Docker, no simulator
+#   bash reproduce.sh gate      gate decisions only: exit codes, no simulator
 #   bash reproduce.sh drive     operator checklist, then trajectory analysis
 #
 # detect regenerates both attack maps from the clean map, runs detection and
@@ -223,8 +224,37 @@ TXT
   done
 }
 
+cmd_gate () {
+  [ -f "$D/repro_width.osm" ] || {
+    echo "run 'bash reproduce.sh detect' first" >&2; exit 1; }
+  local fails=0
+  check () {   # want_exit name -- verifier args
+    local want="$1" name="$2"; shift 2
+    set +e
+    python3 geoshield_verifier.py --prior "$CLEAN" "$@" >/dev/null 2>&1
+    local got=$?
+    set -e
+    if [ "$got" = "$want" ]; then
+      printf '  %-34s exit %s   ok\n' "$name" "$got"
+    else
+      printf '  %-34s exit %s   EXPECTED %s\n' "$name" "$got" "$want"
+      fails=1
+    fi
+  }
+  echo "== gate decisions (no ROS, no simulator)"
+  check 0 "clean map"                    --candidate "$CLEAN"
+  check 2 "width ramp, repair off"       --candidate "$D/repro_width.osm" --no-repair
+  check 0 "width ramp, repair on"        --candidate "$D/repro_width.osm"
+  check 2 "centreline, repair off"       --candidate "$D/repro_centerline.osm" --no-repair
+  check 0 "centreline, repair on"        --candidate "$D/repro_centerline.osm"
+  [ "$fails" = 0 ] || { echo; echo "gate: a decision changed" >&2; exit 1; }
+  echo
+  echo "gate: refuses both attack families, admits the clean map and both repairs."
+}
+
 case "${1:-}" in
   detect) cmd_detect ;;
+  gate)   cmd_gate ;;
   drive)  cmd_drive ;;
-  *) echo "usage: bash reproduce.sh {detect|drive}" >&2; exit 2 ;;
+  *) echo "usage: bash reproduce.sh {detect|gate|drive}" >&2; exit 2 ;;
 esac

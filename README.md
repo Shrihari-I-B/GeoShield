@@ -95,8 +95,13 @@ Read this before quoting any number above.
   not what gated these drives. The two modes rest on different assumptions and
   are reported separately. A trusted prior is unavailable on first map load and
   in a new region, which is where self-consistency is the only option.
-- **No ROS 2 node.** The gate is command-line scripts run against files by
-  hand. The ingest-boundary claim is not yet demonstrated by a process.
+- **The gate runs once, at launch, not continuously.**
+  `geoshield_verifier.py` verifies the map file before the planner starts, and
+  its verdict is latched, but nothing re-checks a map that changes while the
+  stack is running and nothing interposes on `/map/vector_map` between
+  `map_loader` and the planner. Verifying the projected `LaneletMapBin` on that
+  topic is future work, and it would make the gate depend on the simulator,
+  which the file-level gate does not.
 - **No no-prior repair policy.** Repair restores from the prior.
 - **Tier 3 Overpass cross-verification is not in the Track B path.**
 - **One map, one route.** Track B is Nishi-Shinjuku, one 393.2 m corridor.
@@ -139,13 +144,19 @@ Figures in this README supersede both files.
 ## Reproducing
 
     bash reproduce.sh detect     # no ROS, no Docker, no simulator
-    bash reproduce.sh drive      # operator checklist for the six Autoware runs
+    bash reproduce.sh gate       # the gate's five decisions, by exit code
+    bash reproduce.sh drive      # operator checklist for the seven Autoware runs
 
 The split is deliberate. `detect` builds both attack maps, runs verification
 and repair, and checks the repaired maps against the prior, on any machine with
 Python. The detection pipeline does not depend on the simulator working.
 `drive` cannot be fully automated: Autoware permits one recording per launch,
 and the map argument changes between conditions.
+
+Under `launch/`, `geoshield_gate.launch.py` runs the verifier and includes
+Autoware's `planning_simulator.launch.xml` only on a passing exit, so a refused
+map never reaches the planner. `autoware_launch` is resolved inside the exit
+handler, which keeps the refuse path testable where Autoware is not installed.
 
 `detect` compares its regenerated maps against the archived ones geometrically
 rather than by hash. lat/lon is written to twelve decimals while
@@ -158,6 +169,8 @@ coordinates bit-identical.
 
 | path | role |
 |---|---|
+| `geoshield_verifier.py` | the gate: verify, repair, then admit or refuse |
+| `launch/geoshield_gate.launch.py` | starts the planner only on an admitted map |
 | `osm_geom.py` | coordinate calibration and writes, single source of truth |
 | `attack_injector.py` | width-ramp family |
 | `centerline_attack.py` | centreline-injection family |
