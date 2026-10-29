@@ -196,8 +196,12 @@ def main():
     print(f"\nbest F1     {best['f1']:.3f} at thr {best['thr']:.2f}"
           f"  (P {best['precision']:.3f}  R {best['recall']:.3f})")
     print(f"PR-AUC      {auc:.3f}")
-    print(f"\nTier 1 ceiling (Phase 3 separability): F1 0.220")
-    verdict = "BEATS the rule-based ceiling" if best["f1"] > 0.22 else \
+    # Tier 1's measured best F1. tier1_matrix.py owns this number; it was
+    # hardcoded here at 0.220 from an older analysis and measured at 0.148 on
+    # 2026-10-29 by ranking lanelets on the chain-trend statistic directly.
+    TIER1_BEST_F1 = 0.148
+    print(f"\nTier 1 ceiling (tier1_matrix.py, 2026-10-29): F1 {TIER1_BEST_F1}")
+    verdict = "BEATS the rule-based ceiling" if best["f1"] > TIER1_BEST_F1 else \
               "does NOT beat the rule-based ceiling"
     print(f"Tier 2 {verdict}.")
 

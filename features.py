@@ -37,14 +37,34 @@ from typing import Optional
 from road_segment import RoadSegment
 
 
+# Four columns were removed on 2026-10-29 after ranking every feature
+# univariately against labelled attacks:
+#
+#   centreline_gap_succ, cl_jump_succ, boundary_asym_succ
+#       Identically zero on all 979 Nishi-Shinjuku lanelets (max 0.000000).
+#       They measure discontinuity AT A JOIN, and consecutive Lanelet2
+#       lanelets share their boundary nodes -- displacing a shared node moves
+#       it for both lanelets at once, so no discontinuity can ever appear
+#       there. The edit signature they were built to capture is invisible at
+#       joins in any format where neighbouring elements share geometry. The
+#       computations are kept below; only the columns are dropped.
+#
+#   length
+#       Leaked route membership. Ranked second of 31 at AP 0.1305 despite not
+#       being an attack property -- the injector never changes it. The victim
+#       route held the longest lanelet on the map (330.2 m, against a
+#       longest-untampered 266.1 m) and several of the shortest, so a model
+#       using it partly learns which lanelets lie on the route. It survives as
+#       the denominator of grad_width_succ and grad_width_pred, where it
+#       belongs.
+
 FEATURE_NAMES = [
     # (a) intrinsic
-    "width", "length", "curvature", "speed",
+    "width", "curvature", "speed",
     "width_taper", "width_std_rel",
     # (b) relational -- successor
     "d_width_succ", "rel_width_succ", "grad_width_succ",
-    "d_speed_succ", "centreline_gap_succ",
-    "cl_jump_succ", "boundary_asym_succ", "cl_lateral_shift",
+    "d_speed_succ", "cl_lateral_shift",
     # (b) relational -- predecessor
     "d_width_pred", "rel_width_pred", "grad_width_pred",
     # (b) relational -- local neighbourhood
