@@ -1,0 +1,36 @@
+{
+  "hd_total": 979,
+  "matched": 844,
+  "attrs": {
+    "speed_limit_kph": {
+      "witnessed": 241,
+      "of_matched": 0.2855,
+      "of_map": 0.2462
+    },
+    "oneway": {
+      "witnessed": 703,
+      "of_matched": 0.8329,
+      "of_map": 0.7181
+    },
+    "lanes": {
+      "witnessed": 627,
+      "of_matched": 0.7429,
+      "of_map": 0.6404
+    },
+    "width_m": {
+      "witnessed": 0,
+      "of_matched": 0.0,
+      "of_map": 0.0
+    },
+    "tunnel": {
+      "witnessed": 42,
+      "of_matched": 0.0498,
+      "of_map": 0.0429
+    },
+    "bridge": {
+      "witnessed": 34,
+      "of_matched": 0.0403,
+      "of_map": 0.0347
+    }
+  }
+}
