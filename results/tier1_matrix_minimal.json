@@ -19,14 +19,14 @@
       "segments": 979,
       "overall": {
         "tp": 0,
-        "fp": 25,
+        "fp": 15,
         "fn": 1,
-        "tn": 953,
+        "tn": 963,
         "precision": 0.0,
         "recall": 0.0,
         "f1": 0.0,
-        "fpr": 0.02556237218813906,
-        "flagged": 25,
+        "fpr": 0.015337423312883436,
+        "flagged": 15,
         "truth": 1
       },
       "per_rule": {
@@ -40,18 +40,6 @@
           "f1": 0.0,
           "fpr": 0.015337423312883436,
           "flagged": 15,
-          "truth": 1
-        },
-        "R5_topology": {
-          "tp": 0,
-          "fp": 10,
-          "fn": 1,
-          "tn": 968,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "fpr": 0.010224948875255624,
-          "flagged": 10,
           "truth": 1
         },
         "R5_attribute_neighbour": {
@@ -73,14 +61,14 @@
       "segments": 979,
       "overall": {
         "tp": 0,
-        "fp": 25,
+        "fp": 15,
         "fn": 8,
-        "tn": 946,
+        "tn": 956,
         "precision": 0.0,
         "recall": 0.0,
         "f1": 0.0,
-        "fpr": 0.025746652935118436,
-        "flagged": 25,
+        "fpr": 0.015447991761071062,
+        "flagged": 15,
         "truth": 8
       },
       "per_rule": {
@@ -94,18 +82,6 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
-        },
-        "R5_topology": {
-          "tp": 0,
-          "fp": 10,
-          "fn": 8,
-          "tn": 961,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "fpr": 0.010298661174047374,
-          "flagged": 10,
           "truth": 8
         },
         "R5_attribute_neighbour": {
@@ -127,14 +103,14 @@
       "segments": 979,
       "overall": {
         "tp": 6,
-        "fp": 25,
+        "fp": 15,
         "fn": 2,
-        "tn": 946,
-        "precision": 0.1935483870967742,
+        "tn": 956,
+        "precision": 0.2857142857142857,
         "recall": 0.75,
-        "f1": 0.30769230769230765,
-        "fpr": 0.025746652935118436,
-        "flagged": 31,
+        "f1": 0.4137931034482759,
+        "fpr": 0.015447991761071062,
+        "flagged": 21,
         "truth": 8
       },
       "per_rule": {
@@ -148,18 +124,6 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
-        },
-        "R5_topology": {
-          "tp": 0,
-          "fp": 10,
-          "fn": 8,
-          "tn": 961,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "fpr": 0.010298661174047374,
-          "flagged": 10,
           "truth": 8
         },
         "R5_attribute_neighbour": {
@@ -181,14 +145,14 @@
       "segments": 979,
       "overall": {
         "tp": 6,
-        "fp": 26,
+        "fp": 16,
         "fn": 2,
-        "tn": 945,
-        "precision": 0.1875,
+        "tn": 955,
+        "precision": 0.2727272727272727,
         "recall": 0.75,
-        "f1": 0.3,
-        "fpr": 0.026776519052523172,
-        "flagged": 32,
+        "f1": 0.39999999999999997,
+        "fpr": 0.016477857878475798,
+        "flagged": 22,
         "truth": 8
       },
       "per_rule": {
@@ -202,18 +166,6 @@
           "f1": 0.39999999999999997,
           "fpr": 0.016477857878475798,
           "flagged": 22,
-          "truth": 8
-        },
-        "R5_topology": {
-          "tp": 0,
-          "fp": 10,
-          "fn": 8,
-          "tn": 961,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "fpr": 0.010298661174047374,
-          "flagged": 10,
           "truth": 8
         },
         "R5_attribute_neighbour": {
@@ -235,14 +187,14 @@
       "segments": 979,
       "overall": {
         "tp": 0,
-        "fp": 25,
+        "fp": 15,
         "fn": 8,
-        "tn": 946,
+        "tn": 956,
         "precision": 0.0,
         "recall": 0.0,
         "f1": 0.0,
-        "fpr": 0.025746652935118436,
-        "flagged": 25,
+        "fpr": 0.015447991761071062,
+        "flagged": 15,
         "truth": 8
       },
       "per_rule": {
@@ -256,18 +208,6 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
-        },
-        "R5_topology": {
-          "tp": 0,
-          "fp": 10,
-          "fn": 8,
-          "tn": 961,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "fpr": 0.010298661174047374,
-          "flagged": 10,
           "truth": 8
         },
         "R5_attribute_neighbour": {
@@ -289,14 +229,14 @@
       "segments": 979,
       "overall": {
         "tp": 0,
-        "fp": 25,
+        "fp": 15,
         "fn": 8,
-        "tn": 946,
+        "tn": 956,
         "precision": 0.0,
         "recall": 0.0,
         "f1": 0.0,
-        "fpr": 0.025746652935118436,
-        "flagged": 25,
+        "fpr": 0.015447991761071062,
+        "flagged": 15,
         "truth": 8
       },
       "per_rule": {
@@ -310,18 +250,6 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
-        },
-        "R5_topology": {
-          "tp": 0,
-          "fp": 10,
-          "fn": 8,
-          "tn": 961,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "fpr": 0.010298661174047374,
-          "flagged": 10,
           "truth": 8
         },
         "R5_attribute_neighbour": {

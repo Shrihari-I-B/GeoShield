@@ -523,7 +523,17 @@ RULES = {
     "R2_taper_anomaly": rule_boundary_asymmetry,
     "R4_speed_implausible": rule_speed_plausibility,
     "R4_speed_neighbour": rule_speed_neighbour,
-    "R5_topology": rule_topology,
+    # R5_topology CUT 2026-10-29. It earned its place by catching
+    # connectivity_break at recall 1.000 -- on a truth set of ONE lanelet.
+    # Against a proper 8-lanelet truth set it catches 0 of 8, because a
+    # broken successor link only orphans a lanelet if it was that
+    # lanelet's last link, which is rare. It cost 10 of Tier 1's 25
+    # clean-map false positives for zero detection, and R5_orphan cannot
+    # gate without a prior anyway: it fires 10 times on the clean map and
+    # there is no baseline to compare that count against.
+    # The function is kept below, unregistered, like R5_dead_end before it.
+    # Topology tampering without a prior is unsolved; differential
+    # verification catches it at recall 1.000.
     "R5_attribute_neighbour": rule_attribute_neighbour,
 }
 

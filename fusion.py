@@ -45,7 +45,7 @@ VERDICT_SCORE = {"REJECT": 1.0, "SUSPECT": 0.5, "ACCEPT": 0.0}
 # were cut on evidence (R1 alone flags ~145 lanelets on any map, attack or not).
 # Feeding the full rule set into a fusion imports a false-positive carpet that
 # the rule-level ablation already rejected.
-TIER1_MINIMAL = ["R4_speed_neighbour", "R5_topology", "R5_attribute_neighbour"]
+TIER1_MINIMAL = ["R4_speed_neighbour", "R5_attribute_neighbour"]
 
 
 def tier1_scores(segments, cal, rules=None) -> dict:
