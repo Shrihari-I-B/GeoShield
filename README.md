@@ -25,6 +25,27 @@ The reason underneath both: a detector with a non-zero clean-map rate emits
 counts that cannot be interpreted without a baseline. **The prior is that
 baseline.**
 
+## Reproducing this
+
+Regenerates both attack families from the clean map, asserts every detection
+and repair figure below, checks eight gate decisions by exit code, and
+re-derives the Track B safety figures from the bags that produced them. No
+ROS, no simulator, no network, no GPU.
+
+| command | what it proves |
+|---|---|
+| `bash reproduce.sh detect` | detection and repair; every figure asserted, not printed |
+| `bash reproduce.sh gate` | eight gate decisions by exit code, with and without a trusted prior |
+| `bash reproduce.sh archive` | the nine Track B `d_Fe` figures, re-derived from their own bags |
+| `bash reproduce.sh drive` | checklist for recording the bags from scratch, seven launches |
+| `bash reproduce.sh all` | the first three, then the drive if its recordings exist |
+
+A moved figure exits non-zero and names itself. Every `results/fr_*.json`
+records the two bags it read, so `archive` needs no hardcoded list and
+re-derives all nine to 0.0000 m. The drive is a checklist rather than a
+pipeline because Autoware permits one recording per launch and the map
+argument changes between conditions.
+
 ## Safety impact (Track B)
 
 Discrete Fréchet distance between the recorded trajectory and the clean-map

@@ -239,10 +239,21 @@ TXT
   done
 }
 
+cmd_archive () {
+  echo "== Track B safety figures, re-derived from the archived bags"
+  # Each results/fr_*.json names the two bags it read, so every published
+  # d_Fe is re-derivable without re-recording. This is what makes the safety
+  # claim demonstrable: 1.4454 m stops being a number in a file.
+  python3 verify_trackb.py "$@" || {
+    echo; echo "archive: a Track B figure moved" >&2; exit 1; }
+}
+
 cmd_all () {
   cmd_detect
   echo
   cmd_gate
+  echo
+  cmd_archive
   echo
   local miss=0
   for b in rb_clean rb_clean_repeat rb_clean_shield rb_width rb_width_shield \
@@ -252,13 +263,15 @@ cmd_all () {
   if [ "$miss" = 0 ]; then
     cmd_drive
   else
-    echo "== drive: skipped, bags incomplete"
-    echo "   Autoware permits one recording per launch, so the drive is a"
-    echo "   checklist by necessity: bash reproduce.sh drive"
+    echo "== fresh drive: skipped, rb_* bags not recorded"
+    echo "   The Track B figures above were re-derived from the archived"
+    echo "   recordings instead. A from-scratch re-recording is seven"
+    echo "   launches, because Autoware permits one per launch and the map"
+    echo "   argument changes between conditions: bash reproduce.sh drive"
   fi
   echo
-  echo "PASS -- detection, repair and 8 gate decisions verified with no ROS,"
-  echo "        no simulator and no network."
+  echo "PASS -- detection, repair, 8 gate decisions and the Track B safety"
+  echo "        figures, all verified with no ROS, no simulator, no network."
 }
 
 cmd_gate () {
@@ -309,6 +322,7 @@ case "${1:-}" in
   detect) cmd_detect ;;
   gate)   cmd_gate ;;
   drive)  cmd_drive ;;
+  archive) cmd_archive ;;
   all)    cmd_all ;;
-  *) echo "usage: bash reproduce.sh {detect|gate|drive|all}" >&2; exit 2 ;;
+  *) echo "usage: bash reproduce.sh {detect|gate|archive|drive|all}" >&2; exit 2 ;;
 esac
