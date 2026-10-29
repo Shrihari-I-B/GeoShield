@@ -4,23 +4,32 @@ A map-integrity gate for autonomous navigation.
 
 GeoShield sits at the ingest boundary between an HD map file and Autoware's
 planning stack. It inspects a candidate map before the planner sees it, refuses
-maps that fail integrity checks, and writes a repaired map the planner can use
-instead. It never touches sensor data.
+or repairs what fails, and admits the result. It never touches sensor data.
 
 Extends Sato et al., USENIX VehicleSec 2025, which demonstrated HD map
 tampering attacks and proposed no defence.
 
-## What is demonstrated
+## What it claims
 
-Two attack families injected into the Nishi-Shinjuku Lanelet2 map and driven
-end-to-end in the Autoware planning simulator, each in four conditions, one
-system configuration throughout.
+Two claims, both measured, neither assumed:
 
-### Safety impact (Track B)
+1. **Lane width is witnessed by neither OpenStreetMap nor within-map
+   self-consistency.** Cross-verification's recall ceiling on width is
+   **0.000** — not one of 844 geometrically matched lanelets carries a width
+   tag in OSM — and eight independent detection approaches, rule-based and
+   learned, fail to separate a width ramp from clean geometry.
+2. **It is therefore recoverable only against a trusted prior**, which
+   GeoShield does with exact repair and a measured safety impact.
 
-Discrete Frechet distance between the recorded trajectory and the clean-map
-reference, metres, arc-length truncated to strip start/stop artefacts.
-Route: lanelet 3012234 to 3002007, 393.2 m.
+The reason underneath both: a detector with a non-zero clean-map rate emits
+counts that cannot be interpreted without a baseline. **The prior is that
+baseline.**
+
+## Safety impact (Track B)
+
+Discrete Fréchet distance between the recorded trajectory and the clean-map
+reference, arc-length truncated. Autoware 0.50.0-docker, route 3012234 →
+3002007, 393.2 m.
 
 | condition | d_Fe (m) | outcome |
 |---|---|---|
@@ -31,168 +40,158 @@ Route: lanelet 3012234 to 3002007, 393.2 m.
 | centreline injection + GeoShield | 0.0504 | completes, no MRM |
 | clean + GeoShield (false-positive control) | 0.0492 | completes |
 
-Run-to-run noise over six non-attack runs: 0.0302 to 0.0516 m, mean 0.0408,
-sd 0.0098. The weaker attack is 11x the worst non-attack run, the stronger 28x.
-The width-ramp figure reproduced to 2.1 mm across a one-week gap
-(1.4475 m, then 1.4454 m).
+Seven non-attack comparisons span **0.0302–0.0516 m**; the weaker attack is
+**11×** the worst of them. The width-ramp figure reproduced to 2.1 mm across a
+one-week gap.
 
-### Detection
+## Detection, against a trusted prior
 
-`differential_verify.py`, candidate against trusted prior.
+| attack | N | verdict | precision | recall |
+|---|---|---|---|---|
+| clean control | 0 | ACCEPT | — | 0 false alarms |
+| oneway_flip | 8 | REJECT | **1.000** | **1.000** |
+| speed_spoof | 8 | REJECT | **1.000** | 0.875 |
+| centerline_injection | 1 | REJECT | 1.000 | 1.000 |
+| width_step | 8 | REVIEW | 0.714 | 0.625 |
+| connectivity_break | 8 | REJECT | 0.571 | 1.000 |
+| width_ramp | 8 | REJECT | 0.471 | 1.000 |
 
-| map | flagged | TP | FP | recall | precision |
-|---|---|---|---|---|---|
-| width ramp, 8 tampered lanelets | 17 | 8 | 9 | 1.000 | 0.471 |
-| centreline injection, 8 tampered lanelets | 8 | 8 | 0 | 1.000 | 1.000 |
-| clean control | 0 | - | 0 | - | ACCEPT |
+### Detection floor
 
-The rejected alternative, for the ablation: gating on the `chain_trend_R1`
-feature at p95 gives recall 0.875, precision 0.039, and clamps 163 lanelets on
-an untampered map. No percentile fixes it; recall reaches 0 at p99.5 while 25
-clean lanelets are still flagged. A percentile of a per-chain statistic flags
-a fixed fraction of chains by construction.
+| intended gain | realised | verdict | recall |
+|---|---|---|---|
+| +0.25 m | 0.218 | REVIEW | 0.375 |
+| **+0.50 m** — Sato's smallest effective attack | 0.436 | **REVIEW** | **0.750** |
+| +0.75 m | 0.655 | **REJECT** | 0.875 |
+| +3.00 m | 2.623 | REJECT | 1.000 |
 
-### Repair
+**GeoShield refuses width tampering from +0.75 m, and escalates Sato's +0.5 m
+attack for review at recall 0.750.** Realisation holds at 0.874 across every
+magnitude, so the floor is the detector's, not the injector's.
 
-Exact restoration of flagged geometry from the trusted prior.
+Precision *falls* as the attack grows (1.000 → 0.471) because larger
+displacements propagate through shared boundary nodes into lanelets the label
+set does not name. Those extra flags are real modifications, so 0.471 is
+pessimistic rather than accurate.
 
-- Width ramp: 176 boundary nodes restored, 404 matched unchanged. The repaired
-  map's node coordinates are identical to the prior, 0 of 0 differing.
-- Centreline injection: 8 injected relation members removed, then 8 orphaned
-  ways and 89 orphaned nodes. Way and node counts match the prior exactly.
+## The blind spot, measured
 
-Restoring unmodified geometry is a no-op, so repair is idempotent and repair
-precision is irrelevant. Only recall matters.
+OSM width coverage across four cities:
 
-Orphan removal is not cosmetic. Leaving the 8 orphaned ways and 89 nodes in
-place produced a repeating `mrm_comfortable_stop_operator` that the clean
-control did not show; they were the only difference between the two maps.
+| region | drivable ways | with `width` |
+|---|---|---|
+| berlin-mitte | 1817 | 27.4% |
+| munich-centre | 2496 | 5.9% |
+| **nishi-shinjuku** | 782 | **0.3%** |
+| sf-soma | 1552 | **0.0%** |
 
-## Two findings
+Cross-verification against OSM on the evaluation region, 844 of 979 lanelets
+matched geometrically at 2.9 m median:
 
-**The reference frame is the attack surface.** The width ramp is the more
-dangerous family despite being the cruder one. Moving lane boundaries moves the
-lane, so lane-keeping does not object: the vehicle tracks a corrupted centre
-faithfully and reports no error. An attack that corrupts the reference frame
-defeats every check defined in that frame. The centreline injection, which
-leaves boundaries intact, trips Autoware's own boundary-departure monitor and
-an MRM, and is therefore the safer attack from the victim's point of view.
+| attribute | ceiling | clean-map disagreement |
+|---|---|---|
+| oneway | 0.718 | 8.8% |
+| lanes | 0.640 | 98.1% (semantic mismatch: lane-level vs carriageway) |
+| speed_limit | 0.246 | 31.5% |
+| **width** | **0.000** | — |
 
-**Body departure precedes path departure.** At the centreline stop the
-commanded lateral offset was 0.864 m, inside the 1.529 m half-lane. Adding the
-0.948 m vehicle half-width puts the body 0.282 m past the boundary. Body
-departure begins at 0.581 m of commanded offset, 2.6x more sensitive than path
-departure. A defence evaluated on path error alone understates the hazard.
+Cross-verification compares **two different artefacts**, so a disagreement is
+ambiguous between tampering, HD-map error and stale OSM. Differential
+verification compares the same artefact against its own earlier self, so a
+disagreement is unambiguous. That, more than coverage, is why the prior is
+required.
 
-## What is not demonstrated
+## Architecture
 
-Read this before quoting any number above.
+Two modes, selected by whether a trusted prior exists.
 
-- **The Track B gate is differential, not self-consistent.** Every figure in
-  the tables comes from comparison against a trusted prior map. The project's
-  thesis claim, self-consistency needing no external witness, lives in
-  `tier1_rules.py` and `tier2_iforest.py` and is evaluated on Track A. It is
-  not what gated these drives. The two modes rest on different assumptions and
-  are reported separately. A trusted prior is unavailable on first map load and
-  in a new region, which is where self-consistency is the only option.
-- **The gate runs once, at launch, not continuously.**
-  `geoshield_verifier.py` verifies the map file before the planner starts, but
-  nothing re-checks a map that changes while the stack is running and nothing
-  interposes on `/map/vector_map` between `map_loader` and the planner. The
-  verifier's ROS publications are not durable either: DDS TRANSIENT_LOCAL lasts
-  only as long as its publisher, so the verdict topic vanishes when the gate
-  process exits. The durable record is the JSON report on disk, and the launch
-  file starts a separate long-lived publisher for the flagged-lanelet markers. Verifying the projected `LaneletMapBin` on that
-  topic is future work, and it would make the gate depend on the simulator,
-  which the file-level gate does not.
-- **No no-prior repair policy.** Repair restores from the prior.
-- **Tier 3 Overpass cross-verification is not in the Track B path.**
-- **One map, one route.** Track B is Nishi-Shinjuku, one 393.2 m corridor.
-- **Coherence gap.** `build_dataset.py` models a uniform width shift in memory
-  while the written maps are tapered at the joins with untampered road. Track A
-  features and Track B maps therefore do not describe the same attack.
-- **Centreline recall is structural, not geometric.** The arc-length ramp
-  concentrates displacement: five of the eight tampered lanelets shift by
-  0.111 m or less, and the last three carry 89% of the 1.0 m total. Those five
-  are caught because a `centerline` member exists where the prior had none, not
-  because an 11 cm anomaly was resolved. Recall 1.000 on this family is a
-  structural result. The smallest geometrically detectable shift is unmeasured.
-  A constant-shift variant with the ramp removed would measure it and belongs
-  in the ablation.
+**With a prior** — differential verification alone, then exact restoration.
+Optimal on every attack family tested; each added tier costs precision and
+gains no recall. One exception: on `speed_spoof`, Tier 1 raises average
+precision 0.879 → 0.925 by ranking a lanelet differential scores low.
+
+**Without a prior** — Tier 1 minimal, two rules, clean-map FPR **0.0153**, no
+calibration. Gates on `R5_attribute_neighbour` (clean-map FPR 0.0000) alone,
+because only a rule that never fires on clean data can gate without a baseline.
+Consensus repair where that rule licenses it; speed corrections proposed for
+review, never written. Covers 1 of 4 families. Geometry uncovered.
+
+**Tier 3** (Overpass cross-verification) is built and measured, and
+deliberately not in the inference path — it is the baseline the design is
+justified against. API-call reduction is therefore 100%.
+
+**Tier 2** (Isolation Forest, 27 features) reaches PR-AUC 0.018 on width
+against a base rate of 0.0082 and is the second most expensive stage. Retained
+and measured; it earns no place in the gate.
+
+### Latency
+
+Once at map ingest, not per planning cycle.
+
+| stage | |
+|---|---|
+| Tier 1 minimal (2 rules) | 0.00 s |
+| Tier 3 match + coverage | 0.04 s |
+| Tier 2 Isolation Forest | 0.91 s |
+| repair_differential | 1.21 s |
+| differential_verify | 1.66 s |
+| **gate end to end** | **4.57 s** |
+
+## The shared-node constraint
+
+Consecutive Lanelet2 lanelets **share their boundary nodes**. Three findings
+follow:
+
+- A detector reading discontinuity *at a join* measures zero on any well-formed
+  map, tampered or not. Three Tier 2 features were built that way and are
+  identically zero on all 979 lanelets.
+- An abrupt width step **cannot be written**. Isolated edits realise ~0.23 of
+  their intended magnitude; on a 9.96 m lanelet, nothing at all.
+- An attacker cannot make an isolated geometric edit stick — width tampering
+  must be contiguous, so it necessarily has spatial extent.
+
+## What this does not do
+
+- **Width is invisible to every no-prior check tested** — eight approaches,
+  rule-based and learned. The prior is not an optimisation.
+- **Without a prior the gate covers 1 of 4 attack families.** Geometry is
+  neither detected nor repaired.
+- **Tier 1 cannot examine 215 of 979 lanelets** — those with fewer than two
+  connected neighbours. Its coverage ceiling is 0.780; conditional recall on
+  what it can examine is 1.000. An attacker targeting stubs and dead ends
+  evades it entirely.
+- **`R5_topology` was cut**, so connectivity breaks have no no-prior detection.
+- **One map**, by decision. Generality is untested.
+- The no-prior branch has not been exercised inside the Autoware container.
 
 ## Superseded results
 
-`RESULTS.md` and `RESULTS_UPDATE.md` contain Track B trajectory figures
-recorded before 2026-10-26 that are invalid.
+`RESULTS.md` and `RESULTS_UPDATE.md` contain Track B figures recorded before
+2026-10-19 that are invalid: `write_tampered_map` displaced nodes in
+`local_x`/`local_y` only, while Autoware projects from `lat`/`lon`. 36 936
+nodes compared, 178 differing in local coordinates, **0 in lat/lon** — every
+"tampered" drive before that date was a clean drive. The 0.0402 m quoted there
+is the run-to-run noise floor.
 
-`write_tampered_map()` displaced nodes in the Lanelet2 `local_x` and `local_y`
-tags only. Autoware, finding no `map_projector_info.yaml`, defaults to MGRS and
-projects from the `lat` and `lon` attributes, which were never written. A
-node-level diff settled it: 36936 nodes compared, 178 differing in
-`local_x`/`local_y`, **0 differing in lat/lon**. Every tampered drive before
-that date was a clean drive. The 0.0402 m quoted in those files is the
-run-to-run noise floor, not an attack effect.
-
-The same defect was present in `repair.py`, where it would have shown GeoShield
-failing to repair a map it had repaired correctly, and twice in
-`centerline_attack.py` as `lat="0" lon="0"` and `ele="0"` on created nodes. All
-coordinate writes now go through `osm_geom.py`.
-
-The bug was findable only because a run-to-run noise floor was measured first.
-It had never been measured. `demo.sh` was deleted rather than updated because
-it asserted the 0.0402 m figure as an attack effect.
-
-Figures in this README supersede both files.
-
-## Reproducing
-
-    bash reproduce.sh detect     # no ROS, no Docker, no simulator
-    bash reproduce.sh gate       # the gate's five decisions, by exit code
-    bash reproduce.sh drive      # operator checklist for the seven Autoware runs
-
-The split is deliberate. `detect` builds both attack maps, runs verification
-and repair, and checks the repaired maps against the prior, on any machine with
-Python. The detection pipeline does not depend on the simulator working.
-`drive` cannot be fully automated: Autoware permits one recording per launch,
-and the map argument changes between conditions.
-
-Under `launch/`, `geoshield_gate.launch.py` runs the verifier and includes
-Autoware's `planning_simulator.launch.xml` only on a passing exit, so a refused
-map never reaches the planner. `autoware_launch` is resolved inside the exit
-handler, which keeps the refuse path testable where Autoware is not installed.
-
-Verified in the Autoware container, 2026-10-28: a tampered map was refused,
-repaired, re-verified and admitted, after which `/map/lanelet2_map_loader`
-reported `lanelet2_map_path = /autoware_map/geoshield_verified/lanelet2_map.osm`.
-
-`detect` compares its regenerated maps against the archived ones geometrically
-rather than by hash. lat/lon is written to twelve decimals while
-`local_x`/`local_y` carry 0.1 mm, so the last digits are invented precision: the
-archived `route_cl1.0.osm` differs from a fresh run by one unit in the last
-place of longitude on three of its 89 created nodes, about 1e-7 m, with local
-coordinates bit-identical.
+`results/superseded/` holds pre-fix evaluation artefacts and three Fréchet runs
+excluded from the demo, each with its reason.
 
 ## Layout
 
 | path | role |
 |---|---|
-| `geoshield_verifier.py` | the gate: verify, repair, then admit or refuse |
+| `geoshield_verifier.py` | the gate: verify, repair, admit or refuse, both modes |
 | `launch/geoshield_gate.launch.py` | starts the planner only on an admitted map |
-| `osm_geom.py` | coordinate calibration and writes, single source of truth |
-| `attack_injector.py` | width-ramp family |
-| `centerline_attack.py` | centreline-injection family |
-| `differential_verify.py` | detection against a trusted prior |
-| `repair_differential.py` | restoration from a trusted prior |
-| `tier1_rules.py`, `tier2_iforest.py` | no-prior self-consistency checks |
-| `osm_adapter.py`, `lanelet2_adapter.py` | normalise to the `RoadSegment` schema |
-| `scenario_runner.py` | drives a route in Autoware and records a verified bag |
-| `frechet_analysis.py` | trajectory comparison |
-| `publish_flags.py` | RViz MarkerArray for flagged lanelets |
-| `ARCHITECTURE_BLUEPRINT.md` | design intent, including unmet acceptance criteria |
-
-`scenario_runner.py` must run inside the Autoware container; it refuses to run
-on the host, where `autoware_adapi_v1_msgs` is absent and engage fails with
-"The passed service type is invalid".
+| `differential_verify.py` / `repair_differential.py` | the prior-based path |
+| `repair_noprior.py` | consensus repair where rule precision licenses it |
+| `tier1_rules.py` | two surviving rules; six cut, with reasons |
+| `tier2_iforest.py` / `features.py` | learned anomaly detection |
+| `tier3_osm_verify.py` | OSM cross-verification, matching and coverage |
+| `fusion.py` | P_attack, and the ablation that superseded it |
+| `attack_injector.py` / `centerline_attack.py` | the two attack families |
+| `osm_geom.py` | coordinate writes, single source of truth |
+| `magnitude_sweep.py` / `latency.py` | detection floor and stage timing |
+| `demo.sh` / `reproduce.sh` | presentation and reproduction |
 
 ## Reference
 
