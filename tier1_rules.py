@@ -130,11 +130,31 @@ def calibrate(clean: list[RoadSegment]) -> dict:
         if st and en and s.width_m:
             tapers.append(abs(float(en) - float(st)) / s.width_m)
 
+    # Distance to the most agreeable speed-bearing neighbour, log scale.
+    # Sharply bimodal on Nishi-Shinjuku: 95% of lanelets match some neighbour
+    # exactly, so any non-zero value is already unusual. p99 of this
+    # distribution is 0.6931 = ln(2), which is exactly the factor that used to
+    # be hand-set in rule_speed_neighbour.
+    speed_gaps = []
+    for s in clean:
+        if not s.speed_limit_kph:
+            continue
+        nb = [by[t].speed_limit_kph for t in (s.successors + s.predecessors)
+              if t in by and by[t].speed_limit_kph]
+        if len(nb) < 2:
+            continue
+        speed_gaps.append(min(abs(math.log(s.speed_limit_kph / n))
+                              for n in nb if n > 0))
+
     # trend statistic on clean chains, to set the R1 cutoff
     trends = [t for t in (_chain_trend(c, by) for c in _chains(clean, by, 5))
               if t is not None]
 
     return {
+        "speed_nbr_p975": _pctl(speed_gaps, 97.5),
+        "speed_nbr_p98": _pctl(speed_gaps, 98),
+        "speed_nbr_p99": _pctl(speed_gaps, 99),
+        "n_speed_pairs": len(speed_gaps),
         "rel_delta_p99": _pctl(rel_deltas, 99),
         "taper_p99": _pctl(tapers, 99),
         "trend_p995": _pctl(trends, 99.5),
@@ -385,7 +405,24 @@ def rule_speed_plausibility(segments, by, cal, a_lat_max: float = 6.0,
 
 
 def rule_speed_neighbour(segments, by, cal, factor: float = 2.0) -> list[Finding]:
-    """A speed limit far out of line with every connected neighbour."""
+    """A speed limit out of line with EVERY connected neighbour.
+
+    The docstring always said "every". The code tested the neighbour MEDIAN,
+    which is a weaker and different claim, and the difference shows up at
+    private/public junctions. Measured on Nishi-Shinjuku after the speed-unit
+    fix: lanelet:2 declares 5 km/h with neighbours [60, 60, 60, 60, 5, 10].
+    It agrees with two of them, but the median is 35, so the median test fires.
+    32 lanelets fired that way on a clean map, all of them legitimate.
+
+    Requiring disagreement with ALL neighbours matches R5_attribute_neighbour,
+    the rule with a measured clean-map false-positive rate of 0.0000. A real
+    speed transition always leaves at least one neighbour on the same side of
+    it; a value substituted by an attacker has none.
+    """
+    # Calibrated from the clean map, not hand-set. The percentile IS the
+    # false-positive budget: p99 (= the old factor of 2.0) misses a 1.65x
+    # spoof, p98 catches it for roughly four more false positives.
+    thr = cal.get("speed_nbr_p98") or math.log(factor)
     out = []
     for s in segments:
         if not s.speed_limit_kph:
@@ -394,15 +431,17 @@ def rule_speed_neighbour(segments, by, cal, factor: float = 2.0) -> list[Finding
               if t in by and by[t].speed_limit_kph]
         if len(nb) < 2:
             continue
-        med = statistics.median(nb)
-        if med <= 0:
+        gaps = [abs(math.log(s.speed_limit_kph / n)) for n in nb if n > 0]
+        if len(gaps) < 2:
             continue
-        r = s.speed_limit_kph / med
-        if r > factor or r < 1 / factor:
+        nearest = min(gaps)
+        if nearest > thr:
             out.append(Finding(
                 s.segment_id, "R4_speed_neighbour",
-                min(abs(math.log(r)) / math.log(factor) - 1, 1.0) if r else 0.0,
-                f"{s.speed_limit_kph:.0f} km/h vs neighbour median {med:.0f}"))
+                min(nearest / max(thr, 1e-9) - 1.0, 1.0),
+                f"{s.speed_limit_kph:.0f} km/h: nearest neighbour differs by "
+                f"{math.exp(nearest):.2f}x against a {math.exp(thr):.2f}x "
+                f"threshold; neighbours {sorted({int(n) for n in nb})}"))
     return out
 
 

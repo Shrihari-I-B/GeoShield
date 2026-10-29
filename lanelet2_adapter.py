@@ -252,15 +252,34 @@ def build_topology(m: Lanelet2Map) -> dict[int, dict[str, list[int]]]:
 # ----------------------------------------------------------------------
 
 def parse_speed(tags: dict) -> Optional[float]:
+    """Lanelet2 stores speed_limit in km/h unless the value carries a unit.
+
+    A heuristic here read any bare value below 20 as m/s and multiplied by 3.6,
+    on the premise that "anything under 20 is implausible as km/h for a road".
+    Measured on Nishi-Shinjuku, that premise is false. The raw values are
+    {5, 8, 10, 12, 20, 40, 50, 60}, and the 10s sit on 84 crosswalks and 8
+    walkways, where 10 km/h is correct and the heuristic's 36 km/h is not. The
+    5s and 8s are private lanes. Read as m/s, the 50s would be 180 km/h on an
+    urban street, and a file does not mix units silently.
+
+    The heuristic mis-converted 201 of 979 lanelets (20.5%) and accounted for
+    56 of Tier 3's 76 speed disagreements with OSM. It was also discontinuous:
+    a raw 19 parsed to 68.4 km/h while a raw 20 parsed to 20.
+
+    Units are now honoured only when the value states them.
+    """
     v = tags.get("speed_limit")
     if v is None:
         return None
+    s = str(v).strip().lower()
+    mps = "m/s" in s or "mps" in s
+    for u in ("km/h", "kmh", "kph", "m/s", "mps"):
+        s = s.replace(u, "")
     try:
-        s = float(str(v).replace("km/h", "").replace("kmh", "").strip())
+        x = float(s.strip())
     except ValueError:
         return None
-    # Some maps store m/s. Anything under 20 is implausible as km/h for a road.
-    return round(s * 3.6, 1) if s < 20 else s
+    return round(x * 3.6, 1) if mps else x
 
 
 def to_segments(m: Lanelet2Map, samples: int = 12) -> list[RoadSegment]:

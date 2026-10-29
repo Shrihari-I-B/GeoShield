@@ -25,21 +25,21 @@
       "config": [
         "tier1"
       ],
-      "average_precision": 0.009080730670075698,
-      "flagged": 4,
+      "average_precision": 0.009072526285674313,
+      "flagged": 11,
       "tp": 0,
-      "fp": 4,
+      "fp": 11,
       "fn": 8,
       "precision": 0.0,
       "recall": 0.0,
       "f1": 0.0,
-      "fpr": 0.004119464469618949
+      "fpr": 0.01132852729145211
     },
     {
       "config": [
         "tier2"
       ],
-      "average_precision": 0.019030616959913198,
+      "average_precision": 0.01786172298708999,
       "flagged": 0,
       "tp": 0,
       "fp": 0,
@@ -54,30 +54,30 @@
         "tier1",
         "differential"
       ],
-      "average_precision": 0.7906746031746033,
-      "flagged": 21,
+      "average_precision": 0.7751190476190477,
+      "flagged": 28,
       "tp": 8,
-      "fp": 13,
+      "fp": 20,
       "fn": 0,
-      "precision": 0.38095238095238093,
+      "precision": 0.2857142857142857,
       "recall": 1.0,
-      "f1": 0.5517241379310345,
-      "fpr": 0.013388259526261586
+      "f1": 0.4444444444444445,
+      "fpr": 0.02059732234809475
     },
     {
       "config": [
         "tier1",
         "tier2"
       ],
-      "average_precision": 0.017711355736448265,
-      "flagged": 4,
+      "average_precision": 0.0167378462590098,
+      "flagged": 11,
       "tp": 0,
-      "fp": 4,
+      "fp": 11,
       "fn": 8,
       "precision": 0.0,
       "recall": 0.0,
       "f1": 0.0,
-      "fpr": 0.004119464469618949
+      "fpr": 0.01132852729145211
     },
     {
       "config": [
@@ -100,15 +100,15 @@
         "tier2",
         "differential"
       ],
-      "average_precision": 0.7827380952380953,
-      "flagged": 21,
+      "average_precision": 0.7708333333333334,
+      "flagged": 28,
       "tp": 8,
-      "fp": 13,
+      "fp": 20,
       "fn": 0,
-      "precision": 0.38095238095238093,
+      "precision": 0.2857142857142857,
       "recall": 1.0,
-      "f1": 0.5517241379310345,
-      "fpr": 0.013388259526261586
+      "f1": 0.4444444444444445,
+      "fpr": 0.02059732234809475
     }
   ]
 }
