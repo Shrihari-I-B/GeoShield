@@ -97,6 +97,39 @@ def run_one(attack_name: str, clean_map: str, segments, data_dir: Path,
     # --- verify ---
     prev_segs = load_map(clean_map)
     cand_segs = load_map(osm_path)
+
+    # --- record what was WRITTEN, not only what was intended ---
+    # save() above serialises the in-memory AttackResult, but
+    # write_tampered_map realises the attack through shared boundary nodes and
+    # the two differ. Measured on width_step: labels claimed +1.605 m where the
+    # file holds +0.199 m. Lanelet2 lanelets share their boundary nodes with
+    # their neighbours, so a width change cannot step at a join -- displacing a
+    # shared node widens the neighbour too, and the change must taper within
+    # the lanelet. On a 9.96 m lanelet with no interior nodes it vanishes
+    # entirely. Ground truth now carries both numbers so the gap is documented
+    # rather than erased, and metrics can be computed against the file.
+    _lab = Path(f"{prefix}_labels.json")
+    if _lab.exists():
+        _recs = json.loads(_lab.read_text())
+        _pby = {x.segment_id: x for x in prev_segs}
+        _cby = {x.segment_id: x for x in cand_segs}
+        for _sid, _rec in _recs.items():
+            _f = _rec.get("field_changed")
+            if not _f or _sid not in _pby or _sid not in _cby:
+                continue
+            _o = getattr(_pby[_sid], _f, None)
+            _t = getattr(_cby[_sid], _f, None)
+            _rec["realised_original"] = _o
+            _rec["realised_tampered"] = _t
+            if isinstance(_o, (int, float)) and isinstance(_t, (int, float)):
+                _rec["realised_delta"] = round(_t - _o, 4)
+                try:
+                    _intended = float(_rec["tampered"]) - float(_rec["original"])
+                    _rec["realisation_ratio"] = round((_t - _o) / _intended, 4)
+                except (TypeError, ValueError, ZeroDivisionError):
+                    pass
+        _lab.write_text(json.dumps(_recs, indent=1))
+
     rep = compare(prev_segs, cand_segs)
     rep.changes.extend(structural_diff(clean_map, osm_path))
     rep.runs = find_runs(rep, cand_segs)
@@ -301,6 +334,39 @@ def run_centerline_injection(clean_map: str, data_dir: Path,
     # Verify
     prev_segs = load_map(clean_map)
     cand_segs = load_map(osm_path)
+
+    # --- record what was WRITTEN, not only what was intended ---
+    # save() above serialises the in-memory AttackResult, but
+    # write_tampered_map realises the attack through shared boundary nodes and
+    # the two differ. Measured on width_step: labels claimed +1.605 m where the
+    # file holds +0.199 m. Lanelet2 lanelets share their boundary nodes with
+    # their neighbours, so a width change cannot step at a join -- displacing a
+    # shared node widens the neighbour too, and the change must taper within
+    # the lanelet. On a 9.96 m lanelet with no interior nodes it vanishes
+    # entirely. Ground truth now carries both numbers so the gap is documented
+    # rather than erased, and metrics can be computed against the file.
+    _lab = Path(f"{prefix}_labels.json")
+    if _lab.exists():
+        _recs = json.loads(_lab.read_text())
+        _pby = {x.segment_id: x for x in prev_segs}
+        _cby = {x.segment_id: x for x in cand_segs}
+        for _sid, _rec in _recs.items():
+            _f = _rec.get("field_changed")
+            if not _f or _sid not in _pby or _sid not in _cby:
+                continue
+            _o = getattr(_pby[_sid], _f, None)
+            _t = getattr(_cby[_sid], _f, None)
+            _rec["realised_original"] = _o
+            _rec["realised_tampered"] = _t
+            if isinstance(_o, (int, float)) and isinstance(_t, (int, float)):
+                _rec["realised_delta"] = round(_t - _o, 4)
+                try:
+                    _intended = float(_rec["tampered"]) - float(_rec["original"])
+                    _rec["realisation_ratio"] = round((_t - _o) / _intended, 4)
+                except (TypeError, ValueError, ZeroDivisionError):
+                    pass
+        _lab.write_text(json.dumps(_recs, indent=1))
+
     rep = compare(prev_segs, cand_segs)
     rep.changes.extend(structural_diff(clean_map, osm_path))
     rep.runs = find_runs(rep, cand_segs)
