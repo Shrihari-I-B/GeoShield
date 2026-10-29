@@ -79,7 +79,7 @@ Lanelet2 .osm ───┘                ├─► Tier 2 IForest ┼─► fus
 |---|---|
 | Attack injection, 8 types | seeded, reproducible, writes valid Lanelet2 XML |
 | **Differential verification** | precision/recall **1.000/1.000** on speed_spoof, oneway_flip, centerline_injection; 1.000 recall on both width attacks; **0 false positives** on the clean map |
-| End-to-end simulation | 8/8 tampered lanelets driven, both runs 411 m, `d_Fe` **0.0402 m** vs 0.5 m threshold |
+| End-to-end simulation | 8/8 tampered lanelets driven, both runs 411 m, `d_Fe` **1.4454 m** vs a 0.0408 m noise floor. ~~0.0402 m~~ predates the 2026-10-19 lat/lon fix and was a clean-vs-clean comparison. |
 | Detection evaluation | 29,370 examples, 955 positives, split by run |
 | Local live visualisation | RViz, GPU-accelerated |
 
@@ -439,7 +439,7 @@ Files: `experiments/*.yaml`, `run_experiment.py` (new).
 Declarative spec → run → manifest capturing image digest, git SHA, resolved
 topics, realised widths, metrics.
 **Accept:** `run_experiment.py experiments/g3_reference.yaml` reproduces
-`d_Fe = 0.0402 ± 0.005` from a clean checkout with no manual steps.
+`d_Fe = 1.4454 ± 0.005` from a clean checkout with no manual steps (reproduced to 2.1 mm across a one-week gap). The former criterion of 0.0402 predates the 2026-10-19 lat/lon fix and accepted a clean drive.
 
 **C2 · Merkle tile signing** *(independent of B, needs A1 for test scaffolding)*
 Files: `tile_integrity.py` (new), `tests/test_tile_integrity.py`.

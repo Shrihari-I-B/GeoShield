@@ -351,11 +351,27 @@ def main():
     dv_verdict = dv_report.get("verdict", "?") if dv_report else "?"
     n_changes = len(dv_report.get("changes", [])) if dv_report else 0
 
+    # d_Fe was hardcoded here as "Raw peak vehicle deviation: 0.0402 m". That
+    # figure predates the 2026-10-19 lat/lon fix: it was a clean-vs-clean
+    # comparison -- the run-to-run noise floor, not an attack effect -- and it
+    # would have been rendered onto every figure this script produced. A chart
+    # carrying a number in a format string will eventually carry a false one,
+    # so read it from the result file and omit the field when there is none.
+    dev_txt = ""
+    try:
+        import glob as _glob
+        _cand = sorted(_glob.glob("results/fr_clean_vs_tampered_*.json"))
+        if _cand:
+            _v = json.load(open(_cand[-1])).get("d_Fe")
+            if isinstance(_v, (int, float)):
+                dev_txt = f"  |  d_Fe: {_v:.4f} m"
+    except Exception:
+        pass
+
     fig.suptitle(
         f"GeoShield: {attack_type} attack on {n_attacked} lanelets  "
         f"|  {n_changes} changes detected  "
-        f"|  Verdict: {dv_verdict}  "
-        f"|  Raw peak vehicle deviation: 0.0402 m",
+        f"|  Verdict: {dv_verdict}{dev_txt}",
         color=TEXT_C, fontsize=11, y=0.97, fontfamily="monospace")
 
     # Save
