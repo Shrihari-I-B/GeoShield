@@ -1,0 +1,51 @@
+{
+  "map": "data/repro_width.osm",
+  "segments": 979,
+  "stages": [
+    {
+      "stage": "load clean map",
+      "seconds": 0.489,
+      "note": ""
+    },
+    {
+      "stage": "load candidate map",
+      "seconds": 0.528,
+      "note": ""
+    },
+    {
+      "stage": "calibrate thresholds",
+      "seconds": 0.011,
+      "note": ""
+    },
+    {
+      "stage": "Tier 1 minimal (2 rules)",
+      "seconds": 0.002,
+      "note": "the whole no-prior detector"
+    },
+    {
+      "stage": "differential_verify",
+      "seconds": 1.658,
+      "note": ""
+    },
+    {
+      "stage": "repair_differential",
+      "seconds": 1.209,
+      "note": ""
+    },
+    {
+      "stage": "Tier 2 Isolation Forest (fit + score)",
+      "seconds": 0.915,
+      "note": "PR-AUC 0.018"
+    },
+    {
+      "stage": "Tier 3 OSM match + coverage",
+      "seconds": 0.04,
+      "note": "warm cache; not in the inference path"
+    },
+    {
+      "stage": "GATE end to end, with prior",
+      "seconds": 4.57,
+      "note": ""
+    }
+  ]
+}
