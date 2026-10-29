@@ -50,7 +50,7 @@
           "flagged": 10,
           "truth": 1
         },
-        "R5_oneway_neighbour": {
+        "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
           "fn": 1,
@@ -104,7 +104,7 @@
           "flagged": 12,
           "truth": 1
         },
-        "R5_oneway_neighbour": {
+        "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
           "fn": 1,
@@ -158,7 +158,7 @@
           "flagged": 10,
           "truth": 1
         },
-        "R5_oneway_neighbour": {
+        "R5_attribute_neighbour": {
           "tp": 1,
           "fp": 0,
           "fn": 0,
@@ -212,7 +212,7 @@
           "flagged": 10,
           "truth": 1
         },
-        "R5_oneway_neighbour": {
+        "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
           "fn": 1,
@@ -266,7 +266,7 @@
           "flagged": 10,
           "truth": 8
         },
-        "R5_oneway_neighbour": {
+        "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
           "fn": 8,
@@ -320,7 +320,7 @@
           "flagged": 10,
           "truth": 1
         },
-        "R5_oneway_neighbour": {
+        "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
           "fn": 1,

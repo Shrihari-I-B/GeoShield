@@ -434,13 +434,22 @@ def rule_topology(segments, by, cal) -> list[Finding]:
     return out
 
 
-def rule_oneway_neighbour(segments, by, cal, min_nb: int = 2) -> list[Finding]:
-    """
-    A lanelet whose declared direction contradicts every connected neighbour.
+CATEGORICAL_ATTRS = ("oneway", "tunnel", "bridge")
 
-    Flipping one_way changes no geometry and no connectivity, so it is
-    invisible to every geometric rule. What it does change is agreement with
-    neighbours, which is the same signature R4_speed_neighbour exploits.
+
+def rule_attribute_neighbour(segments, by, cal, min_nb: int = 2) -> list[Finding]:
+    """
+    A declared categorical attribute contradicting every connected neighbour:
+    one_way, tunnel or bridge.
+
+    Flipping any of these changes no geometry and no connectivity, so every
+    geometric rule is blind to them. What they do change is agreement with
+    neighbours, the same signature R4_speed_neighbour exploits. Speed stays a
+    separate rule: it is numeric and compares by ratio, not equality.
+
+    These are corridor properties. A tunnel is a run of lanelets, not one
+    lanelet, and bidirectional roads form connected corridors, so a lanelet
+    disagreeing with ALL of its neighbours is anomalous.
 
     Bidirectional roads form connected corridors. Measured on Nishi-Shinjuku:
     887 one-way and 92 two-way lanelets, and ZERO lanelets disagree with all
@@ -448,18 +457,21 @@ def rule_oneway_neighbour(segments, by, cal, min_nb: int = 2) -> list[Finding]:
     and the rule catches the oneway_flip attack at precision 1.0.
     """
     out = []
-    for s in segments:
-        if s.oneway is None:
-            continue
-        nb = [by[t].oneway for t in (s.successors + s.predecessors)
-              if t in by and by[t].oneway is not None]
-        if len(nb) < min_nb:
-            continue
-        if all(v != s.oneway for v in nb):
-            out.append(Finding(
-                s.segment_id, "R5_oneway_neighbour", 1.0,
-                f"declares one_way={s.oneway} while all {len(nb)} connected "
-                f"neighbours declare {not s.oneway}"))
+    for attr in CATEGORICAL_ATTRS:
+        for s in segments:
+            v = getattr(s, attr, None)
+            if v is None:
+                continue
+            nb = [x for x in (getattr(by[t], attr, None)
+                              for t in (s.successors + s.predecessors)
+                              if t in by) if x is not None]
+            if len(nb) < min_nb:
+                continue
+            if all(x != v for x in nb):
+                out.append(Finding(
+                    s.segment_id, "R5_attribute_neighbour", 1.0,
+                    f"declares {attr}={v} while all {len(nb)} connected "
+                    f"neighbours declare {nb[0]}"))
     return out
 
 
@@ -473,7 +485,7 @@ RULES = {
     "R4_speed_implausible": rule_speed_plausibility,
     "R4_speed_neighbour": rule_speed_neighbour,
     "R5_topology": rule_topology,
-    "R5_oneway_neighbour": rule_oneway_neighbour,
+    "R5_attribute_neighbour": rule_attribute_neighbour,
 }
 
 
