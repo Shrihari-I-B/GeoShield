@@ -110,7 +110,7 @@ Optimal on every attack family tested; each added tier costs precision and
 gains no recall. One exception: on `speed_spoof`, Tier 1 raises average
 precision 0.879 → 0.925 by ranking a lanelet differential scores low.
 
-**Without a prior** — Tier 1 minimal, two rules, clean-map FPR **0.0153**, no
+**Without a prior** — Tier 1 minimal, two rules, clean-map FPR **0.0153** over all 979 lanelets, or **0.0196** over the 764 a neighbour rule can evaluate (see the 215-lanelet limitation below), no
 calibration. Gates on `R5_attribute_neighbour` (clean-map FPR 0.0000) alone,
 because only a rule that never fires on clean data can gate without a baseline.
 Consensus repair where that rule licenses it; speed corrections proposed for
@@ -154,12 +154,24 @@ follow:
 
 - **Width is invisible to every no-prior check tested** — eight approaches,
   rule-based and learned. The prior is not an optimisation.
-- **Without a prior the gate covers 1 of 4 attack families.** Geometry is
-  neither detected nor repaired.
+- **Without a prior the gate refuses on 1 of 6 attack types tested.** Only
+  `oneway_flip` trips a gating rule. `speed_spoof` is detected at the same
+  conditional recall but through `R4_speed_neighbour`, which is advisory, so
+  it never refuses a map. Geometry and topology are neither detected nor
+  repaired.
+- **Tier 1's conditional recall of 1.000 holds on two attack types, not six.**
+  On `oneway_flip` and `speed_spoof` it flags all 6 of the tampered lanelets
+  it can examine, missing exactly the 2 that fall below two neighbours. On
+  `centerline_injection`, `connectivity_break`, `width_ramp` and `width_step`
+  conditional recall is **0.000** — the two shipped rules read neither
+  geometry nor width, so the coverage ceiling is not what limits them there.
 - **Tier 1 cannot examine 215 of 979 lanelets** — those with fewer than two
-  connected neighbours. Its coverage ceiling is 0.780; conditional recall on
-  what it can examine is 1.000. An attacker targeting stubs and dead ends
-  evades it entirely.
+  connected neighbours; coverage ceiling 0.780. An attacker targeting stubs
+  and dead ends evades it entirely.
+- **Tier 1's output is invariant under width tampering.** Thirteen maps with
+  width-ramp total gains from 0.25 m to 6.0 m produce byte-identical findings
+  — 15, the clean map's own. No choice of threshold can recover a signal that
+  never enters the computation.
 - **`R5_topology` was cut**, so connectivity breaks have no no-prior detection.
 - **One map**, by decision. Generality is untested.
 - The no-prior branch has not been exercised inside the Autoware container.
