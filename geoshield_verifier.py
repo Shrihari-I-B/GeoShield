@@ -133,10 +133,76 @@ def publish(verdict, detail, map_path, prior, diag_topic, hold):
     rclpy.shutdown()
 
 
+def _no_prior(a, rd, stem):
+    """Gate a map with no trusted prior to diff against.
+
+    Measured on Nishi-Shinjuku, 2026-10-29: only a rule with a clean-map
+    false-positive rate of zero can gate here. R5_orphan fires 10 times on the
+    CLEAN map and R4_speed_neighbour 15, and with no prior there is no baseline
+    to compare those counts against, so a verdict driven by them refuses every
+    map including an untampered one. R5_attribute_neighbour fires zero times on
+    clean data, so one firing is evidence on its own.
+
+    The gating decision is therefore calibration-free: the only rule that gates
+    reads no thresholds. Calibration still runs for the advisory rules, on the
+    candidate itself, which is the only map available by definition.
+
+    Coverage is one of four attack families. Geometry is neither detected nor
+    repaired without a prior -- that is the cost of not having one, and it is
+    the whole argument for keeping one.
+    """
+    from tier1_rules import calibrate, load_map, run_tier1
+    from fusion import TIER1_MINIMAL
+    from repair_noprior import APPLY_RULES, plan
+    from repair_noprior import apply as apply_fixes
+
+    print(f"prior     : (none -- no-prior mode)")
+    print(f"candidate : {a.candidate}")
+
+    cand = load_map(a.candidate)
+    res = run_tier1(cand, calibrate(cand), enabled=TIER1_MINIMAL)
+    fixes, propose, advisory = plan(cand, res.findings)
+    gating = [f for f in res.findings if f.rule in APPLY_RULES]
+
+    print(f"verdict   : {'REJECT' if gating else 'ACCEPT'}  "
+          f"({len(gating)} gating, {len(propose) + len(advisory)} advisory)")
+
+    admitted = None
+    if not gating:
+        admitted = a.out_map or str(Path(a.report_dir) / f"gate_{stem}_asis.osm")
+        shutil.copy2(a.candidate, admitted)
+        action = "passed: no zero-FPR rule fired"
+    elif a.no_repair:
+        action = "refused, repair disabled"
+    else:
+        rpath = Path(a.out_map or HERE / "data" / f"gate_{stem}_repaired.osm")
+        n = apply_fixes(a.candidate, str(rpath), fixes)
+        post = run_tier1(load_map(str(rpath)), calibrate(cand),
+                         enabled=TIER1_MINIMAL)
+        if [f for f in post.findings if f.rule in APPLY_RULES]:
+            action = "refused, consensus repair did not clear the gating rule"
+        else:
+            admitted, action = str(rpath), f"repaired ({n} tags) and re-verified"
+            print(f"repaired  : {rpath}")
+            for sid, attr, old, new in fixes[:8]:
+                print(f"    {sid:<20} {attr:<16} {old} -> {new}")
+
+    if propose:
+        print(f"proposed  : {len(propose)} correction(s) for review, not applied "
+              f"-- that rule's precision does not support writing them")
+
+    if admitted and a.out_dir:
+        print(f"installed : {install_map(admitted, a.out_dir, a.candidate)}")
+
+    print(f"gate      : {'ADMIT' if admitted else 'REFUSE'} -- {action}")
+    return ADMIT if admitted else REFUSE
+
+
 def main():
     ap = argparse.ArgumentParser(description="GeoShield map integrity gate")
     ap.add_argument("--candidate", required=True, help="map under test (.osm)")
-    ap.add_argument("--prior", required=True, help="last trusted map (.osm)")
+    ap.add_argument("--prior", help="last trusted map (.osm). Without it "
+                                   "the gate runs in no-prior mode.")
     ap.add_argument("--out-map", help="where to write the admitted .osm")
     ap.add_argument("--out-dir", help="also install as an Autoware map directory")
     ap.add_argument("--no-repair", action="store_true",
@@ -160,6 +226,9 @@ def main():
         rd = HERE / rd
     rd.mkdir(parents=True, exist_ok=True)
     stem = Path(a.candidate).stem
+
+    if not a.prior:
+        return _no_prior(a, rd, stem)
 
     print(f"prior     : {a.prior}")
     print(f"candidate : {a.candidate}")
