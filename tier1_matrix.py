@@ -37,8 +37,12 @@ def main():
         if not os.path.exists(labels):
             print(f"  (skipping {name}: no labels)")
             continue
-        segs = load_map(path)
         truth = load_truth(labels)
+        if not truth:
+            print(f"  (skipping {name}: labels empty -- the attack is not "
+                  f"applicable to this map)")
+            continue
+        segs = load_map(path)
         res = run_tier1(segs, cal, enabled=active)
         m = evaluate(res.scores(segs), truth)
         per = {}

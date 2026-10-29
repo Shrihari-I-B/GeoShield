@@ -49,6 +49,18 @@
           "fpr": 0.010224948875255624,
           "flagged": 10,
           "truth": 1
+        },
+        "R5_oneway_neighbour": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "tn": 978,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "flagged": 0,
+          "truth": 1
         }
       }
     },
@@ -91,6 +103,18 @@
           "fpr": 0.011247443762781187,
           "flagged": 12,
           "truth": 1
+        },
+        "R5_oneway_neighbour": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "tn": 978,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "flagged": 0,
+          "truth": 1
         }
       }
     },
@@ -98,15 +122,15 @@
       "attack": "oneway_flip",
       "segments": 979,
       "overall": {
-        "tp": 0,
+        "tp": 1,
         "fp": 22,
-        "fn": 1,
+        "fn": 0,
         "tn": 956,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
+        "precision": 0.043478260869565216,
+        "recall": 1.0,
+        "f1": 0.08333333333333333,
         "fpr": 0.022494887525562373,
-        "flagged": 22,
+        "flagged": 23,
         "truth": 1
       },
       "per_rule": {
@@ -132,6 +156,18 @@
           "f1": 0.0,
           "fpr": 0.010224948875255624,
           "flagged": 10,
+          "truth": 1
+        },
+        "R5_oneway_neighbour": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 978,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "fpr": 0.0,
+          "flagged": 1,
           "truth": 1
         }
       }
@@ -175,48 +211,18 @@
           "fpr": 0.010224948875255624,
           "flagged": 10,
           "truth": 1
-        }
-      }
-    },
-    {
-      "attack": "tunnel_bridge_flip",
-      "segments": 979,
-      "overall": {
-        "tp": 0,
-        "fp": 22,
-        "fn": 0,
-        "tn": 957,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0,
-        "fpr": 0.02247191011235955,
-        "flagged": 22,
-        "truth": 0
-      },
-      "per_rule": {
-        "R4_speed_neighbour": {
-          "tp": 0,
-          "fp": 12,
-          "fn": 0,
-          "tn": 967,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
-          "fpr": 0.012257405515832482,
-          "flagged": 12,
-          "truth": 0
         },
-        "R5_topology": {
+        "R5_oneway_neighbour": {
           "tp": 0,
-          "fp": 10,
-          "fn": 0,
-          "tn": 969,
+          "fp": 0,
+          "fn": 1,
+          "tn": 978,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
-          "fpr": 0.010214504596527068,
-          "flagged": 10,
-          "truth": 0
+          "fpr": 0.0,
+          "flagged": 0,
+          "truth": 1
         }
       }
     },
@@ -259,6 +265,18 @@
           "fpr": 0.010298661174047374,
           "flagged": 10,
           "truth": 8
+        },
+        "R5_oneway_neighbour": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 8,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "flagged": 0,
+          "truth": 8
         }
       }
     },
@@ -300,6 +318,18 @@
           "f1": 0.0,
           "fpr": 0.010224948875255624,
           "flagged": 10,
+          "truth": 1
+        },
+        "R5_oneway_neighbour": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "tn": 978,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "flagged": 0,
           "truth": 1
         }
       }

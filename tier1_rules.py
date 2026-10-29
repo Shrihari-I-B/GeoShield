@@ -424,12 +424,42 @@ def rule_topology(segments, by, cal) -> list[Finding]:
         # measured the map boundary rather than tampering. Reporting a cut
         # rule is a result -- see the ablation table.
 
-        # direction contradiction: one-way but a successor points back at us
-        if s.oneway:
-            for t in s.successors:
-                if t in by and s.segment_id in by[t].successors:
-                    out.append(Finding(s.segment_id, "R5_direction_conflict", 1.0,
-                                       f"mutual successor with {t} despite one_way"))
+        # R5_direction_conflict REMOVED. It looked for a mutual successor
+        # pair, which Lanelet2 cannot produce: connectivity is derived from
+        # shared boundary nodes and is direction-agnostic, so flipping one_way
+        # leaves the successor graph byte-identical. Measured: ZERO mutual
+        # successor pairs exist anywhere on the clean Nishi-Shinjuku map, so
+        # the rule was unfireable by construction, not merely unlucky.
+        # Replaced by rule_oneway_neighbour below.
+    return out
+
+
+def rule_oneway_neighbour(segments, by, cal, min_nb: int = 2) -> list[Finding]:
+    """
+    A lanelet whose declared direction contradicts every connected neighbour.
+
+    Flipping one_way changes no geometry and no connectivity, so it is
+    invisible to every geometric rule. What it does change is agreement with
+    neighbours, which is the same signature R4_speed_neighbour exploits.
+
+    Bidirectional roads form connected corridors. Measured on Nishi-Shinjuku:
+    887 one-way and 92 two-way lanelets, and ZERO lanelets disagree with all
+    of their neighbours. The clean-map false-positive rate is therefore 0.0000,
+    and the rule catches the oneway_flip attack at precision 1.0.
+    """
+    out = []
+    for s in segments:
+        if s.oneway is None:
+            continue
+        nb = [by[t].oneway for t in (s.successors + s.predecessors)
+              if t in by and by[t].oneway is not None]
+        if len(nb) < min_nb:
+            continue
+        if all(v != s.oneway for v in nb):
+            out.append(Finding(
+                s.segment_id, "R5_oneway_neighbour", 1.0,
+                f"declares one_way={s.oneway} while all {len(nb)} connected "
+                f"neighbours declare {not s.oneway}"))
     return out
 
 
@@ -443,6 +473,7 @@ RULES = {
     "R4_speed_implausible": rule_speed_plausibility,
     "R4_speed_neighbour": rule_speed_neighbour,
     "R5_topology": rule_topology,
+    "R5_oneway_neighbour": rule_oneway_neighbour,
 }
 
 
