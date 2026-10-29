@@ -1,0 +1,114 @@
+{
+  "base_rate": 0.008171603677221655,
+  "threshold": 0.5,
+  "weights": {
+    "tier1": 0.8,
+    "tier2": 0.2,
+    "differential": 1.0
+  },
+  "rows": [
+    {
+      "config": [
+        "differential"
+      ],
+      "average_precision": 0.8065476190476191,
+      "flagged": 17,
+      "tp": 8,
+      "fp": 9,
+      "fn": 0,
+      "precision": 0.47058823529411764,
+      "recall": 1.0,
+      "f1": 0.6399999999999999,
+      "fpr": 0.009268795056642637
+    },
+    {
+      "config": [
+        "tier1"
+      ],
+      "average_precision": 0.009080730670075698,
+      "flagged": 4,
+      "tp": 0,
+      "fp": 4,
+      "fn": 8,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fpr": 0.004119464469618949
+    },
+    {
+      "config": [
+        "tier2"
+      ],
+      "average_precision": 0.019030616959913198,
+      "flagged": 0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 8,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fpr": 0.0
+    },
+    {
+      "config": [
+        "tier1",
+        "differential"
+      ],
+      "average_precision": 0.7906746031746033,
+      "flagged": 21,
+      "tp": 8,
+      "fp": 13,
+      "fn": 0,
+      "precision": 0.38095238095238093,
+      "recall": 1.0,
+      "f1": 0.5517241379310345,
+      "fpr": 0.013388259526261586
+    },
+    {
+      "config": [
+        "tier1",
+        "tier2"
+      ],
+      "average_precision": 0.017711355736448265,
+      "flagged": 4,
+      "tp": 0,
+      "fp": 4,
+      "fn": 8,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fpr": 0.004119464469618949
+    },
+    {
+      "config": [
+        "tier2",
+        "differential"
+      ],
+      "average_precision": 0.7939425770308124,
+      "flagged": 17,
+      "tp": 8,
+      "fp": 9,
+      "fn": 0,
+      "precision": 0.47058823529411764,
+      "recall": 1.0,
+      "f1": 0.6399999999999999,
+      "fpr": 0.009268795056642637
+    },
+    {
+      "config": [
+        "tier1",
+        "tier2",
+        "differential"
+      ],
+      "average_precision": 0.7827380952380953,
+      "flagged": 21,
+      "tp": 8,
+      "fp": 13,
+      "fn": 0,
+      "precision": 0.38095238095238093,
+      "recall": 1.0,
+      "f1": 0.5517241379310345,
+      "fpr": 0.013388259526261586
+    }
+  ]
+}
