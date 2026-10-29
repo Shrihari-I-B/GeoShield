@@ -13,6 +13,7 @@ import json
 import os
 
 from tier1_rules import RULES, calibrate, evaluate, load_map, load_truth, run_tier1
+from tier1_rules import evaluable_ids
 
 
 def main():
@@ -28,8 +29,24 @@ def main():
     active = [r for r in RULES if r not in drop]
     if drop:
         print(f'disabled: {sorted(drop)}')
-    cal = calibrate(load_map(a.clean))
+    clean_segs = load_map(a.clean)
+    cal = calibrate(clean_segs)
+    evaluable = evaluable_ids(clean_segs)
     rows = []
+
+    # Clean baseline. Every attack row reports fp=15, and until now a reader
+    # had to infer from the repetition that those 15 are map-intrinsic rather
+    # than attack-induced -- no row in this table measured the clean map. It
+    # is built here through the same cal, the same active rule list and the
+    # same evaluate call as the attack rows, because a baseline measured even
+    # slightly differently from the rows it anchors is worse than none.
+    _res = run_tier1(clean_segs, cal, enabled=active)
+    _m = evaluate(_res.scores(clean_segs), set(), evaluable=evaluable)
+    _per = {}
+    for rule in active:
+        _r = run_tier1(clean_segs, cal, enabled=[rule])
+        _per[rule] = evaluate(_r.scores(clean_segs), set(), evaluable=evaluable)
+    rows.append(("clean (baseline)", len(clean_segs), _m, _per))
 
     for path in sorted(glob.glob(a.glob)):
         name = os.path.basename(path)[3:-4]
@@ -44,11 +61,11 @@ def main():
             continue
         segs = load_map(path)
         res = run_tier1(segs, cal, enabled=active)
-        m = evaluate(res.scores(segs), truth)
+        m = evaluate(res.scores(segs), truth, evaluable=evaluable)
         per = {}
         for rule in active:
             r = run_tier1(segs, cal, enabled=[rule])
-            per[rule] = evaluate(r.scores(segs), truth)
+            per[rule] = evaluate(r.scores(segs), truth, evaluable=evaluable)
         rows.append((name, len(segs), m, per))
 
     w = max((len(r[0]) for r in rows), default=20)

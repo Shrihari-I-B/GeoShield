@@ -45,8 +45,16 @@ from collections import Counter
 # Measured on Nishi-Shinjuku, 2026-10-29, repairing with the clean map withheld:
 #
 #   R5_attribute_neighbour   FPR 0.0000   1 restored, 0 damaged   -> APPLY
-#   R4_speed_neighbour       FPR 0.0256   1 restored, 15 damaged  -> PROPOSE
+#   R4_speed_neighbour       FPR 0.0153   1 restored, 15 damaged  -> PROPOSE
 #   R5_topology (orphan)     not repairable at all                -> REFUSE
+#
+# R4's rate was recorded here as 0.0256. That figure comes from da3ef86, the
+# three-rule era before 9c6ad92 fixed the speed-unit heuristic that was
+# mis-parsing 201 of 979 lanelets; it was never re-measured after the fix.
+# Measured on the clean map 2026-10-30: 15 flagged of 979 scored = 0.0153,
+# or 0.0196 over the 764 lanelets a neighbour rule can evaluate at all. The
+# decision is unchanged, because it rests on the 1:15 repair ratio and not on
+# the rate: a rule that damages fifteen lanelets to fix one must not write.
 #
 # The speed damage is not benign. It rewrote a 5 km/h private lane to 60 km/h,
 # which is more dangerous than the tampering it was correcting. At a precision

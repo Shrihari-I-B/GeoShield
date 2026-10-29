@@ -553,8 +553,25 @@ def run_tier1(segments: list[RoadSegment], cal: dict,
 # evaluation
 # ----------------------------------------------------------------------
 
+def evaluable_ids(segments: list[RoadSegment], min_nb: int = 2) -> set[str]:
+    """Lanelets a neighbour rule can actually evaluate.
+
+    The neighbour rules need at least `min_nb` present neighbours to form a
+    consensus. On clean Nishi-Shinjuku 215 of 979 lanelets fall below that
+    (degree histogram 0:102 1:113 2:556 3:129 4:59 5:18 6:2), so they can
+    never be flagged -- and `evaluate` therefore counts every one of them as
+    a true negative. That is not wrong, but it makes `fpr` a rate over a
+    population 22% of which was never at risk. Both denominators are now
+    reported so neither has to be inferred from `tn`.
+    """
+    by = {s.segment_id for s in segments}
+    return {s.segment_id for s in segments
+            if len([t for t in (s.successors + s.predecessors) if t in by]) >= min_nb}
+
+
 def evaluate(scores: dict[str, float], truth: set[str],
-             threshold: float = 0.0) -> dict:
+             threshold: float = 0.0,
+             evaluable: Optional[set[str]] = None) -> dict:
     flagged = {sid for sid, v in scores.items() if v > threshold}
     tp = len(flagged & truth)
     fp = len(flagged - truth)
@@ -562,13 +579,23 @@ def evaluate(scores: dict[str, float], truth: set[str],
     tn = len(scores) - tp - fp - fn
     prec = tp / (tp + fp) if tp + fp else 0.0
     rec = tp / (tp + fn) if tp + fn else 0.0
-    return {
+    out = {
         "tp": tp, "fp": fp, "fn": fn, "tn": tn,
         "precision": prec, "recall": rec,
         "f1": 2 * prec * rec / (prec + rec) if prec + rec else 0.0,
         "fpr": fp / (fp + tn) if fp + tn else 0.0,
         "flagged": len(flagged), "truth": len(truth),
+        "n_scored": len(scores),
+        "fpr_denominator": fp + tn,
+        "fpr_population": "all scored lanelets",
     }
+    if evaluable is not None:
+        neg = evaluable - truth
+        out["n_evaluable"] = len(evaluable)
+        out["n_unevaluable"] = len(scores) - len(evaluable)
+        out["fpr_conditional"] = len(flagged & neg) / len(neg) if neg else 0.0
+        out["fpr_conditional_denominator"] = len(neg)
+    return out
 
 
 def print_eval(name: str, m: dict) -> None:

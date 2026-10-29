@@ -15,6 +15,69 @@
   },
   "rows": [
     {
+      "attack": "clean (baseline)",
+      "segments": 979,
+      "overall": {
+        "tp": 0,
+        "fp": 15,
+        "fn": 0,
+        "tn": 964,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.015321756894790603,
+        "flagged": 15,
+        "truth": 0,
+        "n_scored": 979,
+        "fpr_denominator": 979,
+        "fpr_population": "all scored lanelets",
+        "n_evaluable": 764,
+        "n_unevaluable": 215,
+        "fpr_conditional": 0.01963350785340314,
+        "fpr_conditional_denominator": 764
+      },
+      "per_rule": {
+        "R4_speed_neighbour": {
+          "tp": 0,
+          "fp": 15,
+          "fn": 0,
+          "tn": 964,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.015321756894790603,
+          "flagged": 15,
+          "truth": 0,
+          "n_scored": 979,
+          "fpr_denominator": 979,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.01963350785340314,
+          "fpr_conditional_denominator": 764
+        },
+        "R5_attribute_neighbour": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 979,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "flagged": 0,
+          "truth": 0,
+          "n_scored": 979,
+          "fpr_denominator": 979,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.0,
+          "fpr_conditional_denominator": 764
+        }
+      }
+    },
+    {
       "attack": "centerline_injection",
       "segments": 979,
       "overall": {
@@ -27,7 +90,14 @@
         "f1": 0.0,
         "fpr": 0.015337423312883436,
         "flagged": 15,
-        "truth": 1
+        "truth": 1,
+        "n_scored": 979,
+        "fpr_denominator": 978,
+        "fpr_population": "all scored lanelets",
+        "n_evaluable": 764,
+        "n_unevaluable": 215,
+        "fpr_conditional": 0.019659239842726082,
+        "fpr_conditional_denominator": 763
       },
       "per_rule": {
         "R4_speed_neighbour": {
@@ -40,7 +110,14 @@
           "f1": 0.0,
           "fpr": 0.015337423312883436,
           "flagged": 15,
-          "truth": 1
+          "truth": 1,
+          "n_scored": 979,
+          "fpr_denominator": 978,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.019659239842726082,
+          "fpr_conditional_denominator": 763
         },
         "R5_attribute_neighbour": {
           "tp": 0,
@@ -52,7 +129,14 @@
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 1
+          "truth": 1,
+          "n_scored": 979,
+          "fpr_denominator": 978,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.0,
+          "fpr_conditional_denominator": 763
         }
       }
     },
@@ -69,7 +153,14 @@
         "f1": 0.0,
         "fpr": 0.015447991761071062,
         "flagged": 15,
-        "truth": 8
+        "truth": 8,
+        "n_scored": 979,
+        "fpr_denominator": 971,
+        "fpr_population": "all scored lanelets",
+        "n_evaluable": 764,
+        "n_unevaluable": 215,
+        "fpr_conditional": 0.01984126984126984,
+        "fpr_conditional_denominator": 756
       },
       "per_rule": {
         "R4_speed_neighbour": {
@@ -82,7 +173,14 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.01984126984126984,
+          "fpr_conditional_denominator": 756
         },
         "R5_attribute_neighbour": {
           "tp": 0,
@@ -94,7 +192,14 @@
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.0,
+          "fpr_conditional_denominator": 756
         }
       }
     },
@@ -111,7 +216,14 @@
         "f1": 0.4137931034482759,
         "fpr": 0.015447991761071062,
         "flagged": 21,
-        "truth": 8
+        "truth": 8,
+        "n_scored": 979,
+        "fpr_denominator": 971,
+        "fpr_population": "all scored lanelets",
+        "n_evaluable": 764,
+        "n_unevaluable": 215,
+        "fpr_conditional": 0.01978891820580475,
+        "fpr_conditional_denominator": 758
       },
       "per_rule": {
         "R4_speed_neighbour": {
@@ -124,7 +236,14 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.01978891820580475,
+          "fpr_conditional_denominator": 758
         },
         "R5_attribute_neighbour": {
           "tp": 6,
@@ -136,7 +255,14 @@
           "f1": 0.8571428571428571,
           "fpr": 0.0,
           "flagged": 6,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.0,
+          "fpr_conditional_denominator": 758
         }
       }
     },
@@ -153,7 +279,14 @@
         "f1": 0.39999999999999997,
         "fpr": 0.016477857878475798,
         "flagged": 22,
-        "truth": 8
+        "truth": 8,
+        "n_scored": 979,
+        "fpr_denominator": 971,
+        "fpr_population": "all scored lanelets",
+        "n_evaluable": 764,
+        "n_unevaluable": 215,
+        "fpr_conditional": 0.021108179419525065,
+        "fpr_conditional_denominator": 758
       },
       "per_rule": {
         "R4_speed_neighbour": {
@@ -166,7 +299,14 @@
           "f1": 0.39999999999999997,
           "fpr": 0.016477857878475798,
           "flagged": 22,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.021108179419525065,
+          "fpr_conditional_denominator": 758
         },
         "R5_attribute_neighbour": {
           "tp": 0,
@@ -178,7 +318,14 @@
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.0,
+          "fpr_conditional_denominator": 758
         }
       }
     },
@@ -195,7 +342,14 @@
         "f1": 0.0,
         "fpr": 0.015447991761071062,
         "flagged": 15,
-        "truth": 8
+        "truth": 8,
+        "n_scored": 979,
+        "fpr_denominator": 971,
+        "fpr_population": "all scored lanelets",
+        "n_evaluable": 764,
+        "n_unevaluable": 215,
+        "fpr_conditional": 0.01984126984126984,
+        "fpr_conditional_denominator": 756
       },
       "per_rule": {
         "R4_speed_neighbour": {
@@ -208,7 +362,14 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.01984126984126984,
+          "fpr_conditional_denominator": 756
         },
         "R5_attribute_neighbour": {
           "tp": 0,
@@ -220,7 +381,14 @@
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.0,
+          "fpr_conditional_denominator": 756
         }
       }
     },
@@ -237,7 +405,14 @@
         "f1": 0.0,
         "fpr": 0.015447991761071062,
         "flagged": 15,
-        "truth": 8
+        "truth": 8,
+        "n_scored": 979,
+        "fpr_denominator": 971,
+        "fpr_population": "all scored lanelets",
+        "n_evaluable": 764,
+        "n_unevaluable": 215,
+        "fpr_conditional": 0.019815059445178335,
+        "fpr_conditional_denominator": 757
       },
       "per_rule": {
         "R4_speed_neighbour": {
@@ -250,7 +425,14 @@
           "f1": 0.0,
           "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.019815059445178335,
+          "fpr_conditional_denominator": 757
         },
         "R5_attribute_neighbour": {
           "tp": 0,
@@ -262,7 +444,14 @@
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 8
+          "truth": 8,
+          "n_scored": 979,
+          "fpr_denominator": 971,
+          "fpr_population": "all scored lanelets",
+          "n_evaluable": 764,
+          "n_unevaluable": 215,
+          "fpr_conditional": 0.0,
+          "fpr_conditional_denominator": 757
         }
       }
     }
