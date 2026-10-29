@@ -1,0 +1,113 @@
+{
+  "targets": [
+    "3012234",
+    "3013054",
+    "3013093",
+    "3012977",
+    "3002017",
+    "3013032",
+    "3002007",
+    "3002013"
+  ],
+  "rows": [
+    {
+      "total_gain_m": 0.25,
+      "realised_total_m": 0.218,
+      "realisation_ratio": 0.872,
+      "flagged": 3,
+      "tp": 3,
+      "fp": 0,
+      "precision": 1.0,
+      "recall": 0.375,
+      "verdict": "REVIEW"
+    },
+    {
+      "total_gain_m": 0.5,
+      "realised_total_m": 0.436,
+      "realisation_ratio": 0.872,
+      "flagged": 7,
+      "tp": 6,
+      "fp": 1,
+      "precision": 0.8571,
+      "recall": 0.75,
+      "verdict": "REVIEW"
+    },
+    {
+      "total_gain_m": 0.75,
+      "realised_total_m": 0.655,
+      "realisation_ratio": 0.8733,
+      "flagged": 9,
+      "tp": 7,
+      "fp": 2,
+      "precision": 0.7778,
+      "recall": 0.875,
+      "verdict": "REJECT"
+    },
+    {
+      "total_gain_m": 1.0,
+      "realised_total_m": 0.874,
+      "realisation_ratio": 0.874,
+      "flagged": 10,
+      "tp": 7,
+      "fp": 3,
+      "precision": 0.7,
+      "recall": 0.875,
+      "verdict": "REJECT"
+    },
+    {
+      "total_gain_m": 1.5,
+      "realised_total_m": 1.311,
+      "realisation_ratio": 0.874,
+      "flagged": 13,
+      "tp": 7,
+      "fp": 6,
+      "precision": 0.5385,
+      "recall": 0.875,
+      "verdict": "REJECT"
+    },
+    {
+      "total_gain_m": 2.0,
+      "realised_total_m": 1.748,
+      "realisation_ratio": 0.874,
+      "flagged": 14,
+      "tp": 7,
+      "fp": 7,
+      "precision": 0.5,
+      "recall": 0.875,
+      "verdict": "REJECT"
+    },
+    {
+      "total_gain_m": 3.0,
+      "realised_total_m": 2.623,
+      "realisation_ratio": 0.8743,
+      "flagged": 17,
+      "tp": 8,
+      "fp": 9,
+      "precision": 0.4706,
+      "recall": 1.0,
+      "verdict": "REJECT"
+    },
+    {
+      "total_gain_m": 4.5,
+      "realised_total_m": 3.934,
+      "realisation_ratio": 0.8742,
+      "flagged": 17,
+      "tp": 8,
+      "fp": 9,
+      "precision": 0.4706,
+      "recall": 1.0,
+      "verdict": "REJECT"
+    },
+    {
+      "total_gain_m": 6.0,
+      "realised_total_m": 5.246,
+      "realisation_ratio": 0.8743,
+      "flagged": 17,
+      "tp": 8,
+      "fp": 9,
+      "precision": 0.4706,
+      "recall": 1.0,
+      "verdict": "REJECT"
+    }
+  ]
+}
