@@ -1,0 +1,476 @@
+{
+  "calibration": {
+    "rel_delta_p99": 0.7106180972679713,
+    "taper_p99": 1.0321931589537223,
+    "trend_p995": 0.9721440064360419,
+    "trend_p95": 0.4302286819121276,
+    "trend_p90": 0.3244521671976059,
+    "trend_p99": 0.705989110707804,
+    "n_clean_chains": 1262,
+    "median_width": 3.117
+  },
+  "rows": [
+    {
+      "attack": "centerline_injection",
+      "segments": 979,
+      "overall": {
+        "tp": 0,
+        "fp": 35,
+        "fn": 1,
+        "tn": 943,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.03578732106339468,
+        "flagged": 35,
+        "truth": 1
+      },
+      "per_rule": {
+        "R2_taper_anomaly": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_implausible": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_neighbour": {
+          "tp": 0,
+          "fp": 12,
+          "fn": 1,
+          "tn": 966,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.012269938650306749,
+          "flagged": 12,
+          "truth": 1
+        },
+        "R5_topology": {
+          "tp": 0,
+          "fp": 10,
+          "fn": 1,
+          "tn": 968,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.010224948875255624,
+          "flagged": 10,
+          "truth": 1
+        }
+      }
+    },
+    {
+      "attack": "connectivity_break",
+      "segments": 979,
+      "overall": {
+        "tp": 1,
+        "fp": 36,
+        "fn": 0,
+        "tn": 942,
+        "precision": 0.02702702702702703,
+        "recall": 1.0,
+        "f1": 0.052631578947368425,
+        "fpr": 0.03680981595092025,
+        "flagged": 37,
+        "truth": 1
+      },
+      "per_rule": {
+        "R2_taper_anomaly": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_implausible": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_neighbour": {
+          "tp": 0,
+          "fp": 12,
+          "fn": 1,
+          "tn": 966,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.012269938650306749,
+          "flagged": 12,
+          "truth": 1
+        },
+        "R5_topology": {
+          "tp": 1,
+          "fp": 11,
+          "fn": 0,
+          "tn": 967,
+          "precision": 0.08333333333333333,
+          "recall": 1.0,
+          "f1": 0.15384615384615385,
+          "fpr": 0.011247443762781187,
+          "flagged": 12,
+          "truth": 1
+        }
+      }
+    },
+    {
+      "attack": "oneway_flip",
+      "segments": 979,
+      "overall": {
+        "tp": 0,
+        "fp": 35,
+        "fn": 1,
+        "tn": 943,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.03578732106339468,
+        "flagged": 35,
+        "truth": 1
+      },
+      "per_rule": {
+        "R2_taper_anomaly": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_implausible": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_neighbour": {
+          "tp": 0,
+          "fp": 12,
+          "fn": 1,
+          "tn": 966,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.012269938650306749,
+          "flagged": 12,
+          "truth": 1
+        },
+        "R5_topology": {
+          "tp": 0,
+          "fp": 10,
+          "fn": 1,
+          "tn": 968,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.010224948875255624,
+          "flagged": 10,
+          "truth": 1
+        }
+      }
+    },
+    {
+      "attack": "speed_spoof",
+      "segments": 979,
+      "overall": {
+        "tp": 1,
+        "fp": 35,
+        "fn": 0,
+        "tn": 943,
+        "precision": 0.027777777777777776,
+        "recall": 1.0,
+        "f1": 0.05405405405405406,
+        "fpr": 0.03578732106339468,
+        "flagged": 36,
+        "truth": 1
+      },
+      "per_rule": {
+        "R2_taper_anomaly": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_implausible": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_neighbour": {
+          "tp": 1,
+          "fp": 12,
+          "fn": 0,
+          "tn": 966,
+          "precision": 0.07692307692307693,
+          "recall": 1.0,
+          "f1": 0.14285714285714288,
+          "fpr": 0.012269938650306749,
+          "flagged": 13,
+          "truth": 1
+        },
+        "R5_topology": {
+          "tp": 0,
+          "fp": 10,
+          "fn": 1,
+          "tn": 968,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.010224948875255624,
+          "flagged": 10,
+          "truth": 1
+        }
+      }
+    },
+    {
+      "attack": "tunnel_bridge_flip",
+      "segments": 979,
+      "overall": {
+        "tp": 0,
+        "fp": 35,
+        "fn": 0,
+        "tn": 944,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.03575076608784474,
+        "flagged": 35,
+        "truth": 0
+      },
+      "per_rule": {
+        "R2_taper_anomaly": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 0,
+          "tn": 972,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007150153217568948,
+          "flagged": 7,
+          "truth": 0
+        },
+        "R4_speed_implausible": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 0,
+          "tn": 972,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007150153217568948,
+          "flagged": 7,
+          "truth": 0
+        },
+        "R4_speed_neighbour": {
+          "tp": 0,
+          "fp": 12,
+          "fn": 0,
+          "tn": 967,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.012257405515832482,
+          "flagged": 12,
+          "truth": 0
+        },
+        "R5_topology": {
+          "tp": 0,
+          "fp": 10,
+          "fn": 0,
+          "tn": 969,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.010214504596527068,
+          "flagged": 10,
+          "truth": 0
+        }
+      }
+    },
+    {
+      "attack": "width_ramp",
+      "segments": 979,
+      "overall": {
+        "tp": 0,
+        "fp": 37,
+        "fn": 8,
+        "tn": 934,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.03810504634397528,
+        "flagged": 37,
+        "truth": 8
+      },
+      "per_rule": {
+        "R2_taper_anomaly": {
+          "tp": 0,
+          "fp": 9,
+          "fn": 8,
+          "tn": 962,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.009268795056642637,
+          "flagged": 9,
+          "truth": 8
+        },
+        "R4_speed_implausible": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 8,
+          "tn": 964,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007209062821833162,
+          "flagged": 7,
+          "truth": 8
+        },
+        "R4_speed_neighbour": {
+          "tp": 0,
+          "fp": 12,
+          "fn": 8,
+          "tn": 959,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.012358393408856848,
+          "flagged": 12,
+          "truth": 8
+        },
+        "R5_topology": {
+          "tp": 0,
+          "fp": 10,
+          "fn": 8,
+          "tn": 961,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.010298661174047374,
+          "flagged": 10,
+          "truth": 8
+        }
+      }
+    },
+    {
+      "attack": "width_step",
+      "segments": 979,
+      "overall": {
+        "tp": 0,
+        "fp": 35,
+        "fn": 1,
+        "tn": 943,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.03578732106339468,
+        "flagged": 35,
+        "truth": 1
+      },
+      "per_rule": {
+        "R2_taper_anomaly": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_implausible": {
+          "tp": 0,
+          "fp": 7,
+          "fn": 1,
+          "tn": 971,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.007157464212678937,
+          "flagged": 7,
+          "truth": 1
+        },
+        "R4_speed_neighbour": {
+          "tp": 0,
+          "fp": 12,
+          "fn": 1,
+          "tn": 966,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.012269938650306749,
+          "flagged": 12,
+          "truth": 1
+        },
+        "R5_topology": {
+          "tp": 0,
+          "fp": 10,
+          "fn": 1,
+          "tn": 968,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.010224948875255624,
+          "flagged": 10,
+          "truth": 1
+        }
+      }
+    }
+  ]
+}

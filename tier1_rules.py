@@ -257,6 +257,34 @@ def _chain_trend(chain: list[RoadSegment], by) -> Optional[float]:
     return abs(slope) * (n - 1) / max(mean_y, 0.1) * consistency
 
 
+def _chain_trend_robust(chain: list[RoadSegment], by) -> Optional[float]:
+    """
+    Outlier-robust variant of _chain_trend.
+
+    _chain_trend takes a least-squares slope, which one anomalous lanelet
+    dominates. Measured on Nishi-Shinjuku: the three highest-scoring clean
+    chains all contain lanelet 142 (11.72 m wide, a junction plaza) inside an
+    otherwise 3 m corridor. A single +8.6 m step carries the slope while the
+    remaining steps are small and positive, so the consistency factor -- which
+    exists to punish precisely this shape -- evaluates to 1.0 and never fires.
+    Clean chains then outscore a +3.0 m injected ramp by 2x.
+
+    The median step is robust to one outlier and expresses the rule's stated
+    intent directly: an attack ramp is many small aligned steps, not one jump.
+    """
+    w = [s.width_m for s in chain]
+    n = len(w)
+    if n < 3 or not all(w):
+        return None
+    steps = [w[i + 1] - w[i] for i in range(n - 1)]
+    if not steps:
+        return None
+    med = statistics.median(steps)
+    direction = 1 if med >= 0 else -1
+    consistency = sum(1 for d in steps if d * direction > 0) / len(steps)
+    return abs(med) * (n - 1) / max(statistics.fmean(w), 0.1) * consistency
+
+
 def rule_monotonic_trend(segments, by, cal, length: int = 5) -> list[Finding]:
     # A percentile-only threshold inherits the map's own noise floor. On
     # Nishi-Shinjuku, clean p99.5 came out at 0.948 while a genuine ramp
