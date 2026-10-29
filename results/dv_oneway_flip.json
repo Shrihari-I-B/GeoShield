@@ -8,10 +8,10 @@
   "removed": [],
   "n_accepted": 0,
   "n_suspect": 0,
-  "n_rejected": 1,
+  "n_rejected": 8,
   "runs": [],
   "detection": {
-    "TP": 1,
+    "TP": 8,
     "FP": 0,
     "FN": 0,
     "precision": 1.0,
@@ -20,7 +20,84 @@
   },
   "changes": [
     {
-      "segment_id": "lanelet:124584",
+      "segment_id": "lanelet:236",
+      "field_name": "oneway",
+      "previous": true,
+      "candidate": false,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    },
+    {
+      "segment_id": "lanelet:263",
+      "field_name": "oneway",
+      "previous": true,
+      "candidate": false,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    },
+    {
+      "segment_id": "lanelet:28",
+      "field_name": "oneway",
+      "previous": true,
+      "candidate": false,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    },
+    {
+      "segment_id": "lanelet:3002056",
+      "field_name": "oneway",
+      "previous": true,
+      "candidate": false,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    },
+    {
+      "segment_id": "lanelet:3002060",
+      "field_name": "oneway",
+      "previous": true,
+      "candidate": false,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    },
+    {
+      "segment_id": "lanelet:35",
+      "field_name": "oneway",
+      "previous": true,
+      "candidate": false,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    },
+    {
+      "segment_id": "lanelet:648",
+      "field_name": "oneway",
+      "previous": false,
+      "candidate": true,
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "travel direction reversed"
+    },
+    {
+      "segment_id": "lanelet:93",
       "field_name": "oneway",
       "previous": true,
       "candidate": false,

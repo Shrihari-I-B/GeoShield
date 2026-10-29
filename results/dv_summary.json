@@ -3,8 +3,8 @@
   "seed": 42,
   "total_attacks": 7,
   "applicable": 6,
-  "detected": 6,
-  "detection_rate": 1.0,
+  "detected": 5,
+  "detection_rate": 0.8333,
   "results": [
     {
       "attack": "clean_control",
@@ -24,7 +24,7 @@
         "f1": 1.0
       },
       "note": "0 false alarms (control)",
-      "elapsed_s": 0.57
+      "elapsed_s": 0.59
     },
     {
       "attack": "width_ramp",
@@ -35,116 +35,116 @@
         "skipped": 0
       },
       "verdict": "REJECT",
-      "n_changes": 33,
-      "n_rejected": 19,
-      "n_suspect": 14,
-      "n_accepted": 0,
+      "n_changes": 30,
+      "n_rejected": 14,
+      "n_suspect": 15,
+      "n_accepted": 1,
       "n_runs": 7,
       "detection": {
         "TP": 8,
-        "FP": 10,
+        "FP": 9,
         "FN": 0,
-        "precision": 0.444,
+        "precision": 0.471,
         "recall": 1.0,
-        "f1": 0.615
+        "f1": 0.64
       },
-      "elapsed_s": 3.06
+      "elapsed_s": 3.34
     },
     {
       "attack": "width_step",
-      "n_tampered": 1,
+      "n_tampered": 8,
       "write_stats": {
-        "geometry": 1,
+        "geometry": 8,
         "tags": 0,
         "skipped": 0
       },
-      "verdict": "REJECT",
+      "verdict": "REVIEW",
       "n_changes": 10,
-      "n_rejected": 1,
+      "n_rejected": 0,
       "n_suspect": 7,
-      "n_accepted": 2,
-      "n_runs": 1,
+      "n_accepted": 3,
+      "n_runs": 0,
       "detection": {
-        "TP": 1,
-        "FP": 6,
-        "FN": 0,
-        "precision": 0.143,
-        "recall": 1.0,
-        "f1": 0.25
+        "TP": 5,
+        "FP": 2,
+        "FN": 3,
+        "precision": 0.714,
+        "recall": 0.625,
+        "f1": 0.667
       },
-      "elapsed_s": 3.12
+      "elapsed_s": 3.53
     },
     {
       "attack": "speed_spoof",
-      "n_tampered": 1,
+      "n_tampered": 8,
       "write_stats": {
         "geometry": 0,
-        "tags": 1,
+        "tags": 8,
         "skipped": 0
       },
       "verdict": "REJECT",
-      "n_changes": 1,
-      "n_rejected": 1,
+      "n_changes": 7,
+      "n_rejected": 7,
       "n_suspect": 0,
       "n_accepted": 0,
       "n_runs": 0,
       "detection": {
-        "TP": 1,
+        "TP": 7,
         "FP": 0,
-        "FN": 0,
+        "FN": 1,
         "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0
+        "recall": 0.875,
+        "f1": 0.933
       },
-      "elapsed_s": 3.22
+      "elapsed_s": 3.95
     },
     {
       "attack": "oneway_flip",
-      "n_tampered": 1,
+      "n_tampered": 8,
       "write_stats": {
         "geometry": 0,
-        "tags": 1,
+        "tags": 8,
         "skipped": 0
       },
       "verdict": "REJECT",
-      "n_changes": 1,
-      "n_rejected": 1,
+      "n_changes": 8,
+      "n_rejected": 8,
       "n_suspect": 0,
       "n_accepted": 0,
       "n_runs": 0,
       "detection": {
-        "TP": 1,
+        "TP": 8,
         "FP": 0,
         "FN": 0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0
       },
-      "elapsed_s": 3.22
+      "elapsed_s": 4.16
     },
     {
       "attack": "connectivity_break",
-      "n_tampered": 1,
+      "n_tampered": 8,
       "write_stats": {
-        "geometry": 1,
+        "geometry": 8,
         "tags": 0,
         "skipped": 0
       },
       "verdict": "REJECT",
-      "n_changes": 2,
-      "n_rejected": 2,
+      "n_changes": 14,
+      "n_rejected": 14,
       "n_suspect": 0,
       "n_accepted": 0,
       "n_runs": 0,
       "detection": {
-        "TP": 1,
-        "FP": 1,
+        "TP": 8,
+        "FP": 6,
         "FN": 0,
-        "precision": 0.5,
+        "precision": 0.571,
         "recall": 1.0,
-        "f1": 0.667
+        "f1": 0.727
       },
-      "elapsed_s": 3.17
+      "elapsed_s": 3.97
     },
     {
       "attack": "tunnel_bridge_flip",
@@ -160,7 +160,7 @@
         "recall": 0.0,
         "f1": 0.0
       },
-      "elapsed_s": 0.04
+      "elapsed_s": 22.94
     },
     {
       "attack": "centerline_injection",
@@ -178,7 +178,7 @@
         "recall": 1.0,
         "f1": 1.0
       },
-      "elapsed_s": 3.3
+      "elapsed_s": 3.36
     }
   ]
 }

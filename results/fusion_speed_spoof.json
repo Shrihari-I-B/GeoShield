@@ -1,5 +1,5 @@
 {
-  "base_rate": 0.0010214504596527069,
+  "base_rate": 0.008171603677221655,
   "threshold": 0.5,
   "weights": {
     "tier1": 0.8,
@@ -11,39 +11,39 @@
       "config": [
         "differential"
       ],
-      "average_precision": 1.0,
-      "flagged": 1,
-      "tp": 1,
+      "average_precision": 0.8786363636363637,
+      "flagged": 7,
+      "tp": 7,
       "fp": 0,
-      "fn": 0,
+      "fn": 1,
       "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
+      "recall": 0.875,
+      "f1": 0.9333333333333333,
       "fpr": 0.0
     },
     {
       "config": [
         "tier1"
       ],
-      "average_precision": 0.0625,
-      "flagged": 4,
-      "tp": 0,
-      "fp": 4,
-      "fn": 1,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "fpr": 0.00408997955010225
+      "average_precision": 0.3496295238154886,
+      "flagged": 16,
+      "tp": 4,
+      "fp": 12,
+      "fn": 4,
+      "precision": 0.25,
+      "recall": 0.5,
+      "f1": 0.3333333333333333,
+      "fpr": 0.012358393408856848
     },
     {
       "config": [
         "tier2"
       ],
-      "average_precision": 0.3333333333333333,
+      "average_precision": 0.01728924232238266,
       "flagged": 0,
       "tp": 0,
       "fp": 0,
-      "fn": 1,
+      "fn": 8,
       "precision": 0.0,
       "recall": 0.0,
       "f1": 0.0,
@@ -54,44 +54,44 @@
         "tier1",
         "differential"
       ],
-      "average_precision": 1.0,
-      "flagged": 5,
-      "tp": 1,
-      "fp": 4,
-      "fn": 0,
-      "precision": 0.2,
-      "recall": 1.0,
-      "f1": 0.33333333333333337,
-      "fpr": 0.00408997955010225
+      "average_precision": 0.925,
+      "flagged": 19,
+      "tp": 7,
+      "fp": 12,
+      "fn": 1,
+      "precision": 0.3684210526315789,
+      "recall": 0.875,
+      "f1": 0.5185185185185185,
+      "fpr": 0.012358393408856848
     },
     {
       "config": [
         "tier1",
         "tier2"
       ],
-      "average_precision": 0.0625,
-      "flagged": 4,
-      "tp": 0,
-      "fp": 4,
-      "fn": 1,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0,
-      "fpr": 0.00408997955010225
+      "average_precision": 0.21131210676868664,
+      "flagged": 16,
+      "tp": 4,
+      "fp": 12,
+      "fn": 4,
+      "precision": 0.25,
+      "recall": 0.5,
+      "f1": 0.3333333333333333,
+      "fpr": 0.012358393408856848
     },
     {
       "config": [
         "tier2",
         "differential"
       ],
-      "average_precision": 1.0,
-      "flagged": 1,
-      "tp": 1,
+      "average_precision": 0.8769342359767892,
+      "flagged": 7,
+      "tp": 7,
       "fp": 0,
-      "fn": 0,
+      "fn": 1,
       "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
+      "recall": 0.875,
+      "f1": 0.9333333333333333,
       "fpr": 0.0
     },
     {
@@ -100,15 +100,15 @@
         "tier2",
         "differential"
       ],
-      "average_precision": 1.0,
-      "flagged": 5,
-      "tp": 1,
-      "fp": 4,
-      "fn": 0,
-      "precision": 0.2,
-      "recall": 1.0,
-      "f1": 0.33333333333333337,
-      "fpr": 0.00408997955010225
+      "average_precision": 0.925,
+      "flagged": 19,
+      "tp": 7,
+      "fp": 12,
+      "fn": 1,
+      "precision": 0.3684210526315789,
+      "recall": 0.875,
+      "f1": 0.5185185185185185,
+      "fpr": 0.012358393408856848
     }
   ]
 }

@@ -20,7 +20,7 @@ from pathlib import Path
 
 from lanelet2_adapter import load as load_map
 from attack_injector import (
-    ATTACKS, AttackResult, TamperRecord, save, write_tampered_map,
+    ATTACKS, AttackResult, TamperRecord, campaign, save, write_tampered_map,
 )
 from differential_verify import compare, structural_diff, evaluate, find_runs
 
@@ -42,6 +42,13 @@ ROUTE_TARGETS = [
 ]
 
 
+# 8 of 979 lanelets = 0.0082, matching the width ramp's base rate so every
+# attack family is measured against the same class imbalance. The budget is a
+# declared assumption, not a tuning knob: it sets the imbalance, which sets the
+# Isolation Forest contamination and decides which metrics are honest.
+ATTACK_BUDGET = 0.0082
+
+
 def run_one(attack_name: str, clean_map: str, segments, data_dir: Path,
             results_dir: Path, seed: int) -> dict:
     """Run one attack type through inject -> write -> verify -> score."""
@@ -51,9 +58,18 @@ def run_one(attack_name: str, clean_map: str, segments, data_dir: Path,
     t0 = time.time()
     fn = ATTACKS[attack_name]
     if attack_name == "width_ramp":
+        # Targeted at the driven route so Track B's safety measurement and the
+        # detection metrics describe the same attack.
         res: AttackResult = fn(segments, rng, target=ROUTE_TARGETS, total_gain=3.0)
     else:
-        res: AttackResult = fn(segments, rng)
+        # Single-shot attacks tamper exactly ONE lanelet, which caps precision
+        # at 1/(1+FP) whatever the rule quality -- about 0.04 against Tier 1's
+        # ~25 structural false positives, so the measured precision described
+        # the denominator rather than the detector. campaign() applies the same
+        # attack repeatedly to the declared budget, giving every family the
+        # width ramp's 8-of-979 base rate.
+        res: AttackResult = campaign(segments, rng, budget=ATTACK_BUDGET,
+                                     mix={attack_name: 1.0})
 
     n_tampered = len(res.labels)
     if n_tampered == 0:

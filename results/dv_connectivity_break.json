@@ -8,22 +8,22 @@
   "removed": [],
   "n_accepted": 0,
   "n_suspect": 0,
-  "n_rejected": 2,
+  "n_rejected": 14,
   "runs": [],
   "detection": {
-    "TP": 1,
-    "FP": 1,
+    "TP": 8,
+    "FP": 6,
     "FN": 0,
-    "precision": 0.5,
+    "precision": 0.571,
     "recall": 1.0,
-    "f1": 0.667
+    "f1": 0.727
   },
   "changes": [
     {
-      "segment_id": "lanelet:3002093",
+      "segment_id": "lanelet:158",
       "field_name": "successors",
       "previous": [
-        "lanelet:3002095"
+        "lanelet:162"
       ],
       "candidate": [],
       "delta": 1.0,
@@ -33,10 +33,10 @@
       "reason": "connectivity altered: -1 +0"
     },
     {
-      "segment_id": "lanelet:3002094",
+      "segment_id": "lanelet:159",
       "field_name": "successors",
       "previous": [
-        "lanelet:3002096"
+        "lanelet:163"
       ],
       "candidate": [],
       "delta": 1.0,
@@ -44,6 +44,165 @@
       "severity": 1.0,
       "verdict": "REJECT",
       "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:268",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:292"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:269",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:293"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:27",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:392",
+        "lanelet:393"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -2 +0"
+    },
+    {
+      "segment_id": "lanelet:28",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:391"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:3002022",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:3002138"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:3002180",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:3002184"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:3002181",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:3002185"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:301036",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:301024"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:35",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:306",
+        "lanelet:308"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -2 +0"
+    },
+    {
+      "segment_id": "lanelet:36",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:307"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:7",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:395"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -1 +0"
+    },
+    {
+      "segment_id": "lanelet:8",
+      "field_name": "successors",
+      "previous": [
+        "lanelet:396",
+        "lanelet:568"
+      ],
+      "candidate": [],
+      "delta": 1.0,
+      "relative": 1.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "connectivity altered: -2 +0"
     }
   ]
 }

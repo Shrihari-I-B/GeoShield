@@ -72,53 +72,53 @@
       "attack": "connectivity_break",
       "segments": 979,
       "overall": {
-        "tp": 1,
-        "fp": 26,
-        "fn": 0,
-        "tn": 952,
-        "precision": 0.037037037037037035,
-        "recall": 1.0,
-        "f1": 0.07142857142857142,
-        "fpr": 0.026584867075664622,
-        "flagged": 27,
-        "truth": 1
+        "tp": 0,
+        "fp": 25,
+        "fn": 8,
+        "tn": 946,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.025746652935118436,
+        "flagged": 25,
+        "truth": 8
       },
       "per_rule": {
         "R4_speed_neighbour": {
           "tp": 0,
           "fp": 15,
-          "fn": 1,
-          "tn": 963,
+          "fn": 8,
+          "tn": 956,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
-          "fpr": 0.015337423312883436,
+          "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 1
+          "truth": 8
         },
         "R5_topology": {
-          "tp": 1,
-          "fp": 11,
-          "fn": 0,
-          "tn": 967,
-          "precision": 0.08333333333333333,
-          "recall": 1.0,
-          "f1": 0.15384615384615385,
-          "fpr": 0.011247443762781187,
-          "flagged": 12,
-          "truth": 1
+          "tp": 0,
+          "fp": 10,
+          "fn": 8,
+          "tn": 961,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.010298661174047374,
+          "flagged": 10,
+          "truth": 8
         },
         "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
-          "fn": 1,
-          "tn": 978,
+          "fn": 8,
+          "tn": 971,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 1
+          "truth": 8
         }
       }
     },
@@ -126,53 +126,53 @@
       "attack": "oneway_flip",
       "segments": 979,
       "overall": {
-        "tp": 1,
+        "tp": 6,
         "fp": 25,
-        "fn": 0,
-        "tn": 953,
-        "precision": 0.038461538461538464,
-        "recall": 1.0,
-        "f1": 0.07407407407407407,
-        "fpr": 0.02556237218813906,
-        "flagged": 26,
-        "truth": 1
+        "fn": 2,
+        "tn": 946,
+        "precision": 0.1935483870967742,
+        "recall": 0.75,
+        "f1": 0.30769230769230765,
+        "fpr": 0.025746652935118436,
+        "flagged": 31,
+        "truth": 8
       },
       "per_rule": {
         "R4_speed_neighbour": {
           "tp": 0,
           "fp": 15,
-          "fn": 1,
-          "tn": 963,
+          "fn": 8,
+          "tn": 956,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
-          "fpr": 0.015337423312883436,
+          "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 1
+          "truth": 8
         },
         "R5_topology": {
           "tp": 0,
           "fp": 10,
-          "fn": 1,
-          "tn": 968,
+          "fn": 8,
+          "tn": 961,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
-          "fpr": 0.010224948875255624,
+          "fpr": 0.010298661174047374,
           "flagged": 10,
-          "truth": 1
+          "truth": 8
         },
         "R5_attribute_neighbour": {
-          "tp": 1,
+          "tp": 6,
           "fp": 0,
-          "fn": 0,
-          "tn": 978,
+          "fn": 2,
+          "tn": 971,
           "precision": 1.0,
-          "recall": 1.0,
-          "f1": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
           "fpr": 0.0,
-          "flagged": 1,
-          "truth": 1
+          "flagged": 6,
+          "truth": 8
         }
       }
     },
@@ -180,53 +180,53 @@
       "attack": "speed_spoof",
       "segments": 979,
       "overall": {
-        "tp": 1,
-        "fp": 25,
-        "fn": 0,
-        "tn": 953,
-        "precision": 0.038461538461538464,
-        "recall": 1.0,
-        "f1": 0.07407407407407407,
-        "fpr": 0.02556237218813906,
-        "flagged": 26,
-        "truth": 1
+        "tp": 6,
+        "fp": 26,
+        "fn": 2,
+        "tn": 945,
+        "precision": 0.1875,
+        "recall": 0.75,
+        "f1": 0.3,
+        "fpr": 0.026776519052523172,
+        "flagged": 32,
+        "truth": 8
       },
       "per_rule": {
         "R4_speed_neighbour": {
-          "tp": 1,
-          "fp": 15,
-          "fn": 0,
-          "tn": 963,
-          "precision": 0.0625,
-          "recall": 1.0,
-          "f1": 0.11764705882352941,
-          "fpr": 0.015337423312883436,
-          "flagged": 16,
-          "truth": 1
+          "tp": 6,
+          "fp": 16,
+          "fn": 2,
+          "tn": 955,
+          "precision": 0.2727272727272727,
+          "recall": 0.75,
+          "f1": 0.39999999999999997,
+          "fpr": 0.016477857878475798,
+          "flagged": 22,
+          "truth": 8
         },
         "R5_topology": {
           "tp": 0,
           "fp": 10,
-          "fn": 1,
-          "tn": 968,
+          "fn": 8,
+          "tn": 961,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
-          "fpr": 0.010224948875255624,
+          "fpr": 0.010298661174047374,
           "flagged": 10,
-          "truth": 1
+          "truth": 8
         },
         "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
-          "fn": 1,
-          "tn": 978,
+          "fn": 8,
+          "tn": 971,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 1
+          "truth": 8
         }
       }
     },
@@ -290,51 +290,51 @@
       "overall": {
         "tp": 0,
         "fp": 25,
-        "fn": 1,
-        "tn": 953,
+        "fn": 8,
+        "tn": 946,
         "precision": 0.0,
         "recall": 0.0,
         "f1": 0.0,
-        "fpr": 0.02556237218813906,
+        "fpr": 0.025746652935118436,
         "flagged": 25,
-        "truth": 1
+        "truth": 8
       },
       "per_rule": {
         "R4_speed_neighbour": {
           "tp": 0,
           "fp": 15,
-          "fn": 1,
-          "tn": 963,
+          "fn": 8,
+          "tn": 956,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
-          "fpr": 0.015337423312883436,
+          "fpr": 0.015447991761071062,
           "flagged": 15,
-          "truth": 1
+          "truth": 8
         },
         "R5_topology": {
           "tp": 0,
           "fp": 10,
-          "fn": 1,
-          "tn": 968,
+          "fn": 8,
+          "tn": 961,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
-          "fpr": 0.010224948875255624,
+          "fpr": 0.010298661174047374,
           "flagged": 10,
-          "truth": 1
+          "truth": 8
         },
         "R5_attribute_neighbour": {
           "tp": 0,
           "fp": 0,
-          "fn": 1,
-          "tn": 978,
+          "fn": 8,
+          "tn": 971,
           "precision": 0.0,
           "recall": 0.0,
           "f1": 0.0,
           "fpr": 0.0,
           "flagged": 0,
-          "truth": 1
+          "truth": 8
         }
       }
     }
