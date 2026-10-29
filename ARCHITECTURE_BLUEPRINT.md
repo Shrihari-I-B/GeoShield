@@ -85,7 +85,7 @@ Lanelet2 .osm ───┘                ├─► Tier 2 IForest ┼─► fus
 
 ### Measured negative results — deliberate, not gaps
 
-- Rule-based ceiling **F1 0.220** (separability analysis, chain lengths 3–7)
+- Rule-based ceiling ~~**F1 0.220**~~ (separability analysis, chain lengths 3–7) — **stale**: predates the 2026-10-19 lat/lon fix. Measured 2026-10-29 on the corrected maps, Tier 1's best F1 on the width ramp is **0.148** (median-step chain trend, ranking lanelets directly); the shipped two-rule configuration reaches F1 0.414 on oneway_flip and 0.400 on speed_spoof at a clean-map FPR of 0.0153.
 - Isolation Forest **0.133** vs a single hand-crafted feature at **0.420**
 - Repair infeasible: precision ≤0.055 at every threshold; a mis-targeted repair
   broke ego localisation
