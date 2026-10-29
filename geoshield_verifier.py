@@ -147,9 +147,12 @@ def _no_prior(a, rd, stem):
     reads no thresholds. Calibration still runs for the advisory rules, on the
     candidate itself, which is the only map available by definition.
 
-    Coverage is one of four attack families. Geometry is neither detected nor
-    repaired without a prior -- that is the cost of not having one, and it is
-    the whole argument for keeping one.
+    Coverage is one of six attack types tested: only oneway_flip trips a
+    gating rule. speed_spoof is detected at conditional recall 1.000 but
+    through R4_speed_neighbour, which is advisory and never refuses a map.
+    Geometry and topology are neither detected nor repaired without a prior
+    -- that is the cost of not having one, and it is the whole argument for
+    keeping one.
     """
     from tier1_rules import calibrate, load_map, run_tier1
     from fusion import TIER1_MINIMAL
