@@ -1,0 +1,88 @@
+{
+  "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/sweep_g0p25.osm",
+  "verdict": "REVIEW",
+  "n_previous": 979,
+  "n_candidate": 979,
+  "added": [],
+  "removed": [],
+  "n_accepted": 2,
+  "n_suspect": 3,
+  "n_rejected": 0,
+  "runs": [
+    {
+      "lanelets": [
+        "lanelet:3002017",
+        "lanelet:3013032"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 0.462
+    }
+  ],
+  "detection": {
+    "TP": 3,
+    "FP": 0,
+    "FN": 5,
+    "precision": 1.0,
+    "recall": 0.375,
+    "f1": 0.545
+  },
+  "changes": [
+    {
+      "segment_id": "lanelet:3002007",
+      "field_name": "width_m",
+      "previous": 3.058,
+      "candidate": 3.276,
+      "delta": 0.218,
+      "relative": 0.0713,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +7.1%"
+    },
+    {
+      "segment_id": "lanelet:3002013",
+      "field_name": "width_m",
+      "previous": 3.057,
+      "candidate": 3.186,
+      "delta": 0.129,
+      "relative": 0.0422,
+      "severity": 0.0,
+      "verdict": "ACCEPT",
+      "reason": "within re-survey tolerance"
+    },
+    {
+      "segment_id": "lanelet:3002017",
+      "field_name": "width_m",
+      "previous": 2.679,
+      "candidate": 2.835,
+      "delta": 0.156,
+      "relative": 0.0582,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +5.8%"
+    },
+    {
+      "segment_id": "lanelet:3012977",
+      "field_name": "width_m",
+      "previous": 2.603,
+      "candidate": 2.728,
+      "delta": 0.125,
+      "relative": 0.048,
+      "severity": 0.0,
+      "verdict": "ACCEPT",
+      "reason": "within re-survey tolerance"
+    },
+    {
+      "segment_id": "lanelet:3013032",
+      "field_name": "width_m",
+      "previous": 3.101,
+      "candidate": 3.297,
+      "delta": 0.196,
+      "relative": 0.0632,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +6.3%"
+    }
+  ]
+}

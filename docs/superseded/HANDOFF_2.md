@@ -1,3 +1,13 @@
+> **SUPERSEDED — written 2026-09-05, archived 2026-10-30.**
+>
+> Superseded by: `README.md` and `ARCHITECTURE_BLUEPRINT.md`
+>
+> Same three-tier framing as HANDOFF_1. Rows 17 and 45 justify differential verification and the HMM decision by an F1 0.220 ceiling; the corrected ceiling is 0.148. Both decisions still hold -- the corrected figure supports them more strongly -- but the stated reasoning is stale.
+>
+> Kept for provenance. **Do not cite any number in this file.**
+
+---
+
 # GeoShield — Handoff Document (Sections 6–11)
 
 Continues from `HANDOFF_1.md`. Same rules: only what actually happened in the

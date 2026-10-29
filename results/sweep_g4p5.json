@@ -1,0 +1,451 @@
+{
+  "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/sweep_g4p5.osm",
+  "verdict": "REJECT",
+  "n_previous": 979,
+  "n_candidate": 979,
+  "added": [],
+  "removed": [],
+  "n_accepted": 3,
+  "n_suspect": 12,
+  "n_rejected": 18,
+  "runs": [
+    {
+      "lanelets": [
+        "lanelet:3002007",
+        "lanelet:3002013"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": -1.617
+    },
+    {
+      "lanelets": [
+        "lanelet:3002017",
+        "lanelet:3013032"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 1.143
+    },
+    {
+      "lanelets": [
+        "lanelet:3002020",
+        "lanelet:3012183"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": -1.089
+    },
+    {
+      "lanelets": [
+        "lanelet:3012178",
+        "lanelet:3012977"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 0.897
+    },
+    {
+      "lanelets": [
+        "lanelet:3012234",
+        "lanelet:3013054",
+        "lanelet:3013060"
+      ],
+      "length": 3,
+      "monotonic": false,
+      "total_width_change": -0.018
+    },
+    {
+      "lanelets": [
+        "lanelet:3012981",
+        "lanelet:3013009"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 0.184
+    },
+    {
+      "lanelets": [
+        "lanelet:3013013",
+        "lanelet:3013049"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 1.369
+    }
+  ],
+  "detection": {
+    "TP": 8,
+    "FP": 9,
+    "FN": 0,
+    "precision": 0.471,
+    "recall": 1.0,
+    "f1": 0.64
+  },
+  "changes": [
+    {
+      "segment_id": "lanelet:3002007",
+      "field_name": "width_m",
+      "previous": 3.058,
+      "candidate": 6.992,
+      "delta": 3.934,
+      "relative": 1.2865,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +128.6% (+3.93 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3002007",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 2.109,
+      "delta": 2.109,
+      "relative": 0.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "lane centre displaced 2.11 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3002013",
+      "field_name": "width_m",
+      "previous": 3.057,
+      "candidate": 5.375,
+      "delta": 2.318,
+      "relative": 0.7583,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +75.8% (+2.32 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3002013",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 2.109,
+      "delta": 2.109,
+      "relative": 0.0,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "lane centre displaced 2.11 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3002017",
+      "field_name": "width_m",
+      "previous": 2.679,
+      "candidate": 5.489,
+      "delta": 2.81,
+      "relative": 1.0489,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +104.9% (+2.81 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3002017",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 1.547,
+      "delta": 1.547,
+      "relative": 0.0,
+      "severity": 0.7734282917632976,
+      "verdict": "REJECT",
+      "reason": "lane centre displaced 1.55 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3002020",
+      "field_name": "width_m",
+      "previous": 2.98,
+      "candidate": 2.849,
+      "delta": -0.131,
+      "relative": -0.044,
+      "severity": 0.0,
+      "verdict": "ACCEPT",
+      "reason": "within re-survey tolerance"
+    },
+    {
+      "segment_id": "lanelet:3002020",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.562,
+      "delta": 0.562,
+      "relative": 0.0,
+      "severity": 0.2812197228158004,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.56 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3011988",
+      "field_name": "width_m",
+      "previous": 2.83,
+      "candidate": 2.692,
+      "delta": -0.138,
+      "relative": -0.0488,
+      "severity": 0.0,
+      "verdict": "ACCEPT",
+      "reason": "within re-survey tolerance"
+    },
+    {
+      "segment_id": "lanelet:3011988",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.562,
+      "delta": 0.562,
+      "relative": 0.0,
+      "severity": 0.2812197228158004,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.56 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3012178",
+      "field_name": "width_m",
+      "previous": 2.619,
+      "candidate": 3.955,
+      "delta": 1.336,
+      "relative": 0.5101,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +51.0% (+1.34 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3012178",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.985,
+      "delta": 0.985,
+      "relative": 0.0,
+      "severity": 0.4922772516544835,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.98 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3012183",
+      "field_name": "width_m",
+      "previous": 2.142,
+      "candidate": 1.76,
+      "delta": -0.382,
+      "relative": -0.1783,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed -17.8% (-0.38 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3012183",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.562,
+      "delta": 0.562,
+      "relative": 0.0,
+      "severity": 0.2812197228158004,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.56 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3012234",
+      "field_name": "width_m",
+      "previous": 3.4,
+      "candidate": 3.694,
+      "delta": 0.294,
+      "relative": 0.0865,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +8.6%"
+    },
+    {
+      "segment_id": "lanelet:3012234",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.422,
+      "delta": 0.422,
+      "relative": 0.0,
+      "severity": 0.21084066259086612,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.42 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3012977",
+      "field_name": "width_m",
+      "previous": 2.603,
+      "candidate": 4.852,
+      "delta": 2.249,
+      "relative": 0.864,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +86.4% (+2.25 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3012977",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 1.265,
+      "delta": 1.265,
+      "relative": 0.0,
+      "severity": 0.6324017235852276,
+      "verdict": "REJECT",
+      "reason": "lane centre displaced 1.26 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3012981",
+      "field_name": "width_m",
+      "previous": 2.904,
+      "candidate": 2.457,
+      "delta": -0.447,
+      "relative": -0.1539,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed -15.4% (-0.45 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3012981",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.844,
+      "delta": 0.844,
+      "relative": 0.0,
+      "severity": 0.4220432471882025,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.84 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3013009",
+      "field_name": "width_m",
+      "previous": 2.771,
+      "candidate": 2.641,
+      "delta": -0.13,
+      "relative": -0.0469,
+      "severity": 0.0,
+      "verdict": "ACCEPT",
+      "reason": "within re-survey tolerance"
+    },
+    {
+      "segment_id": "lanelet:3013009",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.985,
+      "delta": 0.985,
+      "relative": 0.0,
+      "severity": 0.4922772516544835,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.98 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3013013",
+      "field_name": "width_m",
+      "previous": 2.629,
+      "candidate": 1.789,
+      "delta": -0.84,
+      "relative": -0.3195,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed -32.0% (-0.84 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3013013",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.844,
+      "delta": 0.844,
+      "relative": 0.0,
+      "severity": 0.4220432471882025,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.84 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3013032",
+      "field_name": "width_m",
+      "previous": 3.101,
+      "candidate": 6.632,
+      "delta": 3.531,
+      "relative": 1.1387,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +113.9% (+3.53 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3013032",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 1.828,
+      "delta": 1.828,
+      "relative": 0.0,
+      "severity": 0.9139657132542014,
+      "verdict": "REJECT",
+      "reason": "lane centre displaced 1.83 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3013049",
+      "field_name": "width_m",
+      "previous": 2.696,
+      "candidate": 3.158,
+      "delta": 0.462,
+      "relative": 0.1714,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +17.1% (+0.46 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3013049",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 1.547,
+      "delta": 1.547,
+      "relative": 0.0,
+      "severity": 0.7734282917632976,
+      "verdict": "REJECT",
+      "reason": "lane centre displaced 1.55 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3013054",
+      "field_name": "width_m",
+      "previous": 2.574,
+      "candidate": 3.709,
+      "delta": 1.135,
+      "relative": 0.4409,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +44.1% (+1.14 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3013054",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.702,
+      "delta": 0.702,
+      "relative": 0.0,
+      "severity": 0.3507672233858404,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.70 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3013060",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.702,
+      "delta": 0.702,
+      "relative": 0.0,
+      "severity": 0.3507672233858404,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.70 m -- the drivable corridor moved, not just widened"
+    },
+    {
+      "segment_id": "lanelet:3013093",
+      "field_name": "width_m",
+      "previous": 2.641,
+      "candidate": 4.356,
+      "delta": 1.715,
+      "relative": 0.6494,
+      "severity": 1.0,
+      "verdict": "REJECT",
+      "reason": "width changed +64.9% (+1.71 m) with no corroborating change to lane count or connectivity"
+    },
+    {
+      "segment_id": "lanelet:3013093",
+      "field_name": "centreline",
+      "previous": 0.0,
+      "candidate": 0.985,
+      "delta": 0.985,
+      "relative": 0.0,
+      "severity": 0.4922772516544835,
+      "verdict": "SUSPECT",
+      "reason": "lane centre displaced 0.98 m -- the drivable corridor moved, not just widened"
+    }
+  ]
+}

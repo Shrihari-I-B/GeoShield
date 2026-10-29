@@ -1,3 +1,13 @@
+> **SUPERSEDED — written 2026-09-05, archived 2026-10-30.**
+>
+> Superseded by: `README.md` and `ARCHITECTURE_BLUEPRINT.md`
+>
+> Describes a three-tier cascade as the architecture. Measurement on 2026-10-29 showed every tier past differential verification costs precision and gains no recall, so the shipped design has two modes, not three tiers. All driven-deviation figures predate the 2026-10-19 lat/lon fix.
+>
+> Kept for provenance. **Do not cite any number in this file.**
+
+---
+
 # GeoShield — Handoff Document (Sections 1–5)
 
 Generated at the end of a long working session. Everything below is reported

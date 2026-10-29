@@ -1,3 +1,13 @@
+> **SUPERSEDED — written 2026-09-12, archived 2026-10-30.**
+>
+> Superseded by: nothing -- it was never applied and must not be
+>
+> **DO NOT APPLY.** This is a find-and-replace sheet whose purpose is to write 0.0402 m into RESULTS.md, including a verification step (`grep -c "0.0402" RESULTS.md # expect 4`) that would confirm success at corrupting it. Kept only as a record of what was believed on 2026-09-12.
+>
+> Kept for provenance. **Do not cite any number in this file.**
+
+---
+
 # RESULTS.md — §4 update blocks
 
 Today's 0.50.0 runs supersede three subsections. Apply with Ctrl+H in VS Code,

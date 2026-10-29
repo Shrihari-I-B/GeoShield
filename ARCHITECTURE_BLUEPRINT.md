@@ -355,7 +355,7 @@ the project currently states about itself.
 | Kubernetes / Compose orchestration | One container on one laptop. Orchestration solves a problem that does not exist here. |
 | Microservice decomposition | The pipeline is a batch DAG, not a request path. Decomposition adds IPC failure modes to code that currently cannot fail that way. |
 | Rewriting analysis in C++/Rust | Fréchet on 400 resampled points is milliseconds. Nothing is compute-bound except chain enumeration, which is capped at 20,000 and takes seconds. |
-| More ML | Ceiling measured at F1 0.220 across seven feature formulations. The problem is the evidence, not the estimator. |
+| More ML | Ceiling measured at F1 **0.148** across seven feature formulations (~~0.220~~ predates the 2026-10-19 lat/lon fix). The problem is the evidence, not the estimator. |
 
 ---
 
@@ -503,7 +503,7 @@ evidence in this project's history.
    with measurements. AWSIM needs NVIDIA/Vulkan and measures perception, which
    this study does not examine.
 3. **Do not "fix" the negative results.** Isolation Forest underperforming a
-   single feature, repair infeasibility, and the F1 0.220 ceiling are findings.
+   single feature, repair infeasibility, and the F1 0.148 ceiling are findings.
 4. **Tiers 1 and 2 run in parallel, never cascaded.** A cascade caps total
    recall at Tier 1's recall.
 5. **Isolation Forest fits on clean maps only.** Novelty detection. Fitting on

@@ -1,0 +1,139 @@
+{
+  "previous": "/home/shrihari-i-b/autoware_map/nishishinjuku_autoware_map/lanelet2_map.osm",
+  "candidate": "data/sweep_g0p5.osm",
+  "verdict": "REVIEW",
+  "n_previous": 979,
+  "n_candidate": 979,
+  "added": [],
+  "removed": [],
+  "n_accepted": 1,
+  "n_suspect": 7,
+  "n_rejected": 0,
+  "runs": [
+    {
+      "lanelets": [
+        "lanelet:3002007",
+        "lanelet:3002013"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": -0.179
+    },
+    {
+      "lanelets": [
+        "lanelet:3002017",
+        "lanelet:3013032"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 0.503
+    },
+    {
+      "lanelets": [
+        "lanelet:3012178",
+        "lanelet:3012977"
+      ],
+      "length": 2,
+      "monotonic": true,
+      "total_width_change": 0.084
+    }
+  ],
+  "detection": {
+    "TP": 6,
+    "FP": 1,
+    "FN": 2,
+    "precision": 0.857,
+    "recall": 0.75,
+    "f1": 0.8
+  },
+  "changes": [
+    {
+      "segment_id": "lanelet:3002007",
+      "field_name": "width_m",
+      "previous": 3.058,
+      "candidate": 3.494,
+      "delta": 0.436,
+      "relative": 0.1426,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +14.3%"
+    },
+    {
+      "segment_id": "lanelet:3002013",
+      "field_name": "width_m",
+      "previous": 3.057,
+      "candidate": 3.315,
+      "delta": 0.258,
+      "relative": 0.0844,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +8.4%"
+    },
+    {
+      "segment_id": "lanelet:3002017",
+      "field_name": "width_m",
+      "previous": 2.679,
+      "candidate": 2.991,
+      "delta": 0.312,
+      "relative": 0.1165,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +11.6%"
+    },
+    {
+      "segment_id": "lanelet:3012178",
+      "field_name": "width_m",
+      "previous": 2.619,
+      "candidate": 2.769,
+      "delta": 0.15,
+      "relative": 0.0573,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +5.7%"
+    },
+    {
+      "segment_id": "lanelet:3012977",
+      "field_name": "width_m",
+      "previous": 2.603,
+      "candidate": 2.853,
+      "delta": 0.25,
+      "relative": 0.096,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +9.6%"
+    },
+    {
+      "segment_id": "lanelet:3013032",
+      "field_name": "width_m",
+      "previous": 3.101,
+      "candidate": 3.494,
+      "delta": 0.393,
+      "relative": 0.1267,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +12.7%"
+    },
+    {
+      "segment_id": "lanelet:3013054",
+      "field_name": "width_m",
+      "previous": 2.574,
+      "candidate": 2.7,
+      "delta": 0.126,
+      "relative": 0.049,
+      "severity": 0.0,
+      "verdict": "ACCEPT",
+      "reason": "within re-survey tolerance"
+    },
+    {
+      "segment_id": "lanelet:3013093",
+      "field_name": "width_m",
+      "previous": 2.641,
+      "candidate": 2.832,
+      "delta": 0.191,
+      "relative": 0.0723,
+      "severity": 0.5,
+      "verdict": "SUSPECT",
+      "reason": "width changed +7.2%"
+    }
+  ]
+}

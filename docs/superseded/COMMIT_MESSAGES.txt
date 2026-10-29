@@ -1,3 +1,8 @@
+# SUPERSEDED -- written 2026-08-23, archived 2026-10-30.
+# Superseded by: the git history
+# Draft messages for two commits long since made.
+# Numbers here are not current. Do not cite.
+
 Two commits, in this order. Project convention: the message states the
 finding, not the action.
 

@@ -1,3 +1,13 @@
+> **SUPERSEDED — written 2026-09-15, archived 2026-10-30.**
+>
+> Superseded by: `results/*.json` and the detection table in `README.md`
+>
+> Every driven-deviation figure here is a clean-vs-clean comparison: the lat/lon bug fixed on 2026-10-19 meant the "tampered" map was never loaded, so 0.0402 m is the run-to-run noise floor, not an attack effect. The corrected figure is 1.4454 m against a 0.0408 m floor. The F1 0.220 ceiling is likewise stale (corrected: 0.148).
+>
+> Kept for provenance. **Do not cite any number in this file.**
+
+---
+
 # GeoShield — Results
 
 Draft results section. Every number below is measured, with the producing

@@ -1,3 +1,13 @@
+> **SUPERSEDED — written 2026-09-05, archived 2026-10-30.**
+>
+> Superseded by: `README.md`
+>
+> Its live content (Autoware runs locally in Docker, EC2 optional) is now in README.
+>
+> Kept for provenance. **Do not cite any number in this file.**
+
+---
+
 # GeoShield — Handoff Addendum
 
 **Read this AFTER `HANDOFF_1.md` and `HANDOFF_2.md`. It supersedes parts of
