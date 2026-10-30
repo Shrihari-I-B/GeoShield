@@ -8,8 +8,9 @@ WHY THIS FILE MATTERS MORE THAN THE MODEL
 -----------------------------------------
 A model can only find patterns in what you show it. Phase 3 measured the
 ceiling for detecting ramp attacks with ONE statistic: max achievable F1 was
-0.22, because attacked chains fall inside the 90th percentile of clean chains
-on the trend statistic.
+0.148 (re-measured 2026-10-29; the earlier 0.22 predates the 2026-10-19
+lat/lon fix), because attacked chains fall inside the 90th percentile of
+clean chains on the trend statistic.
 
 The ML layer's only hope of beating that ceiling is the JOINT distribution --
 a lanelet that is unremarkable on trend, unremarkable on taper, and

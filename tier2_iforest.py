@@ -15,17 +15,21 @@ Phase 3 separability analysis (chain trend statistic, Nishi-Shinjuku):
     chain length   3      4      5      6      7
     best F1      0.196  0.158  0.188  0.208  0.220
 
-Attacked chains sit INSIDE the 90th percentile of clean chains, so no single
-statistic can separate them. Max achievable F1 with rules alone: 0.22.
+STALE: the table above predates the 2026-10-19 lat/lon fix, so it was
+measured on maps where the tampered geometry was never applied. Re-measured
+2026-10-29 by ranking lanelets on the chain-trend statistic directly, Tier 1's
+best F1 on the width ramp is 0.148. The conclusion is unchanged and stronger:
+attacked chains sit INSIDE the 90th percentile of clean chains, so no single
+statistic separates them.
 
 Isolation Forest's chance of beating that is the JOINT distribution. A ramped
 lanelet is unremarkable on trend, unremarkable on taper, unremarkable on
 neighbour delta -- but the COMBINATION is rare. Isolation Forest partitions
-the full 28-dimensional space, so it can isolate points that no single axis
+the full 27-dimensional space, so it can isolate points that no single axis
 would flag.
 
-If it does not beat 0.22, that is a legitimate finding and the ablation should
-report it. A layer that does not earn its place gets cut.
+If it does not beat 0.148, that is a legitimate finding and the ablation
+should report it. A layer that does not earn its place gets cut.
 
 
 WHY NOVELTY DETECTION, NOT OUTLIER DETECTION
@@ -82,10 +86,18 @@ def fit_score(clean_segs, tampered_segs, contamination=0.03,
     """
     Fit on clean, score tampered. Returns {segment_id: anomaly_score}.
 
-    contamination sets where sklearn puts its own decision boundary. It should
-    match the attack budget declared in Phase 2 (0.03), because that is the
-    class imbalance the system is designed for -- it is an assumption, not a
-    tuning knob, and the sensitivity of results to it belongs in the report.
+    contamination is INERT here and is kept only for interface compatibility.
+    It sets sklearn's own decision boundary via offset_, which affects
+    predict() and decision_function(); this function calls score_samples(),
+    which is independent of offset_, and then rescales by the candidate's own
+    min/max. Measured 2026-10-30: scores are bit-identical across
+    contamination 0.0082, 0.03 and 0.25 (max abs difference 0.000e+00), so
+    neither PR-AUC nor any swept operating point moves with it.
+
+    The sensitivity experiment the earlier docstring asked for has therefore
+    been run, and the sensitivity is zero. The declared-budget-versus-measured
+    -base-rate question is real for anything that uses sklearn's boundary; it
+    is not real for this code path.
     """
     from sklearn.ensemble import IsolationForest
 
@@ -128,8 +140,9 @@ def pr_auc(scores: dict[str, float], truth: set[str]) -> float:
     """
     Area under the precision-recall curve.
 
-    PR-AUC, not ROC-AUC. With ~3% positives the false-positive rate has a huge
-    denominator, so ROC-AUC looks impressive even for a poor detector. PR is
+    PR-AUC, not ROC-AUC. The measured base rate is 0.0082 (8 tampered of 979),
+    not the 3% once assumed here, so the false-positive rate has an even
+    larger denominator and ROC-AUC looks impressive for a poor detector. PR is
     the honest metric for rare positives.
     """
     ranked = sorted(scores.items(), key=lambda kv: -kv[1])

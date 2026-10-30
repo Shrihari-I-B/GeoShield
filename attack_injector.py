@@ -304,7 +304,11 @@ def campaign(segments: list[RoadSegment], rng: random.Random,
     imbalance, which in turn sets the Isolation Forest contamination value and
     determines which evaluation metrics are honest. 3% reflects a targeted
     adversary hitting a specific corridor, not blanket corruption -- state this
-    in the report and vary it in a sensitivity experiment.
+    in the report. NOTE: run_all_dv.py drives single-shot attacks at
+    ATTACK_BUDGET = 0.0082, the width ramp's measured 8-of-979 rate, so the
+    evaluated prevalence is 0.82% and not 3%. The sensitivity experiment was
+    run on 2026-10-30 for Tier 2 and the sensitivity is zero: fit_score calls
+    score_samples, which ignores contamination.
     """
     mix = mix or {"width_ramp": 0.40, "speed_spoof": 0.20, "oneway_flip": 0.15,
                   "width_step": 0.10, "connectivity_break": 0.10,

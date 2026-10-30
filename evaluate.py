@@ -18,9 +18,10 @@ lanelet on the same side.
 
 METRICS
 -------
-PR-AUC, not ROC-AUC, and never accuracy. At ~3% prevalence a detector that
-flags nothing scores 97% accuracy, and ROC-AUC is flattered by the enormous
-negative class in its denominator. Precision-recall is the honest curve for
+PR-AUC, not ROC-AUC, and never accuracy. At the measured 0.0082 prevalence
+(8 tampered of 979, not the 3% once assumed) a detector that flags nothing
+scores 99.18% accuracy, and ROC-AUC is flattered by the enormous negative
+class in its denominator. Precision-recall is the honest curve for
 rare positives.
 """
 

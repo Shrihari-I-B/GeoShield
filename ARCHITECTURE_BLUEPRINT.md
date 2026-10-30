@@ -329,7 +329,7 @@ Merkle + signature   provenance — who sent it    a compromised supplier
                                                   signs tampered data
 Differential         plausibility — is this      needs an authentic
                      change justified?            prior version
-Tier 1 + Tier 2      absolute anomaly            F1 ceiling 0.220
+Tier 1 + Tier 2      absolute anomaly            F1 ceiling 0.148
                      (no prior version)
 ```
 
@@ -509,7 +509,7 @@ evidence in this project's history.
 5. **Isolation Forest fits on clean maps only.** Novelty detection. Fitting on
    the mixed set collapses detection.
 6. **Train/test splits are by run, never by segment.**
-7. **Report PR-AUC, never accuracy.** Positives are ~3%.
+7. **Report PR-AUC, never accuracy.** Positives are 0.0082 (8 of 979) -- flagging nothing scores 99.18% accuracy.
 8. **The HD map is the artefact under test; OSM is the independent witness.**
    Never both.
 9. **Any change to metric code must keep `tests/test_metrics.py` green.** Those
