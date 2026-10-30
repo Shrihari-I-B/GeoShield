@@ -26,7 +26,7 @@ from launch_ros.substitutions import FindPackageShare
 
 ARGS = (
     ("candidate", None, "map under test (.osm)"),
-    ("prior", None, "last trusted map (.osm)"),
+    ("prior", "", "last trusted map (.osm); empty selects no-prior mode"),
     ("verified_dir", "/autoware_map/geoshield_verified", "where the admitted map is installed"),
     ("geoshield_dir", "/geoshield", "repository root"),
     ("vehicle_model", "sample_vehicle", ""),
@@ -40,9 +40,17 @@ ARGS = (
 def _setup(context, *_, **__):
     g = lambda n: LaunchConfiguration(n).perform(context)
 
+    # --prior is omitted, not passed empty. geoshield_verifier dispatches on
+    # `if not a.prior`, and this file used to pass --prior unconditionally
+    # against a required launch argument, so the no-prior branch -- half the
+    # documented architecture -- could not be reached from the deployment
+    # path at all. The exit-code contract is identical in both modes, so the
+    # handler below is unchanged.
     cmd = ["python3", "-u", str(Path(g("geoshield_dir")) / "geoshield_verifier.py"),
-           "--candidate", g("candidate"), "--prior", g("prior"),
-           "--out-dir", g("verified_dir"), "--publish", "--hold", g("hold")]
+           "--candidate", g("candidate")]
+    if g("prior").strip():
+        cmd += ["--prior", g("prior")]
+    cmd += ["--out-dir", g("verified_dir"), "--publish", "--hold", g("hold")]
     if g("repair").strip().lower() in ("false", "0", "no", "off"):
         cmd.append("--no-repair")
 
@@ -71,8 +79,13 @@ def _setup(context, *_, **__):
                 ExecuteProcess(
                     name="geoshield_flags",
                     cmd=["python3", "-u", str(root / "publish_flags.py"),
-                         "--report", str(root / "results" / f"gate_{stem}_in.json"),
-                         "--map", g("prior"), "--duration", g("flag_duration")],
+                         # each mode writes its own report; see _noprior_report
+                         "--report", str(root / "results" / (
+                             f"gate_{stem}_in.json" if g("prior").strip()
+                             else f"gate_{stem}_noprior.json")),
+                         # no prior means the candidate is the only map
+                         "--map", g("prior") or g("candidate"),
+                         "--duration", g("flag_duration")],
                     output="log"),
             ]
         return [

@@ -133,6 +133,84 @@ def publish(verdict, detail, map_path, prior, diag_topic, hold):
     rclpy.shutdown()
 
 
+def _noprior_report(a, cand, res, fixes, propose, refuse, gating, path):
+    """Write the no-prior decision in the differential report's schema.
+
+    The differential path leaves three JSON reports; the no-prior path left
+    only an .osm, so a refusal existed solely as a line in a container log.
+    An ingest gate's output is its audit trail, and that has to hold in both
+    modes, not just the one with a prior.
+
+    The schema is the differential one on purpose: publish_flags.py reads
+    `changes` and keys on segment_id and verdict, so writing gate_<stem>_in
+    .json here means the launch file and the marker publisher need no
+    mode-specific handling at all.
+
+    previous/candidate are omitted rather than nulled for a finding with no
+    repairable value, because publish_flags formats those fields and a None
+    would raise inside a process the launch file runs with output="log" --
+    the quietest way a demo can fail.
+    """
+    # Imported here, not at module scope: _no_prior does the same, and the
+    # differential path must stay importable on a machine with no sklearn.
+    from fusion import TIER1_MINIMAL
+    from repair_noprior import APPLY_RULES
+
+    by_fix = {sid: (attr, cur, cons) for sid, attr, cur, cons in fixes}
+    by_prop = {sid: (attr, cur, cons) for sid, attr, cur, cons in propose}
+    gating_ids = {f.segment_id for f in gating}
+
+    changes = []
+    for f in res.findings:
+        entry = {
+            "segment_id": f.segment_id,
+            "rule": f.rule,
+            "severity": f.severity,
+            "verdict": "REJECT" if f.segment_id in gating_ids else "SUSPECT",
+            "reason": f.detail,
+        }
+        src = by_fix.get(f.segment_id) or by_prop.get(f.segment_id)
+        if src:
+            attr, cur, cons = src
+            entry["field_name"] = attr
+            entry["candidate"] = cur   # what this map declares
+            entry["previous"] = cons   # what its neighbours agree on
+            entry["repair"] = "apply" if f.segment_id in by_fix else "propose"
+        else:
+            entry["field_name"] = f.rule
+            entry["repair"] = "none"
+        changes.append(entry)
+
+    rep = {
+        "previous": None,
+        "previous_is": ("neighbour consensus within this map, NOT a trusted "
+                        "prior's attested value -- for a lanelet with one "
+                        "neighbour the 'consensus' is that single neighbour"),
+        "candidate": a.candidate,
+        "mode": "no-prior",
+        "verdict": "REJECT" if gating else "ACCEPT",
+        "n_previous": None,
+        "n_candidate": len(cand),
+        "added": [],
+        "removed": [],
+        "n_accepted": len(cand) - len({c["segment_id"] for c in changes}),
+        "n_suspect": len([c for c in changes if c["verdict"] == "SUSPECT"]),
+        "n_rejected": len(gating),
+        "runs": [],
+        "detection": {
+            "rules": sorted(TIER1_MINIMAL),
+            "gating_rules": sorted(APPLY_RULES),
+            "n_gating": len(gating),
+            "n_proposed": len(propose),
+            "n_unrepairable": len(refuse),
+            "calibration": "none -- the gating rule reads no thresholds",
+        },
+        "changes": changes,
+    }
+    Path(path).write_text(json.dumps(rep, indent=1, default=str))
+    return rep
+
+
 def _no_prior(a, rd, stem):
     """Gate a map with no trusted prior to diff against.
 
@@ -169,6 +247,15 @@ def _no_prior(a, rd, stem):
 
     print(f"verdict   : {'REJECT' if gating else 'ACCEPT'}  "
           f"({len(gating)} gating, {len(propose) + len(advisory)} advisory)")
+
+    # Deliberately NOT gate_<stem>_in.json: the differential path owns that
+    # name, and both modes can run against the same map (reproduce.sh gate
+    # does exactly that on the clean map), so sharing it meant the second run
+    # silently overwrote the first. An audit trail that overwrites itself is
+    # worse than none.
+    report = rd / f"gate_{stem}_noprior.json"
+    _noprior_report(a, cand, res, fixes, propose, advisory, gating, report)
+    print(f"report    : {report}")
 
     admitted = None
     if not gating:
