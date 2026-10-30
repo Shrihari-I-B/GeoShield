@@ -63,20 +63,58 @@ def flagged_ids(rep):
                    if c.get("verdict") in ("REJECT", "SUSPECT")})
 
 
-def install_map(osm, out_dir, prior):
-    """Write an Autoware map directory the planner can be pointed at."""
+# Required: without the pointcloud there is no NDT localisation, so a map
+# directory lacking it is one the planner starts on and cannot localise with.
+MAP_ASSETS_REQUIRED = ("pointcloud_map.pcd",)
+# Copied when present. The Nishi-Shinjuku map carries no map_projector_info
+# .yaml and Autoware loads it regardless (verified in the container
+# 2026-10-30), so treating it as mandatory would refuse a map that works.
+MAP_ASSETS_OPTIONAL = ("map_projector_info.yaml",)
+MAP_ASSETS = MAP_ASSETS_REQUIRED + MAP_ASSETS_OPTIONAL
+
+
+def install_map(osm, out_dir, assets_from):
+    """Write an Autoware map directory the planner can be pointed at.
+
+    Returns (out_dir, missing). `assets_from` names the map, or the map
+    directory, holding the pointcloud and projector info. In differential
+    mode that is the prior, which is itself an installed Autoware map
+    directory -- which is the only reason this ever worked. In no-prior mode
+    the candidate is a bare .osm whose directory holds neither, so the
+    operator has to supply one.
+
+    Neither asset is optional. Without pointcloud_map.pcd there is no NDT
+    localization; without map_projector_info.yaml Autoware cannot place the
+    map at all. This function used to skip a missing asset silently behind
+    `if s.exists()`, so a no-prior install produced a directory containing
+    only lanelet2_map.osm, the gate reported ADMIT, the launch file started
+    the planner, and the only trace was an unformatted "map is not loaded
+    properly" in the launch output. Measured in the container 2026-10-30:
+    /map/pointcloud_map_loader never came up.
+    """
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     shutil.copy2(osm, out / "lanelet2_map.osm")
-    src = Path(prior).parent
-    for extra in ("pointcloud_map.pcd", "map_projector_info.yaml"):
-        s, d = src / extra, out / extra
-        if s.exists() and not d.exists():
+
+    src = None
+    if assets_from:
+        p = Path(assets_from)
+        src = p if p.is_dir() else p.parent
+
+    missing = []
+    for extra in MAP_ASSETS:
+        d = out / extra
+        if d.exists():
+            continue
+        s = (src / extra) if src else None
+        if s is not None and s.exists():
             try:
                 d.symlink_to(os.path.relpath(s, out))
             except OSError:
                 shutil.copy2(s, d)
-    return out
+        elif extra in MAP_ASSETS_REQUIRED:
+            missing.append(extra)
+    return out, missing
 
 
 def publish(verdict, detail, map_path, prior, diag_topic, hold):
@@ -282,7 +320,19 @@ def _no_prior(a, rd, stem):
               f"-- that rule's precision does not support writing them")
 
     if admitted and a.out_dir:
-        print(f"installed : {install_map(admitted, a.out_dir, a.candidate)}")
+        d, missing = install_map(admitted, a.out_dir,
+                                 a.map_assets or a.candidate)
+        print(f"installed : {d}")
+        if missing:
+            # Not a warning. The gate's exit 0 means "the planner may start on
+            # this map", and a map without these is one the planner starts on
+            # and cannot localise with. Saying ADMIT here is the gate lying
+            # about its own output.
+            print(f"ERROR: installed map is missing {', '.join(missing)} -- "
+                  f"pass --map-assets <dir> naming the directory that holds "
+                  f"them", file=sys.stderr)
+            print("gate      : ERROR -- installed map is incomplete")
+            return ERROR
 
     print(f"gate      : {'ADMIT' if admitted else 'REFUSE'} -- {action}")
     return ADMIT if admitted else REFUSE
@@ -295,6 +345,11 @@ def main():
                                    "the gate runs in no-prior mode.")
     ap.add_argument("--out-map", help="where to write the admitted .osm")
     ap.add_argument("--out-dir", help="also install as an Autoware map directory")
+    ap.add_argument("--map-assets", help="directory (or a map file inside it) "
+                    "holding pointcloud_map.pcd and map_projector_info.yaml. "
+                    "Differential mode takes them from the prior; in no-prior "
+                    "mode the candidate is a bare .osm, so there is nothing to "
+                    "infer them from and this must be given when --out-dir is.")
     ap.add_argument("--no-repair", action="store_true",
                     help="refuse a failing map instead of repairing it")
     ap.add_argument("--include-suspect", action="store_true", default=True)
@@ -369,8 +424,20 @@ def main():
         shutil.copy2(admitted, a.out_map)
         admitted = a.out_map
     if admitted and a.out_dir:
-        d = install_map(admitted, a.out_dir, a.prior)
+        d, missing = install_map(admitted, a.out_dir, a.map_assets or a.prior)
         print(f"installed : {d}")
+        if missing:
+            # Should never fire here: the prior IS an installed Autoware map
+            # directory, which is the only reason this path always worked
+            # while the no-prior one silently half-installed. It fires if
+            # --prior names a bare .osm outside a map directory, and the
+            # consequence is identical -- a planner that starts and cannot
+            # localise.
+            print(f"ERROR: installed map is missing {', '.join(missing)} -- "
+                  f"pass --map-assets <dir> naming the directory that holds "
+                  f"them", file=sys.stderr)
+            print("gate      : ERROR -- installed map is incomplete")
+            return ERROR
 
     if a.publish:
         publish("ACCEPT" if admitted else "REJECT", detail,

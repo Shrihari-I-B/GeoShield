@@ -270,7 +270,7 @@ cmd_all () {
     echo "   argument changes between conditions: bash reproduce.sh drive"
   fi
   echo
-  echo "PASS -- detection, repair, 8 gate decisions and the Track B safety"
+  echo "PASS -- detection, repair, 11 gate decisions and the Track B safety"
   echo "        figures, all verified with no ROS, no simulator, no network."
 }
 
@@ -311,9 +311,38 @@ cmd_gate () {
   check_np 0 "clean map, no prior"              --candidate "$CLEAN"
   check_np 2 "oneway flip, no prior, no repair" --candidate "$D/repro_oneway.osm" --no-repair
   check_np 0 "oneway flip, no prior, repaired"  --candidate "$D/repro_oneway.osm"
+  echo
+  echo "== installed map directory (what the planner actually loads)"
+  # This step had no assertion. install_map silently half-built a directory
+  # in no-prior mode -- lanelet2_map.osm and nothing else -- the gate said
+  # ADMIT, the launch file started the planner, and the only trace was an
+  # unformatted "map is not loaded properly". Without the pointcloud there is
+  # no NDT localisation, so the exit code and the .pcd are both asserted.
+  local ID="${TMPDIR:-/tmp}/geoshield_install_check"
+  install_check () {   # want_exit want_pcd name -- verifier args
+    local want="$1" wantpcd="$2" name="$3"; shift 3
+    rm -rf "$ID"
+    set +e
+    python3 geoshield_verifier.py "$@" --out-dir "$ID" >/dev/null 2>&1
+    local got=$?
+    set -e
+    local pcd=no; [ -e "$ID/pointcloud_map.pcd" ] && pcd=yes
+    if [ "$got" = "$want" ] && [ "$pcd" = "$wantpcd" ]; then
+      printf '  %-42s exit %s pcd=%-4s ok\n' "$name" "$got" "$pcd"
+    else
+      printf '  %-42s exit %s pcd=%-4s EXPECTED exit %s pcd=%s\n' \
+             "$name" "$got" "$pcd" "$want" "$wantpcd"
+      fails=1
+    fi
+  }
+  install_check 0 yes "differential install"           --prior "$CLEAN" --candidate "$D/repro_width.osm"
+  install_check 1 no  "no-prior install, no assets"    --candidate "$D/repro_oneway.osm"
+  install_check 0 yes "no-prior install, --map-assets" --candidate "$D/repro_oneway.osm" --map-assets "$(dirname "$CLEAN")"
+  rm -rf "$ID"
+
   [ "$fails" = 0 ] || { echo; echo "gate: a decision changed" >&2; exit 1; }
   echo
-  echo "gate: 8 decisions. Refuses both geometry families and the attribute"
+  echo "gate: 11 decisions. Refuses both geometry families and the attribute"
   echo "      family, admits the clean map and every repair, with and without"
   echo "      a trusted prior."
 }

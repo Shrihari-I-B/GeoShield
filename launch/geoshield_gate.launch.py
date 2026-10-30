@@ -31,6 +31,10 @@ ARGS = (
     ("geoshield_dir", "/geoshield", "repository root"),
     ("vehicle_model", "sample_vehicle", ""),
     ("sensor_model", "sample_sensor_kit", ""),
+    ("map_assets", "", "directory holding pointcloud_map.pcd for the installed "
+                       "map. Differential mode takes it from the prior; no-prior "
+                       "mode has nothing to infer it from, so without this the "
+                       "gate errors rather than installing an incomplete map"),
     ("repair", "true", "false refuses a failing map instead of repairing it"),
     ("hold", "2.0", "seconds the verifier keeps publishing its verdict"),
     ("flag_duration", "7200", "seconds the marker publisher stays up"),
@@ -50,6 +54,8 @@ def _setup(context, *_, **__):
            "--candidate", g("candidate")]
     if g("prior").strip():
         cmd += ["--prior", g("prior")]
+    if g("map_assets").strip():
+        cmd += ["--map-assets", g("map_assets")]
     cmd += ["--out-dir", g("verified_dir"), "--publish", "--hold", g("hold")]
     if g("repair").strip().lower() in ("false", "0", "no", "off"):
         cmd.append("--no-repair")
