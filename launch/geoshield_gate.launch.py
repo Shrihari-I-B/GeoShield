@@ -29,6 +29,12 @@ ARGS = (
     ("prior", "", "last trusted map (.osm); empty selects no-prior mode"),
     ("verified_dir", "/autoware_map/geoshield_verified", "where the admitted map is installed"),
     ("geoshield_dir", "/geoshield", "repository root"),
+    ("rviz_config", "", "RViz config for the admitted-map planner. Empty uses "
+                        "<geoshield_dir>/config/geoshield.rviz, which is the "
+                        "stock Autoware config plus a MarkerArray display on "
+                        "/geoshield/flagged_lanelets at TRANSIENT_LOCAL "
+                        "durability -- matching publish_flags, or RViz "
+                        "subscribes after the publisher and sees nothing"),
     ("vehicle_model", "sample_vehicle", ""),
     ("sensor_model", "sample_sensor_kit", ""),
     ("map_assets", "", "directory holding pointcloud_map.pcd for the installed "
@@ -78,6 +84,8 @@ def _setup(context, *_, **__):
                         "map_path": g("verified_dir"),
                         "vehicle_model": g("vehicle_model"),
                         "sensor_model": g("sensor_model"),
+                        "rviz_config": (g("rviz_config").strip()
+                                        or str(root / "config" / "geoshield.rviz")),
                     }.items()),
                 # The gate process has exited, and TRANSIENT_LOCAL durability
                 # dies with its publisher, so the verdict it published is gone.
