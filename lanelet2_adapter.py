@@ -282,6 +282,44 @@ def parse_speed(tags: dict) -> Optional[float]:
     return round(x * 3.6, 1) if mps else x
 
 
+def parse_bool_tag(tags: dict, key: str) -> Optional[bool]:
+    """Tri-state reading of an OSM-style yes/no presence tag.
+
+    Absent -> None (unknown, NOT False). Explicit negative -> False. Explicit
+    positive -> True. An unrecognised value also yields None: the raw tag is
+    still kept in `raw_tags`, so differential verification can report that as
+    a parser limitation instead of this adapter inventing a boolean.
+    """
+    v = tags.get(key)
+    if v is None:
+        return None
+    s = str(v).strip().lower()
+    if s in ("no", "false", "0"):
+        return False
+    if s in ("yes", "true", "1"):
+        return True
+    return None
+
+
+def parse_int(v) -> Optional[int]:
+    try:
+        return int(float(v))
+    except (TypeError, ValueError):
+        return None
+
+
+def parse_lanes(tags: dict) -> Optional[int]:
+    """The `lanes` TAG on the lanelet relation, if it states one.
+
+    This is NOT the number of lanelet relations. Lanelet2 normally models one
+    lane per lanelet and normally carries no `lanes` tag, so absence means
+    unknown (None) -- never a fabricated 1. Inventing 1 would hide missing
+    source information and make a later "absent -> lanes=3" edit invisible to
+    differential verification.
+    """
+    return parse_int(tags.get("lanes"))
+
+
 def to_segments(m: Lanelet2Map, samples: int = 12) -> list[RoadSegment]:
     topo = build_topology(m)
     metric = m.use_metric()
@@ -309,9 +347,13 @@ def to_segments(m: Lanelet2Map, samples: int = 12) -> list[RoadSegment]:
             # Autoware uses `one_way`, not OSM's `oneway`.
             oneway=(tags.get("one_way") not in ("no", "false")
                     if "one_way" in tags else None),
-            tunnel=None,          # not a Lanelet2 concept; comes from OSM side
-            bridge=None,
-            lanes=1,              # a lanelet is by definition a single lane
+            # Autoware/OSM maps can carry these context tags on the lanelet
+            # relation even though they are not core Lanelet2 concepts. Absent
+            # stays None so differential verification can distinguish "never
+            # stated" from an explicit false and from a later introduction.
+            tunnel=parse_bool_tag(tags, "tunnel"),
+            bridge=parse_bool_tag(tags, "bridge"),
+            lanes=parse_lanes(tags),
             width_m=round(prof["mean"], 3) if prof else None,
             highway_class=tags.get("subtype"),
             predecessors=[f"lanelet:{p}" for p in topo[lid]["pred"]],

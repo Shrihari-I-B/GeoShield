@@ -430,12 +430,21 @@ def write_tampered_map(in_path: str, out_path: str,
                 "b1": coef[1, 1], "b2": coef[2, 1],
                 "res_lat": float(res[0]), "res_lon": float(res[1])}
 
-    _cal = _calibrate()
-    if _cal is None:
+    # Calibration is only needed for width_m (geometry displacement).
+    # Tag-only attacks (speed_limit_kph, oneway) and successors (clones lat/lon)
+    # do not require the local_x/local_y -> lat/lon transform.
+    needs_calibration = any(
+        rec.field_changed == "width_m"
+        for rec in res.labels.values()
+        if isinstance(getattr(rec, "field_changed", None), str)
+    )
+
+    _cal = _calibrate() if needs_calibration else None
+    if needs_calibration and _cal is None:
         raise SystemExit(
             "cannot calibrate local_x/local_y -> lat/lon from this map; "
             "refusing to write a map the simulator would silently ignore")
-    if max(_cal["res_lat"], _cal["res_lon"]) > 1e-7:
+    if _cal is not None and max(_cal["res_lat"], _cal["res_lon"]) > 1e-7:
         print(f"  ! calibration residual {max(_cal['res_lat'], _cal['res_lon']):.2e} deg "
               f"(> 1e-7, ~1 cm) -- displacement may be imprecise")
 

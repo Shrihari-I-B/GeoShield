@@ -26,38 +26,84 @@ import os
 import shutil
 import subprocess
 import sys
+import uuid
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ADMIT, REFUSE, ERROR = 0, 2, 1
+invocation_id = str(uuid.uuid4())
 
 
-def run_dv(prior, candidate, report, labels=None):
-    """Verify candidate against prior. Returns the parsed report."""
+def run_dv(prior, candidate, report, labels=None, invocation_id=None):
+    """Verify candidate against prior. Returns the parsed report.
+
+    invocation_id, when given, is embedded in the report JSON so that an
+    earlier invocation's report cannot be confused with the current one.
+    """
+    invocation_id = invocation_id or str(uuid.uuid4())
     cmd = [sys.executable, str(HERE / "differential_verify.py"),
            "--previous", str(prior), "--candidate", str(candidate),
-           "--report", str(report)]
+           "--report", str(report),
+           "--invocation-id", invocation_id]
     if labels:
         cmd += ["--labels", str(labels)]
-    subprocess.run(cmd, cwd=HERE, capture_output=True, text=True)
+    r = subprocess.run(cmd, cwd=HERE, capture_output=True, text=True)
+    # differential_verify.py only exits 0 (ACCEPT/REVIEW) or 2 (REJECT).
+    # Exit 1 means an unhandled crash -- an operational error that must
+    # never authorize admission.
+    if r.returncode not in (0, 2):
+        raise RuntimeError(f"differential_verify exited with unexpected "
+                           f"code {r.returncode}: {r.stderr.strip()}")
     p = Path(report)
     if not p.exists():
         raise RuntimeError(f"differential_verify wrote no report to {report}")
-    return json.loads(p.read_text())
+    try:
+        rep = json.loads(p.read_text())
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"differential_verify report is not valid JSON: {e}")
+    if rep.get("_invocation_id") != invocation_id:
+        raise RuntimeError(f"report _invocation_id {rep.get('_invocation_id')} "
+                           f"does not match current invocation "
+                           f"{invocation_id}")
+    # Require agreement between exit code and report verdict.
+    verdict = rep.get("verdict")
+    if r.returncode == 2 and verdict != "REJECT":
+        raise RuntimeError(f"differential_verify exited with REJECT code 2 "
+                           f"but report verdict is {verdict!r}")
+    if r.returncode == 0 and verdict not in ("ACCEPT", "REVIEW"):
+        raise RuntimeError(f"differential_verify exited with code 0 but "
+                           f"report verdict is {verdict!r}")
+    return rep
 
 
-def run_repair(prior, candidate, diff, out, include_suspect, report):
+def run_repair(prior, candidate, diff, out, include_suspect, report, invocation_id=None):
+    """Run the repair subprocess and return the parsed repair report.
+    invocation_id, when given, is embedded in the report JSON so that an
+    earlier invocation's report cannot be confused with the current one.
+    """
+    invocation_id = invocation_id or str(uuid.uuid4())
     cmd = [sys.executable, str(HERE / "repair_differential.py"),
            "--candidate", str(candidate), "--prior", str(prior),
-           "--diff", str(diff), "--out", str(out), "--report", str(report)]
+           "--diff", str(diff), "--out", str(out), "--report", str(report),
+           "--invocation-id", invocation_id]
     if include_suspect:
         cmd.append("--include-suspect")
     r = subprocess.run(cmd, cwd=HERE, capture_output=True, text=True)
-    if not Path(out).exists():
-        raise RuntimeError(f"repair wrote no map to {out}:\n{r.stderr.strip()}")
-    return json.loads(Path(report).read_text()) if Path(report).exists() else {}
-
-
+    if r.returncode != 0:
+        raise RuntimeError(f"repair_differential exited with code "
+                           f"{r.returncode}: {r.stderr.strip()}")
+    p = Path(report)
+    if not p.exists():
+        raise RuntimeError(f"repair_differential wrote no report to {report}")
+    try:
+        rep = json.loads(p.read_text())
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"repair_differential report is not valid JSON: {e}")
+    if rep.get("_invocation_id") != invocation_id:
+        raise RuntimeError(f"repair report _invocation_id {rep.get("_invocation_id")} "
+                           f"does not match current invocation "
+                           f"{invocation_id}")
+    return rep
 def flagged_ids(rep):
     return sorted({c["segment_id"] for c in rep.get("changes", [])
                    if c.get("verdict") in ("REJECT", "SUSPECT")})
@@ -352,6 +398,7 @@ def main():
                     "infer them from and this must be given when --out-dir is.")
     ap.add_argument("--no-repair", action="store_true",
                     help="refuse a failing map instead of repairing it")
+    ap.add_argument("--invocation-id", help="unique ID for report freshness")
     ap.add_argument("--include-suspect", action="store_true", default=True)
     ap.add_argument("--labels", help="ground truth, for evaluation only")
     ap.add_argument("--report-dir", default="results")
@@ -363,6 +410,8 @@ def main():
     ap.add_argument("--hold", type=float, default=0.0,
                     help="seconds to keep publishing before exiting")
     a = ap.parse_args()
+    # Use a per-invocation ID so that stale reports from earlier runs
+    # cannot be confused with the current invocation's results.
 
     # Subprocesses run with cwd=HERE, so a relative report dir would be
     # resolved in two different working directories. Anchor it to the repo.
@@ -379,7 +428,8 @@ def main():
     print(f"candidate : {a.candidate}")
 
     try:
-        rep = run_dv(a.prior, a.candidate, rd / f"gate_{stem}_in.json", a.labels)
+        rep = run_dv(a.prior, a.candidate, rd / f"gate_{stem}_in.json", a.labels,
+                           invocation_id)
     except RuntimeError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return ERROR
@@ -398,7 +448,8 @@ def main():
         try:
             rr = run_repair(a.prior, a.candidate, rd / f"gate_{stem}_in.json",
                             rpath, a.include_suspect,
-                            rd / f"gate_{stem}_repair.json")
+                            rd / f"gate_{stem}_repair.json",
+                                invocation_id)
         except RuntimeError as e:
             print(f"ERROR: {e}", file=sys.stderr)
             return ERROR
@@ -410,7 +461,8 @@ def main():
                 val = rr[k]
                 print(f"  {k:<26}: "
                       f"{len(val) if isinstance(val, list) else val}")
-        post = run_dv(a.prior, rpath, rd / f"gate_{stem}_out.json")
+        post = run_dv(a.prior, rpath, rd / f"gate_{stem}_out.json",
+                     invocation_id)
         if post.get("verdict") == "ACCEPT":
             admitted, action = str(rpath), "repaired and re-verified"
         else:

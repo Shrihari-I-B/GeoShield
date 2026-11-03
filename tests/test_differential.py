@@ -18,16 +18,37 @@ from differential_verify import (
 )
 
 
-def _make_seg(sid: str, width_m=3.0, speed_kph=50.0, oneway=True, successors=None, raw_tags=None):
+def _make_seg(sid: str, width_m=3.0, speed_kph=50.0, oneway=True, successors=None,
+              raw_tags=None, tunnel=None, bridge=None, lanes=None,
+              highway_class=None):
     return RoadSegment(
         segment_id=sid,
         source="lanelet2",
         width_m=width_m,
         speed_limit_kph=speed_kph,
         oneway=oneway,
+        tunnel=tunnel,
+        bridge=bridge,
+        lanes=lanes,
+        highway_class=highway_class,
         successors=successors or [],
         raw_tags=raw_tags or {},
     )
+
+
+_ALL_ATTRS = ("width_m", "speed_limit_kph", "oneway", "tunnel", "bridge",
+              "lanes", "highway_class")
+
+
+def _seg_with(sid: str, field_name: str, value, raw_tags=None):
+    """Segment with every attribute absent except the one under test.
+
+    This makes "both values absent" distinguishable from "attribute removed".
+    """
+    kwargs = {name: None for name in _ALL_ATTRS}
+    kwargs[field_name] = value
+    return RoadSegment(segment_id=sid, source="lanelet2",
+                       raw_tags=raw_tags or {}, **kwargs)
 
 
 class TestDifferentialComparison:
@@ -190,3 +211,259 @@ class TestEvaluationScoring:
             assert metrics["precision"] == 1.0
             assert metrics["recall"] == 1.0
             assert metrics["f1"] == 1.0
+
+
+class TestLaneletPresence:
+    """BUG-03: added/removed lanelets must be explicit REJECT findings."""
+
+    def test_clean_vs_clean_still_accepts(self):
+        a = [_seg_with("lanelet:1", "width_m", 3.0)]
+        b = [_seg_with("lanelet:1", "width_m", 3.0)]
+        rep = compare(a, b)
+        assert rep.changes == []
+        assert rep.added == []
+        assert rep.removed == []
+        assert rep.decide() == "ACCEPT"
+
+    def test_one_added_lanelet_rejected(self):
+        a = [_seg_with("lanelet:1", "width_m", 3.0)]
+        b = [_seg_with("lanelet:1", "width_m", 3.0),
+             _seg_with("lanelet:2", "width_m", 3.0)]
+        rep = compare(a, b)
+
+        assert rep.added == ["lanelet:2"]
+        assert rep.removed == []
+        assert len(rep.changes) == 1
+        ch = rep.changes[0]
+        assert ch.segment_id == "lanelet:2"
+        assert ch.field_name == "lanelet_presence"
+        assert ch.verdict == "REJECT"
+        assert "addition" in ch.reason
+        assert rep.rejected() == [ch]
+        assert rep.decide() == "REJECT"
+
+    def test_one_removed_lanelet_rejected(self):
+        a = [_seg_with("lanelet:1", "width_m", 3.0),
+             _seg_with("lanelet:2", "width_m", 3.0)]
+        b = [_seg_with("lanelet:1", "width_m", 3.0)]
+        rep = compare(a, b)
+
+        assert rep.added == []
+        assert rep.removed == ["lanelet:2"]
+        assert len(rep.changes) == 1
+        ch = rep.changes[0]
+        assert ch.segment_id == "lanelet:2"
+        assert ch.field_name == "lanelet_presence"
+        assert ch.verdict == "REJECT"
+        assert "removal" in ch.reason
+        assert rep.rejected() == [ch]
+        assert rep.decide() == "REJECT"
+
+    def test_multiple_added_lanelets_rejected(self):
+        a = [_seg_with("lanelet:1", "width_m", 3.0)]
+        b = [_seg_with("lanelet:1", "width_m", 3.0),
+             _seg_with("lanelet:2", "width_m", 3.0),
+             _seg_with("lanelet:3", "width_m", 3.0),
+             _seg_with("lanelet:4", "width_m", 3.0)]
+        rep = compare(a, b)
+
+        assert rep.added == ["lanelet:2", "lanelet:3", "lanelet:4"]
+        assert rep.removed == []
+        assert len(rep.changes) == 3
+        assert {c.segment_id for c in rep.changes} == {
+            "lanelet:2", "lanelet:3", "lanelet:4"}
+        assert all(c.verdict == "REJECT" for c in rep.changes)
+        assert all(c.field_name == "lanelet_presence" for c in rep.changes)
+        assert rep.decide() == "REJECT"
+
+    def test_multiple_removed_lanelets_rejected(self):
+        a = [_seg_with("lanelet:1", "width_m", 3.0),
+             _seg_with("lanelet:2", "width_m", 3.0),
+             _seg_with("lanelet:3", "width_m", 3.0)]
+        b = [_seg_with("lanelet:1", "width_m", 3.0)]
+        rep = compare(a, b)
+
+        assert rep.added == []
+        assert rep.removed == ["lanelet:2", "lanelet:3"]
+        assert len(rep.changes) == 2
+        assert all(c.verdict == "REJECT" for c in rep.changes)
+        assert rep.decide() == "REJECT"
+
+    def test_added_and_removed_lanelets_rejected(self):
+        a = [_seg_with("lanelet:1", "width_m", 3.0),
+             _seg_with("lanelet:2", "width_m", 3.0)]
+        b = [_seg_with("lanelet:1", "width_m", 3.0),
+             _seg_with("lanelet:3", "width_m", 3.0)]
+        rep = compare(a, b)
+
+        assert rep.added == ["lanelet:3"]
+        assert rep.removed == ["lanelet:2"]
+        assert len(rep.changes) == 2
+        assert {c.field_name for c in rep.changes} == {"lanelet_presence"}
+        assert {c.segment_id for c in rep.changes} == {"lanelet:2", "lanelet:3"}
+        assert all(c.verdict == "REJECT" for c in rep.changes)
+        assert rep.decide() == "REJECT"
+
+    def test_presence_and_width_change_both_reported(self):
+        a = [_make_seg("lanelet:1", width_m=3.0)]
+        b = [_make_seg("lanelet:1", width_m=4.0),
+             _make_seg("lanelet:2", width_m=3.0)]
+        rep = compare(a, b)
+
+        assert {c.field_name for c in rep.changes} == {
+            "width_m", "lanelet_presence"}
+        assert all(c.verdict == "REJECT" for c in rep.changes)
+        assert rep.flagged_ids() == {"lanelet:1", "lanelet:2"}
+        assert rep.decide() == "REJECT"
+
+
+class TestAttributePresence:
+    """BUG-04: presence transitions and previously-uncompared attributes."""
+
+    @pytest.mark.parametrize("field_name,previous,candidate,expected", [
+        # width: existing value thresholds preserved; presence -> REVIEW
+        ("width_m", 3.0, 3.0, None),
+        ("width_m", 3.0, 3.3, "SUSPECT"),
+        ("width_m", 3.0, 3.9, "REJECT"),
+        ("width_m", 3.0, None, "SUSPECT"),
+        ("width_m", None, 3.0, "SUSPECT"),
+        ("width_m", None, None, None),
+        # speed: existing thresholds preserved; lost limit -> REJECT
+        ("speed_limit_kph", 50.0, 50.0, None),
+        ("speed_limit_kph", 50.0, 60.0, "SUSPECT"),
+        ("speed_limit_kph", 50.0, 70.0, "REJECT"),
+        ("speed_limit_kph", 50.0, None, "REJECT"),
+        ("speed_limit_kph", None, 50.0, "SUSPECT"),
+        ("speed_limit_kph", None, None, None),
+        # one-way: reversal as before; lost restriction -> REJECT
+        ("oneway", True, True, None),
+        ("oneway", True, False, "REJECT"),
+        ("oneway", True, None, "REJECT"),
+        ("oneway", None, True, "SUSPECT"),
+        ("oneway", None, None, None),
+        # tunnel
+        ("tunnel", False, False, None),
+        ("tunnel", False, True, "SUSPECT"),
+        ("tunnel", True, None, "SUSPECT"),
+        ("tunnel", None, True, "SUSPECT"),
+        ("tunnel", None, None, None),
+        # bridge
+        ("bridge", False, False, None),
+        ("bridge", False, True, "SUSPECT"),
+        ("bridge", True, None, "SUSPECT"),
+        ("bridge", None, True, "SUSPECT"),
+        ("bridge", None, None, None),
+        # lanes
+        ("lanes", 1, 1, None),
+        ("lanes", 1, 3, "SUSPECT"),
+        ("lanes", 2, None, "SUSPECT"),
+        ("lanes", None, 2, "SUSPECT"),
+        ("lanes", None, None, None),
+        # highway class / subtype
+        ("highway_class", "residential", "residential", None),
+        ("highway_class", "residential", "primary", "SUSPECT"),
+        ("highway_class", "primary", None, "SUSPECT"),
+        ("highway_class", None, "primary", "SUSPECT"),
+        ("highway_class", None, None, None),
+    ])
+    def test_attribute_transitions(self, field_name, previous, candidate, expected):
+        rep = compare([_seg_with("lanelet:1", field_name, previous)],
+                      [_seg_with("lanelet:1", field_name, candidate)])
+
+        if expected is None:
+            assert rep.changes == []
+            assert rep.decide() == "ACCEPT"
+            return
+
+        assert len(rep.changes) == 1
+        ch = rep.changes[0]
+        assert ch.segment_id == "lanelet:1"
+        assert ch.field_name == field_name
+        assert ch.verdict == expected
+        assert ch.reason
+        assert rep.decide() == ("REJECT" if expected == "REJECT" else "REVIEW")
+
+    def test_removed_speed_limit_rejected(self):
+        rep = compare([_seg_with("lanelet:1", "speed_limit_kph", 50.0)],
+                      [_seg_with("lanelet:1", "speed_limit_kph", None)])
+        ch = rep.changes[0]
+        assert ch.field_name == "speed_limit_kph"
+        assert ch.verdict == "REJECT"
+        assert "REMOVED" in ch.reason
+        assert rep.decide() == "REJECT"
+
+    def test_removed_oneway_rejected(self):
+        rep = compare([_seg_with("lanelet:1", "oneway", True)],
+                      [_seg_with("lanelet:1", "oneway", None)])
+        ch = rep.changes[0]
+        assert ch.field_name == "oneway"
+        assert ch.verdict == "REJECT"
+        assert "REMOVED" in ch.reason
+        assert rep.decide() == "REJECT"
+
+    def test_width_becoming_missing_is_review(self):
+        rep = compare([_seg_with("lanelet:1", "width_m", 3.0)],
+                      [_seg_with("lanelet:1", "width_m", None)])
+        ch = rep.changes[0]
+        assert ch.field_name == "width_m"
+        assert ch.verdict == "SUSPECT"
+        assert rep.decide() == "REVIEW"
+
+    def test_introduced_tunnel_is_review(self):
+        rep = compare([_seg_with("lanelet:1", "tunnel", None)],
+                      [_seg_with("lanelet:1", "tunnel", True)])
+        ch = rep.changes[0]
+        assert ch.field_name == "tunnel"
+        assert ch.verdict == "SUSPECT"
+        assert rep.decide() == "REVIEW"
+
+    def test_introduced_bridge_is_review(self):
+        rep = compare([_seg_with("lanelet:1", "bridge", None)],
+                      [_seg_with("lanelet:1", "bridge", True)])
+        ch = rep.changes[0]
+        assert ch.field_name == "bridge"
+        assert ch.verdict == "SUSPECT"
+        assert rep.decide() == "REVIEW"
+
+    def test_lane_count_change_is_review(self):
+        rep = compare([_seg_with("lanelet:1", "lanes", 1)],
+                      [_seg_with("lanelet:1", "lanes", 3)])
+        ch = rep.changes[0]
+        assert ch.field_name == "lanes"
+        assert ch.verdict == "SUSPECT"
+        assert rep.decide() == "REVIEW"
+
+    def test_highway_class_change_is_review(self):
+        rep = compare([_seg_with("lanelet:1", "highway_class", "residential")],
+                      [_seg_with("lanelet:1", "highway_class", "primary")])
+        ch = rep.changes[0]
+        assert ch.field_name == "highway_class"
+        assert ch.verdict == "SUSPECT"
+        assert rep.decide() == "REVIEW"
+
+    def test_unparsable_speed_tag_reported_as_parser_limitation(self):
+        """A tag that is present but unparsable is REVIEW, not a verified removal."""
+        prev = _seg_with("lanelet:1", "speed_limit_kph", 50.0,
+                         raw_tags={"speed_limit": "50"})
+        cand = _seg_with("lanelet:1", "speed_limit_kph", None,
+                         raw_tags={"speed_limit": "bogus"})
+        rep = compare([prev], [cand])
+
+        ch = rep.changes[0]
+        assert ch.field_name == "speed_limit_kph"
+        assert ch.verdict == "SUSPECT"
+        assert "parser limitation" in ch.reason
+        assert rep.decide() == "REVIEW"
+
+    def test_genuine_tag_removal_is_rejected_for_speed(self):
+        """The tag is gone from the source element: this is a removal, not a parse failure."""
+        prev = _seg_with("lanelet:1", "speed_limit_kph", 50.0,
+                         raw_tags={"speed_limit": "50"})
+        cand = _seg_with("lanelet:1", "speed_limit_kph", None,
+                         raw_tags={"subtype": "road"})
+        rep = compare([prev], [cand])
+
+        ch = rep.changes[0]
+        assert ch.verdict == "REJECT"
+        assert "REMOVED" in ch.reason
+        assert rep.decide() == "REJECT"

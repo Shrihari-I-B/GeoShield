@@ -140,6 +140,126 @@ class TestWriteTamperedMap:
   </relation>
 </osm>"""
 
+    # Two lanelets: 100 -> 101 (successor), for connectivity_break test.
+    # Lanelet 100: left way 10 (nodes 3,4), right way 11 (nodes 1,2)
+    # Lanelet 101: left way 20 (nodes 4,6), right way 21 (nodes 2,7)
+    # Shared boundaries: way 10 end (node 4) = way 20 start (node 4)
+    #                   way 11 end (node 2) = way 21 start (node 2)
+    MINI_OSM_SUCCESSORS = """<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6">
+  <node id="1" lat="35.68" lon="139.76">
+    <tag k="local_x" v="0.0" />
+    <tag k="local_y" v="0.0" />
+  </node>
+  <node id="2" lat="35.68" lon="139.77">
+    <tag k="local_x" v="10.0" />
+    <tag k="local_y" v="0.0" />
+  </node>
+  <node id="3" lat="35.69" lon="139.76">
+    <tag k="local_x" v="0.0" />
+    <tag k="local_y" v="3.0" />
+  </node>
+  <node id="4" lat="35.69" lon="139.77">
+    <tag k="local_x" v="10.0" />
+    <tag k="local_y" v="3.0" />
+  </node>
+  <node id="5" lat="35.70" lon="139.76">
+    <tag k="local_x" v="0.0" />
+    <tag k="local_y" v="6.0" />
+  </node>
+  <node id="6" lat="35.70" lon="139.77">
+    <tag k="local_x" v="10.0" />
+    <tag k="local_y" v="6.0" />
+  </node>
+  <node id="7" lat="35.71" lon="139.76">
+    <tag k="local_x" v="0.0" />
+    <tag k="local_y" v="9.0" />
+  </node>
+  <way id="10">
+    <nd ref="3" />
+    <nd ref="4" />
+    <tag k="type" v="line_thin" />
+  </way>
+  <way id="11">
+    <nd ref="1" />
+    <nd ref="2" />
+    <tag k="type" v="line_thin" />
+  </way>
+  <way id="20">
+    <nd ref="4" />
+    <nd ref="6" />
+    <tag k="type" v="line_thin" />
+  </way>
+  <way id="21">
+    <nd ref="2" />
+    <nd ref="7" />
+    <tag k="type" v="line_thin" />
+  </way>
+  <relation id="100">
+    <tag k="type" v="lanelet" />
+    <tag k="subtype" v="road" />
+    <tag k="speed_limit" v="50" />
+    <tag k="one_way" v="yes" />
+    <member type="way" ref="10" role="left" />
+    <member type="way" ref="11" role="right" />
+  </relation>
+  <relation id="101">
+    <tag k="type" v="lanelet" />
+    <tag k="subtype" v="road" />
+    <tag k="speed_limit" v="50" />
+    <tag k="one_way" v="yes" />
+    <member type="way" ref="20" role="left" />
+    <member type="way" ref="21" role="right" />
+  </relation>
+</osm>"""
+
+    # WIDTH_TEST_OSM: 13 lanelets × 6 nodes = 78 nodes with valid
+    # local_x/local_y + lat/lon (exceeds the 50-point calibration threshold).
+    # Each way has 3 nodes (2 segments) so the middle node gets displaced
+    # (taper goes to zero at endpoints, max in middle).
+    # Each lanelet has its own left/right boundary ways (no sharing) so every
+    # node is unique and contributes to the calibration count.
+    WIDTH_TEST_OSM = """<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6">
+""" + "\n".join([
+        # 13 lanelets × 6 nodes each = 78 nodes (ids 1-78)
+        # Each lanelet: left way has nodes (6i-5, 6i-4, 6i-3), right way has (6i-2, 6i-1, 6i)
+        "  <node id=\"{}\" lat=\"{}\" lon=\"{}\">\n    <tag k=\"local_x\" v=\"{}\" />\n    <tag k=\"local_y\" v=\"{}\" />\n  </node>".format(
+            n,
+            35.68 + (n - 1) * 0.001,
+            139.76 + (n - 1) * 0.001,
+            (n - 1) * 2.0,
+            (n - 1) * 2.0
+        )
+        for n in range(1, 79)
+    ]) + "\n" + "\n".join([
+        # 13 left ways (ids 101, 103, 105... = 99+2i), each with 3 nodes
+        "  <way id=\"{}\">\n    <nd ref=\"{}\" />\n    <nd ref=\"{}\" />\n    <nd ref=\"{}\" />\n    <tag k=\"type\" v=\"line_thin\" />\n  </way>".format(
+            99 + 2*i,
+            6*i - 5,  # first node of left way
+            6*i - 4,  # middle node of left way (gets displaced)
+            6*i - 3   # last node of left way
+        )
+        for i in range(1, 14)
+    ]) + "\n" + "\n".join([
+        # 13 right ways (ids 102, 104, 106... = 100+2i), each with 3 nodes
+        "  <way id=\"{}\">\n    <nd ref=\"{}\" />\n    <nd ref=\"{}\" />\n    <nd ref=\"{}\" />\n    <tag k=\"type\" v=\"line_thin\" />\n  </way>".format(
+            100 + 2*i,
+            6*i - 2,  # first node of right way
+            6*i - 1,  # middle node
+            6*i       # last node
+        )
+        for i in range(1, 14)
+    ]) + "\n" + "\n".join([
+        # 13 lanelet relations (ids 100-112)
+        "  <relation id=\"{}\">\n    <tag k=\"type\" v=\"lanelet\" />\n    <tag k=\"subtype\" v=\"road\" />\n    <tag k=\"speed_limit\" v=\"50\" />\n    <tag k=\"one_way\" v=\"yes\" />\n    <member type=\"way\" ref=\"{}\" role=\"left\" />\n    <member type=\"way\" ref=\"{}\" role=\"right\" />\n  </relation>".format(
+            100 + i - 1,
+            99 + 2*i,
+            100 + 2*i
+        )
+        for i in range(1, 14)
+    ]) + "\n</osm>\n"
+
     def test_write_tag_tampering(self):
         """Verify speed and oneway tag edits in XML."""
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -173,8 +293,11 @@ class TestWriteTamperedMap:
         with tempfile.TemporaryDirectory() as tmpdir:
             p_in = Path(tmpdir) / "in.osm"
             p_out = Path(tmpdir) / "out.osm"
-            p_in.write_text(self.MINI_OSM)
+            # Use WIDTH_TEST_OSM which has 3-node ways so the middle node
+            # gets displaced (taper goes to zero at endpoints, max in middle).
+            p_in.write_text(self.WIDTH_TEST_OSM)
 
+            # Lanelet 100 uses left way 101 (nodes 1,2,3). Middle node is 2.
             labels = {
                 "lanelet:100": TamperRecord(
                     segment_id="lanelet:100",
@@ -189,15 +312,144 @@ class TestWriteTamperedMap:
             stats = write_tampered_map(str(p_in), str(p_out), res)
 
             assert stats["geometry"] == 1
+            assert stats["tags"] == 0
+            assert stats["skipped"] == 0
 
-            # Check that node 3 or 4 (left way 10) was displaced along normal
+            # Check that middle node of left way (node 2) was displaced along normal
             root = ET.parse(p_out).getroot()
-            node3 = root.find(".//node[@id='3']")
-            tags = {t.get("k"): t.get("v") for t in node3.findall("tag")}
-            # Left boundary is from (0,3) to (10,3). Normal points along +y:
-            # tx=10, ty=0 -> nx=-0/10=0, ny=10/10=1.
-            # Shift = +1.5m -> y becomes 3.0 + 1.5 = 4.5
-            assert float(tags["local_y"]) == pytest.approx(4.5, abs=1e-3)
+            # Left way 101: nodes 1->2->3 in local coords (0,0) -> (2,2) -> (4,4)
+            # Tangent = (4,4)-(0,0) = (4,4), normal = (-1,1)/sqrt(2)
+            # Shift = +1.5m, nseg=2, middle node (i=1) gets f = min(1/2, 1-1/2) = 0.5
+            # Displacement = 0.5 * 1.5 * (-1,1)/sqrt(2) = 0.75/sqrt(2) ≈ 0.53
+            node2 = root.find(".//node[@id='2']")
+            tags = {t.get("k"): t.get("v") for t in node2.findall("tag")}
+            import math
+            disp = 0.75 / math.sqrt(2)
+            expected_x = 2.0 - disp
+            expected_y = 2.0 + disp
+            assert float(tags["local_x"]) == pytest.approx(expected_x, abs=1e-2)
+            assert float(tags["local_y"]) == pytest.approx(expected_y, abs=1e-2)
+
+    # --- New regression tests for BUG-01 calibration fix ---
+
+    def test_write_width_fails_on_insufficient_points(self):
+        """Width attack on map with <50 valid points must fail closed."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            p_in = Path(tmpdir) / "in.osm"
+            p_out = Path(tmpdir) / "out.osm"
+            p_in.write_text(self.MINI_OSM)  # only 4 valid calibration points
+
+            labels = {
+                "lanelet:100": TamperRecord(
+                    segment_id="lanelet:100",
+                    attack_type="width_step",
+                    field_changed="width_m",
+                    original=3.0,
+                    tampered=4.5,
+                    severity=1.0,
+                )
+            }
+            res = AttackResult(segments=[], labels=labels)
+
+            # Must raise SystemExit (calibration guard)
+            with pytest.raises(SystemExit) as exc:
+                write_tampered_map(str(p_in), str(p_out), res)
+            assert "cannot calibrate" in str(exc.value)
+
+    def test_write_width_succeeds_on_sufficient_points(self):
+        """Width attack on map with ≥50 valid points must succeed."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            p_in = Path(tmpdir) / "in.osm"
+            p_out = Path(tmpdir) / "out.osm"
+            p_in.write_text(self.WIDTH_TEST_OSM)  # 78 valid calibration points
+
+            # Lanelet 100 uses left way 101 (nodes 1,2,3). Middle node is 2.
+            labels = {
+                "lanelet:100": TamperRecord(
+                    segment_id="lanelet:100",
+                    attack_type="width_step",
+                    field_changed="width_m",
+                    original=3.0,
+                    tampered=4.5,
+                    severity=1.0,
+                )
+            }
+            res = AttackResult(segments=[], labels=labels)
+
+            stats = write_tampered_map(str(p_in), str(p_out), res)
+
+            assert stats["geometry"] == 1
+            assert stats["tags"] == 0
+            assert stats["skipped"] == 0
+
+            # Verify the middle node of left way (node 2) was displaced
+            root = ET.parse(p_out).getroot()
+            node2 = root.find(".//node[@id='2']")
+            tags = {t.get("k"): t.get("v") for t in node2.findall("tag")}
+            import math
+            disp = 0.75 / math.sqrt(2)
+            expected_x = 2.0 - disp
+            expected_y = 2.0 + disp
+            assert float(tags["local_x"]) == pytest.approx(expected_x, abs=1e-2)
+            assert float(tags["local_y"]) == pytest.approx(expected_y, abs=1e-2)
+
+    def test_write_successors_no_calibration(self):
+        """Successors attack must not require calibration (clones lat/lon)."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            p_in = Path(tmpdir) / "in.osm"
+            p_out = Path(tmpdir) / "out.osm"
+            # Use fixture with two lanelets where 100 -> 101 is a valid successor
+            p_in.write_text(self.MINI_OSM_SUCCESSORS)
+
+            labels = {
+                "lanelet:100": TamperRecord(
+                    segment_id="lanelet:100",
+                    attack_type="connectivity_break",
+                    field_changed="successors",
+                    original=["lanelet:101"],
+                    tampered=[],
+                    severity=1.0,
+                )
+            }
+            res = AttackResult(segments=[], labels=labels)
+
+            # Should succeed without calibration (clones lat/lon directly)
+            stats = write_tampered_map(str(p_in), str(p_out), res)
+
+            assert stats["geometry"] == 1
+            assert stats["tags"] == 0
+            assert stats["skipped"] == 0
+
+    def test_write_tag_tampering_no_calibration(self):
+        """Tag-only attacks (speed, oneway) must not require calibration."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            p_in = Path(tmpdir) / "in.osm"
+            p_out = Path(tmpdir) / "out.osm"
+            p_in.write_text(self.MINI_OSM)  # only 4 valid points
+
+            labels = {
+                "lanelet:100": TamperRecord(
+                    segment_id="lanelet:100",
+                    attack_type="speed_spoof",
+                    field_changed="speed_limit_kph",
+                    original=50.0,
+                    tampered=80.0,
+                    severity=1.0,
+                )
+            }
+            res = AttackResult(segments=[], labels=labels)
+
+            # Should succeed without calibration
+            stats = write_tampered_map(str(p_in), str(p_out), res)
+
+            assert stats["tags"] == 1
+            assert stats["geometry"] == 0
+            assert stats["skipped"] == 0
+
+            root = ET.parse(p_out).getroot()
+            rel = root.find(".//relation[@id='100']")
+            tags = {t.get("k"): t.get("v") for t in rel.findall("tag")}
+            assert tags["speed_limit"] == "80.0"
 
 
 class TestSeamAndFixtureRegression:

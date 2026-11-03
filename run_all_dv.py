@@ -345,6 +345,7 @@ def run_centerline_injection(clean_map: str, data_dir: Path,
     # the lanelet. On a 9.96 m lanelet with no interior nodes it vanishes
     # entirely. Ground truth now carries both numbers so the gap is documented
     # rather than erased, and metrics can be computed against the file.
+    prefix = str(data_dir / "dv_centerline_injection")
     _lab = Path(f"{prefix}_labels.json")
     if _lab.exists():
         _recs = json.loads(_lab.read_text())

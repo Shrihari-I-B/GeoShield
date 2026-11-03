@@ -99,6 +99,21 @@ class DiffReport:
     def flagged_ids(self):
         return {c.segment_id for c in self.changes if c.verdict != "ACCEPT"}
 
+    def decide(self) -> str:
+        """Collapse change verdicts into the report verdict.
+
+        Precedence is unchanged from the original CLI logic:
+        REJECT > REVIEW (any SUSPECT) > ACCEPT. Presence changes are ordinary
+        Change records, so they participate here like every other finding.
+        """
+        if any(c.verdict == "REJECT" for c in self.changes):
+            self.verdict = "REJECT"
+        elif any(c.verdict == "SUSPECT" for c in self.changes):
+            self.verdict = "REVIEW"
+        else:
+            self.verdict = "ACCEPT"
+        return self.verdict
+
 
 # ----------------------------------------------------------------------
 # change-plausibility policy
@@ -124,6 +139,65 @@ def _xy(seg, prefix):
         return (float(x), float(y))
     except (TypeError, ValueError):
         return None
+
+
+# Raw OSM/Lanelet2 keys that can carry each normalised attribute. Only used to
+# tell a genuine tag removal apart from a parser failure ("the tag is there but
+# parse_speed/parse_int returned None"). Absent mapping -> no raw-tag evidence.
+_RAW_TAG_KEYS = {
+    "speed_limit_kph": ("speed_limit", "maxspeed"),
+    "oneway": ("one_way", "oneway"),
+    "tunnel": ("tunnel",),
+    "bridge": ("bridge",),
+    "lanes": ("lanes",),
+    "highway_class": ("subtype", "highway"),
+}
+
+
+def _tag_was_present(seg, field_name) -> bool:
+    """True if the source element still carries a tag for this attribute.
+
+    A normalised value of None with the tag still present means the parser
+    could not interpret it -- a parser limitation, not a demonstrated removal.
+    """
+    raw = getattr(seg, "raw_tags", None) or {}
+    return any(k in raw for k in _RAW_TAG_KEYS.get(field_name, ()))
+
+
+def _presence_change(sid, field_name, previous, candidate, *,
+                     removed_verdict, introduced_verdict, severity,
+                     none_side=None) -> Change:
+    """Build a Change for a value appearing or disappearing between versions.
+
+    `none_side` is the segment whose normalised value is None; its raw tags are
+    consulted so a parser failure is reported as REVIEW rather than as a
+    verified removal.
+    """
+    removed = previous is not None
+    parser_limited = none_side is not None and _tag_was_present(none_side, field_name)
+
+    if removed:
+        verdict = "SUSPECT" if parser_limited else removed_verdict
+        reason = (f"{field_name} REMOVED: previous={previous!r}, "
+                  f"candidate=<absent>")
+        if parser_limited:
+            reason += ("; the candidate still carries this tag but it could not "
+                       "be parsed -- reported as a parser limitation, not a "
+                       "verified removal")
+        else:
+            reason += ("; losing this attribute is not treated as safe for an "
+                       "untrusted map update")
+    else:
+        verdict = "SUSPECT"
+        reason = (f"{field_name} INTRODUCED: previous=<absent>, "
+                  f"candidate={candidate!r}; an unverified new attribute "
+                  f"requires review")
+        if parser_limited:
+            reason += ("; the previous map still carries this tag but it could "
+                       "not be parsed (parser limitation)")
+
+    return Change(sid, field_name, previous, candidate, 1.0, 1.0,
+                  severity=severity, verdict=verdict, reason=reason)
 
 
 def structural_diff(prev_path: str, cand_path: str) -> list:
@@ -184,13 +258,44 @@ def structural_diff(prev_path: str, cand_path: str) -> list:
 
 
 def compare(prev_segs, cand_segs) -> DiffReport:
-    """Field-by-field diff of two map versions, keyed by lanelet id."""
+    """Field-by-field diff of two map versions, keyed by lanelet id.
+
+    Presence policy: a lanelet that exists on only one side is an unauthorised
+    structural change and is recorded as a REJECT Change. The project defines
+    no exemption for legitimate additions/removals, so none is invented here.
+
+    Attribute policy:
+      * width and speed values keep their existing thresholds;
+      * a removed speed limit or one-way restriction is REJECT (the planner
+        would silently fall back to an unrestricted default);
+      * an introduced value is SUSPECT, as is any change to the categorical
+        context tags (tunnel/bridge/lanes/highway_class) -- these can result
+        from genuine re-survey and need review rather than silent acceptance;
+      * an attribute absent on BOTH sides is "never available", not tampering,
+        and produces no change;
+      * if the tag is still in the source element but failed to parse, the
+        finding is SUSPECT and labelled a parser limitation.
+    """
     p = {s.segment_id: s for s in prev_segs}
     c = {s.segment_id: s for s in cand_segs}
     rep = DiffReport(n_previous=len(p), n_candidate=len(c))
 
     rep.added = sorted(set(c) - set(p))
     rep.removed = sorted(set(p) - set(c))
+
+    for sid in rep.added:
+        rep.changes.append(Change(
+            sid, "lanelet_presence", None, sid, 1.0, 1.0,
+            severity=1.0, verdict="REJECT",
+            reason=("lanelet exists in the candidate but not in the trusted "
+                    "prior -- unauthorised lanelet addition")))
+
+    for sid in rep.removed:
+        rep.changes.append(Change(
+            sid, "lanelet_presence", sid, None, 1.0, 1.0,
+            severity=1.0, verdict="REJECT",
+            reason=("lanelet exists in the trusted prior but not in the "
+                    "candidate -- unauthorised lanelet removal")))
 
     for sid in sorted(set(p) & set(c)):
         a, b = p[sid], c[sid]
@@ -216,6 +321,12 @@ def compare(prev_segs, cand_segs) -> DiffReport:
                     ch.verdict = "ACCEPT"
                     ch.reason = "within re-survey tolerance"
                 rep.changes.append(ch)
+        elif a.width_m is not None or b.width_m is not None:
+            rep.changes.append(_presence_change(
+                sid, "width_m", a.width_m, b.width_m,
+                removed_verdict="SUSPECT", introduced_verdict="SUSPECT",
+                severity=0.4,
+                none_side=b if a.width_m is not None else a))
 
         # ---- centreline position ------------------------------------
         pa, pb = _xy(a, "_cl_start"), _xy(b, "_cl_start")
@@ -242,14 +353,95 @@ def compare(prev_segs, cand_segs) -> DiffReport:
                 ch.severity = min(abs(d) / 30.0, 1.0)
                 ch.reason = f"speed limit changed by {d:+.0f} km/h"
                 rep.changes.append(ch)
+        elif a.speed_limit_kph is not None or b.speed_limit_kph is not None:
+            rep.changes.append(_presence_change(
+                sid, "speed_limit_kph", a.speed_limit_kph, b.speed_limit_kph,
+                removed_verdict="REJECT", introduced_verdict="SUSPECT",
+                severity=1.0,
+                none_side=b if a.speed_limit_kph is not None else a))
 
         # ---- direction ------------------------------------------------
-        if a.oneway is not None and b.oneway is not None and a.oneway != b.oneway:
-            ch = Change(sid, "oneway", a.oneway, b.oneway, 1.0, 1.0)
-            ch.verdict = "REJECT"
-            ch.severity = 1.0
-            ch.reason = "travel direction reversed"
-            rep.changes.append(ch)
+        if a.oneway is not None and b.oneway is not None:
+            if a.oneway != b.oneway:
+                ch = Change(sid, "oneway", a.oneway, b.oneway, 1.0, 1.0)
+                ch.verdict = "REJECT"
+                ch.severity = 1.0
+                ch.reason = "travel direction reversed"
+                rep.changes.append(ch)
+        elif a.oneway is not None or b.oneway is not None:
+            rep.changes.append(_presence_change(
+                sid, "oneway", a.oneway, b.oneway,
+                removed_verdict="REJECT", introduced_verdict="SUSPECT",
+                severity=1.0,
+                none_side=b if a.oneway is not None else a))
+
+        # ---- categorical safety/context attributes --------------------
+        # tunnel/bridge/lanes/highway_class were previously never compared.
+        # Both-sided equality (including both None) is unchanged; any
+        # transition is at least REVIEW so it cannot pass silently.
+        for field_name in ("tunnel", "bridge", "lanes", "highway_class"):
+            va, vb = getattr(a, field_name), getattr(b, field_name)
+            if va == vb:
+                if va is None:
+                    # Both normalised to None — consult raw tag presence
+                    # before skipping, to avoid silently accepting previously-
+                    # absent unrecognised tags (BUG-04).  The adapter preserves
+                    # raw tags; if the tag is present on only one side we emit
+                    # a SUSPECT finding (→ REVIEW → gate refuses).  If both
+                    # sides lack the tag or both carry the same unrecognised
+                    # value we keep the existing "no finding" behaviour.
+                    a_has = _tag_was_present(a, field_name)
+                    b_has = _tag_was_present(b, field_name)
+
+                    if not a_has and not b_has:
+                        # Both truly absent — never available, no finding
+                        continue
+
+                    if a_has and b_has:
+                        # Both carry the raw tag — compare actual values to
+                        # distinguish "same unrecognised value" from
+                        # "different unrecognised value".
+                        a_raw = getattr(a, "raw_tags", {}) or {}
+                        b_raw = getattr(b, "raw_tags", {}) or {}
+                        a_val = a_raw.get(field_name)
+                        b_val = b_raw.get(field_name)
+                        if a_val == b_val:
+                            # Same unrecognised value → no finding
+                            continue
+                        # Different unrecognised values → REVIEW via SUSPECT
+                        none_side = a
+                        rep.changes.append(_presence_change(
+                            sid, field_name, va, vb,
+                            removed_verdict="SUSPECT", introduced_verdict="SUSPECT",
+                            severity=0.5, none_side=none_side))
+                        continue
+
+                    # Exactly one side has the raw tag → presence change → REVIEW
+                    none_side = a if not a_has else b
+                    rep.changes.append(_presence_change(
+                        sid, field_name, va, vb,
+                        removed_verdict="SUSPECT", introduced_verdict="SUSPECT",
+                        severity=0.5, none_side=none_side))
+                    continue
+
+                    # Fall-through (should not be reached)
+                    continue
+                else:
+                    # Both same recognised value — no finding
+                    continue
+            if va is None or vb is None:
+                none_side = a if va is None else b
+                rep.changes.append(_presence_change(
+                    sid, field_name, va, vb,
+                    removed_verdict="SUSPECT", introduced_verdict="SUSPECT",
+                    severity=0.5, none_side=none_side))
+            else:
+                rep.changes.append(Change(
+                    sid, field_name, va, vb, 1.0, 1.0, severity=0.5,
+                    verdict="SUSPECT",
+                    reason=(f"{field_name} changed from {va!r} to {vb!r}; "
+                            f"re-survey or tampering must be reviewed, not "
+                            f"accepted silently")))
 
         # ---- connectivity ---------------------------------------------
         if set(a.successors) != set(b.successors):
@@ -261,6 +453,9 @@ def compare(prev_segs, cand_segs) -> DiffReport:
             ch.reason = f"connectivity altered: -{len(lost)} +{len(gained)}"
             rep.changes.append(ch)
 
+    # Keep the report self-consistent when compare() is used on its own.
+    # Callers that append structural_diff() findings must call decide() again.
+    rep.decide()
     return rep
 
 
@@ -328,6 +523,7 @@ def main():
     ap.add_argument("--candidate", required=True, help="incoming map version")
     ap.add_argument("--labels", help="ground truth, to score detection")
     ap.add_argument("--report", help="write JSON report")
+    ap.add_argument("--invocation-id", help="unique identifier embedded in report")
     a = ap.parse_args()
 
     print(f"previous  : {a.previous}")
@@ -343,7 +539,7 @@ def main():
     suspect = [c for c in rep.changes if c.verdict == "SUSPECT"]
     accepted = [c for c in rep.changes if c.verdict == "ACCEPT"]
 
-    rep.verdict = "REJECT" if rejected else ("REVIEW" if suspect else "ACCEPT")
+    rep.decide()
 
     print(f"lanelets      : {rep.n_previous} → {rep.n_candidate}"
           f"   (+{len(rep.added)} / -{len(rep.removed)})")
@@ -394,6 +590,7 @@ def main():
             "runs": rep.runs,
             "detection": scores,
             "changes": [asdict(c) for c in rep.changes],
+            "_invocation_id": a.invocation_id,
         }, indent=2))
         print(f"\nwrote {a.report}")
 
